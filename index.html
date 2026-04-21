@@ -3,852 +3,1080 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conecta Mesa | Design System</title>
+    <title>Conecta Mesa | System Design Visual Blueprint</title>
     
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Lucide Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
         :root {
             /* Branding Colors */
-            --verde-institucional: #1A6B3A;
-            --verde-acao: #2E8B57;
-            --verde-claro: #4CAF7A;
-            --laranja-acao: #E07B00;
-            --laranja-suave: #FFA726;
-
-            /* Neutral Palette */
-            --carvao: #131316; /* Deeper, richer black */
+            --verde-institucional: #4CAF50;
+            --verde-acao: #388E3C;
+            --verde-claro: #E8F5E9;
+            --laranja-acao: #FF9800;
+            --laranja-suave: #FFF3E0;
+            --carvao: #131316; 
             --grafite: #3A3A3F;
             --cinza-medio: #71717A;
             --cinza-suave: #E4E4E7;
-            --cinza-fundo: #F4F4F5;
-            --verde-menta: #F0F6F3;
-            --branco: #FFFFFF;
+            --cinza-fundo: #FAFAFA;
+            --estado-erro: #F44336;
+            --estado-sucesso: #4CAF50;
 
-            /* State Colors */
-            --sucesso: #10B981;
-            --alerta: #F59E0B;
-            --erro: #EF4444;
-            --info: #3B82F6;
-
-            /* Typography */
-            --font-display: 'Plus Jakarta Sans', sans-serif;
-            --font-body: 'Inter', sans-serif;
-
-            /* Shadows - Premium Soft Layers */
-            --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
-            --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.03);
-            --shadow-md: 0 12px 24px -4px rgba(0, 0, 0, 0.08), 0 4px 12px -6px rgba(0, 0, 0, 0.04);
-            --shadow-lg: 0 24px 48px -12px rgba(0, 0, 0, 0.12);
-            --shadow-glow: 0 0 30px rgba(46, 139, 87, 0.15);
-
-            /* Border Radius */
-            --radius-sm: 8px;
-            --radius-md: 14px;
-            --radius-lg: 24px;
-            --radius-xl: 36px;
-            --radius-pill: 9999px;
-
-            /* Transitions */
-            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            /* Fonts & Metrics */
+            --font-display: 'Montserrat', sans-serif;
+            --font-body: 'Nunito', sans-serif;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-xl: 32px;
+            
+            /* Shadows */
+            --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-float: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        /* Reset & Base */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
+        /* HARD RESET */
+        html, body { margin:0; padding:0; width:100%; min-height:100vh; overflow-x:hidden; background-color:var(--cinza-fundo); font-family:var(--font-body); color:var(--carvao); -webkit-font-smoothing:antialiased; display:flex; }
+        *, *:before, *:after { box-sizing:border-box; }
+        h1, h2, h3, h4, h5, .font-display { font-family:var(--font-display); }
 
-        body {
-            font-family: var(--font-body);
-            color: var(--carvao);
-            background-color: var(--cinza-fundo);
-            line-height: 1.6;
-            display: flex;
-            overflow-x: hidden;
-            position: relative;
-        }
+        /* GLOB ANIMATION BG */
+        .bg-globs { position:fixed; top:0; left:0; width:100vw; height:100vh; overflow:hidden; z-index:-1; pointer-events:none; }
+        .glob { position:absolute; border-radius:50%; filter:blur(140px); opacity:0.1; animation:fl 15s infinite alternate; }
+        .g1 { top:-10%; left:-5%; width:50vw; height:50vw; background:var(--verde-institucional); }
+        .g2 { bottom:-10%; right:-5%; width:40vw; height:40vw; background:var(--laranja-acao); animation-delay:-5s; }
+        @keyframes fl { 0% { transform:translateY(0); } 100% { transform:translateY(50px); } }
 
-        /* Abstract Background Globs */
-        .bg-glob {
-            position: fixed;
-            border-radius: 50%;
-            filter: blur(100px);
-            z-index: -1;
-            opacity: 0.4;
-            animation: float 20s infinite alternate cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .glob-1 { top: -100px; left: -100px; width: 400px; height: 400px; background: rgba(76, 175, 122, 0.3); }
-        .glob-2 { bottom: -150px; right: -50px; width: 500px; height: 500px; background: rgba(224, 123, 0, 0.15); animation-delay: -5s; }
-        .glob-3 { top: 30%; left: 40%; width: 300px; height: 300px; background: rgba(46, 139, 87, 0.1); animation-delay: -10s; }
+        /* SIDEBAR (NAV MENU) */
+        .sidebar { width:280px; height:100vh; position:fixed; top:0; left:0; background:rgba(255,255,255,0.95); backdrop-filter:blur(20px); border-right:1px solid var(--cinza-suave); padding:2rem 1.5rem; display:flex; flex-direction:column; z-index:100; overflow-y:auto; }
+        .brand-logo { font-family:var(--font-display); font-weight:800; font-size:1.4rem; color:var(--verde-institucional); display:flex; align-items:center; gap:0.5rem; margin-bottom:2.5rem; }
+        .brand-logo svg { flex-shrink:0; }
+        .brand-logo span { color:var(--laranja-acao); }
+        .nav-link { display:flex; align-items:center; gap:0.75rem; padding:0.8rem 1rem; color:var(--cinza-medio); font-weight:700; font-size:0.85rem; border-radius:var(--radius-md); text-decoration:none; cursor:pointer; transition:var(--transition); margin-bottom:0.25rem; }
+        .nav-link:hover { background:var(--cinza-fundo); color:var(--carvao); }
+        .nav-link.active-nav { background:var(--verde-claro); color:var(--verde-institucional); border-color:rgba(76,175,80,0.2); }
+        .nav-link i { width:18px; height:18px; }
 
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(30px, 50px) scale(1.1); }
-        }
+        /* MAIN CONTENT & TABS */
+        .main-content { margin-left:280px; flex:1; padding:3rem; position:relative; }
+        .tab-content { display:none; max-width:1100px; margin:0 auto; animation:fade 0.4s ease; }
+        .tab-content.active { display:block; }
+        @keyframes fade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 
-        /* Typography Hierarchy */
-        h1, h2, h3, h4, h5, h6 {
-            font-family: var(--font-display);
-            color: var(--carvao);
-            line-height: 1.2;
-        }
+        /* TYPOGRAPHY */
+        .section-header { font-size:2.2rem; font-weight:900; color:var(--carvao); margin-bottom:1rem; display:flex; align-items:center; gap:0.75rem; }
+        .section-desc { font-size:1.1rem; color:var(--grafite); margin-bottom:3rem; max-width:800px; line-height:1.6; }
 
-        .gradient-text {
-            background: linear-gradient(135deg, var(--verde-institucional), var(--verde-claro));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        h1 { font-size: 3rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.5rem; }
-        h2 { font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;}
-        h3 { font-size: 1.4rem; font-weight: 700; letter-spacing: -0.01em; margin-top: 2.5rem; margin-bottom: 1rem; color: var(--carvao); }
-        p { font-size: 1.05rem; color: var(--grafite); margin-bottom: 1.5rem; line-height: 1.7; }
-        strong { font-weight: 600; color: var(--carvao); }
-
-        /* Sidebar Styling */
-        .sidebar {
-            width: 300px;
-            height: 100vh;
-            background: rgba(255, 255, 255, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            position: fixed;
-            top: 0;
-            left: 0;
-            border-right: 1px solid rgba(0,0,0,0.05);
-            padding: 2.5rem 1.5rem;
-            display: flex;
-            flex-direction: column;
-            z-index: 100;
-        }
-
-        .brand-logo {
-            font-family: var(--font-display);
-            font-weight: 800;
-            font-size: 1.4rem;
-            color: var(--verde-institucional);
-            margin-bottom: 3rem;
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding-left: 0.5rem;
-        }
-        .brand-logo span { color: var(--verde-acao); }
-        .brand-logo svg { filter: drop-shadow(0 2px 4px rgba(26, 107, 58, 0.2)); }
-
-        .nav-menu { list-style: none; display: flex; flex-direction: column; gap: 0.25rem; }
-        .nav-link {
-            text-decoration: none;
-            color: var(--cinza-medio);
-            font-size: 0.95rem;
-            font-weight: 500;
-            padding: 0.75rem 1rem;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            transition: var(--transition-smooth);
-        }
-        .nav-link i { width: 18px; height: 18px; color: currentcolor; opacity: 0.7; transition: var(--transition-smooth);}
-        .nav-link:hover {
-            background: rgba(46, 139, 87, 0.08);
-            color: var(--verde-institucional);
-        }
-        .nav-link:hover i { opacity: 1; transform: translateX(2px); }
-
-        /* Main Content Area */
-        .main-wrapper {
-            margin-left: 300px;
-            width: calc(100% - 300px);
-            padding: 4rem 5rem;
-            max-width: 1200px;
-        }
-
-        section {
-            background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.5);
-            padding: 3.5rem;
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-md);
-            margin-bottom: 3rem;
-            animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
-        }
-
-        /* Staggered Animations */
-        section:nth-child(1) { animation-delay: 0.1s; }
-        section:nth-child(2) { animation-delay: 0.2s; }
-        section:nth-child(3) { animation-delay: 0.3s; }
-        section:nth-child(4) { animation-delay: 0.4s; }
-        section:nth-child(5) { animation-delay: 0.5s; }
-
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Banner Tag */
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(26, 107, 58, 0.08);
-            color: var(--verde-institucional);
-            padding: 0.5rem 1rem;
-            border-radius: var(--radius-pill);
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(26, 107, 58, 0.1);
-        }
-        .status-badge i { width: 14px; height: 14px; }
-
-        /* Modern Alerts */
-        .alert {
-            display: flex;
-            gap: 1.25rem;
-            padding: 1.5rem;
-            border-radius: var(--radius-lg);
-            margin: 2rem 0;
-            background: var(--branco);
-            box-shadow: var(--shadow-sm);
-            position: relative;
-            overflow: hidden;
-        }
-        .alert::before {
-            content: '';
-            position: absolute;
-            left: 0; top: 0; bottom: 0; width: 4px;
-        }
-        .alert.warning { background: linear-gradient(to right, rgba(224, 123, 0, 0.05), transparent); border: 1px solid rgba(224, 123, 0, 0.1); }
-        .alert.warning::before { background: var(--laranja-acao); }
-        .alert.warning .alert-icon { color: var(--laranja-acao); background: rgba(224, 123, 0, 0.1); }
+        /* ABA 1: VISÃO GERAL */
+        .hero-banner { background:var(--carvao); border-radius:var(--radius-xl); padding:4rem; color:white; overflow:hidden; margin-bottom:3rem; box-shadow:var(--shadow-float); position:relative; }
+        .hero-chip { display:inline-block; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:0.4rem 1rem; border-radius:40px; font-size:0.75rem; font-weight:bold; letter-spacing:1px; margin-bottom:1.5rem; text-transform:uppercase; }
+        .hero-title { font-size:3.5rem; font-weight:900; line-height:1.1; margin-bottom:1.5rem; }
+        .hero-title span { color:var(--verde-institucional); }
         
-        .alert.info { background: linear-gradient(to right, rgba(46, 139, 87, 0.05), transparent); border: 1px solid rgba(46, 139, 87, 0.1); }
-        .alert.info::before { background: var(--verde-institucional); }
-        .alert.info .alert-icon { color: var(--verde-institucional); background: rgba(46, 139, 87, 0.1); }
+        .grid-cards { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:2rem; }
+        .info-card { background:white; border:1px solid var(--cinza-suave); padding:2rem; border-radius:var(--radius-xl); box-shadow:var(--shadow-card); }
+        .info-card i { width:32px; height:32px; margin-bottom:1rem; display:block; }
 
-        .alert-icon {
-            flex-shrink: 0;
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .alert-content p { margin: 0; font-size: 0.95rem; margin-top: 0.5rem; color: var(--grafite); }
+        /* ABA 2: LOGO E AVISO */
+        .disclaimer-box { background:#FFF3E0; border:2px solid #FF9800; border-radius:var(--radius-lg); padding:2rem; color:#E65100; font-weight:bold; line-height:1.6; text-align:center; max-width:800px; margin:3rem auto; }
 
-        /* Color System Grids */
-        .color-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        .color-card {
-            background: var(--branco);
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--cinza-suave);
-            overflow: hidden;
-            box-shadow: var(--shadow-sm);
-            transition: var(--transition-smooth);
-        }
-        .color-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); }
-        .color-swatch { height: 120px; width: 100%; display: flex; align-items: flex-end; padding: 1rem; }
-        .color-hex-tag { background: rgba(0,0,0,0.3); color: white; padding: 0.3rem 0.6rem; border-radius: var(--radius-sm); font-size: 0.75rem; font-family: monospace; font-weight: 600; backdrop-filter: blur(4px); letter-spacing: 0.05em; }
-        .color-details { padding: 1.25rem; }
-        .color-name { font-weight: 700; font-family: var(--font-display); color: var(--carvao); margin-bottom: 0.5rem; }
-        .color-usage { font-size: 0.85rem; color: var(--cinza-medio); line-height: 1.5; }
+        /* ABA 3: IDENTIDADE VISUAL EXPANSA */
+        .color-palette { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem; margin-bottom:4rem; }
+        .color-block { background:white; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--cinza-suave); box-shadow:var(--shadow-card); display:flex; flex-direction:column; }
+        .color-show { height:120px; width:100%; display:flex; align-items:flex-end; padding:1.5rem; }
+        .color-data { padding:1.5rem; flex:1; display:flex; flex-direction:column; }
+        .color-data strong { font-size:1.2rem; margin-bottom:6px; font-family:var(--font-display); }
+        .color-data code { background:var(--cinza-fundo); padding:6px 12px; border-radius:6px; font-size:0.85rem; color:var(--carvao); font-weight:bold; align-self:flex-start; margin-bottom:1rem; }
+        .color-data p { font-size:0.85rem; color:var(--grafite); line-height:1.5; margin:0; }
 
-        /* Do / Don't Split */
-        .split-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-        .split-card {
-            background: var(--branco);
-            padding: 2rem;
-            border-radius: var(--radius-lg);
-            border: 1px solid var(--cinza-suave);
-            box-shadow: var(--shadow-xs);
-            transition: var(--transition-smooth);
-        }
-        .split-card:hover { box-shadow: var(--shadow-md); }
-        .split-card.do { border-top: 4px solid var(--sucesso); }
-        .split-card.dont { border-top: 4px solid var(--erro); }
+        .type-board { background:white; border-radius:var(--radius-lg); border:1px solid var(--cinza-suave); padding:2rem; box-shadow:var(--shadow-card); margin-bottom:2rem; }
+        .type-row { display:grid; grid-template-columns:150px 1fr; gap:2rem; align-items:center; padding:1.5rem 0; border-bottom:1px solid var(--cinza-suave); }
+        .type-row:last-child { border-bottom:none; }
+        .type-label { font-size:0.8rem; color:var(--cinza-medio); font-weight:bold; letter-spacing:1px; text-transform:uppercase; }
+
+        /* ABA 4: DESIGN SYSTEM COMPONENTES EXPANSO */
+        .ui-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(350px, 1fr)); gap:2rem; }
+        .ui-panel { background:white; padding:2.5rem; border-radius:var(--radius-lg); border:1px solid var(--cinza-suave); box-shadow:var(--shadow-card); }
+        .ui-panel h4 { margin-top:0; margin-bottom:1.5rem; font-family:var(--font-display); font-size:1.1rem; border-bottom:1px solid var(--cinza-suave); padding-bottom:1rem; display:flex; align-items:center; gap:10px; color:var(--carvao); }
         
-        .split-header { display: flex; align-items: center; gap: 0.75rem; font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; margin-bottom: 1.5rem; }
-        .split-card.do .split-header { color: var(--sucesso); }
-        .split-card.dont .split-header { color: var(--erro); }
+        .btn { width:100%; padding:14px 20px; border-radius:12px; font-weight:800; border:none; cursor:pointer; font-family:var(--font-display); font-size:0.95rem; margin-bottom:12px; display:flex; align-items:center; justify-content:center; gap:8px; transition:var(--transition); }
+        .btn-primary { background:var(--verde-institucional); color:white; box-shadow:0 6px 16px rgba(76,175,80,0.3); }
+        .btn-warning { background:var(--laranja-acao); color:white; box-shadow:0 6px 16px rgba(255,152,0,0.3); }
+        .btn-outline { background:transparent; color:var(--carvao); border:2px solid var(--cinza-suave); }
         
-        .split-list { list-style: none; }
-        .split-list li { margin-bottom: 1rem; font-size: 0.95rem; display: flex; align-items: flex-start; gap: 0.5rem; color: var(--grafite); line-height: 1.5; }
-        .split-list li::before { content: "•"; color: var(--cinza-medio); font-weight: bold; }
-
-        /* Typography Specs */
-        .typo-spec {
-            background: var(--branco);
-            border: 1px solid var(--cinza-suave);
-            border-radius: var(--radius-lg);
-            padding: 2.5rem;
-            margin-top: 2.5rem;
-        }
-        .typo-row {
-            display: grid;
-            grid-template-columns: 100px 150px 1fr;
-            gap: 2rem;
-            align-items: baseline;
-            padding: 1.5rem 0;
-            border-bottom: 1px solid var(--cinza-suave);
-        }
-        .typo-row:last-child { border-bottom: none; padding-bottom: 0; }
-        .t-label { color: var(--cinza-medio); font-size: 0.85rem; font-weight: 500; font-family: monospace;}
-        .t-weight { color: var(--verde-institucional); font-size: 0.85rem; font-weight: 600; background: rgba(26, 107, 58, 0.08); padding: 0.2rem 0.5rem; border-radius: 4px; display: inline-block;}
+        .input-group { margin-bottom:1.5rem; }
+        .input-label { display:block; font-size:0.85rem; font-weight:bold; color:var(--grafite); margin-bottom:8px; }
+        .input-field { width:100%; padding:16px; border:1px solid var(--cinza-suave); border-radius:12px; background:var(--cinza-fundo); font-family:var(--font-body); font-weight:bold; color:var(--carvao); outline:none; transition:var(--transition); }
+        .input-field:focus { border-color:var(--verde-institucional); background:white; box-shadow:0 0 0 4px var(--verde-claro); }
         
-        /* UI Components Showcase */
-        .showcase-area {
-            background: var(--cinza-fundo);
-            border-radius: var(--radius-lg);
-            border: 1px dashed var(--cinza-medio);
-            padding: 3rem;
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            margin-top: 2rem;
-        }
+        .tag-pill { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:20px; font-size:0.75rem; font-weight:bold; margin-right:8px; margin-bottom:8px; }
+        .tag-success { background:var(--verde-claro); color:var(--verde-acao); }
+        .tag-alert { background:var(--laranja-suave); color:var(--laranja-acao); }
+        .tag-neutral { background:var(--cinza-suave); color:var(--carvao); }
 
-        /* Buttons */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.875rem 1.75rem;
-            border-radius: var(--radius-md);
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            border: none;
-            transition: var(--transition-smooth);
-        }
-        .btn-primary { background: var(--verde-acao); color: var(--branco); box-shadow: 0 4px 14px 0 rgba(46, 139, 87, 0.39); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(46, 139, 87, 0.4); }
-        .btn-venda { background: var(--laranja-acao); color: var(--branco); box-shadow: 0 4px 14px 0 rgba(224, 123, 0, 0.39); }
-        .btn-venda:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(224, 123, 0, 0.4); }
-        .btn-outline { background: transparent; border: 2px solid var(--verde-institucional); color: var(--verde-institucional); }
-        .btn-outline:hover { background: rgba(26, 107, 58, 0.05); transform: translateY(-2px); }
+        /* ABA 7: TABELA PRD */
+        .prd-table-wrapper { width:100%; border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-card); background:white; border:1px solid var(--cinza-suave); }
+        .prd-table { width:100%; border-collapse:collapse; text-align:left; }
+        .prd-table th { background:var(--carvao); color:white; padding:1.2rem 1rem; font-family:var(--font-display); font-size:0.9rem; }
+        .prd-table td { padding:1rem; border-bottom:1px solid var(--cinza-suave); font-size:0.85rem; color:var(--grafite); }
+        .prd-table tbody tr:hover { background:var(--cinza-fundo); }
 
-        /* Tags */
-        .ui-tag {
-            padding: 0.35rem 0.75rem;
-            border-radius: 8px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.35rem;
-        }
-        .t-doacao { background: var(--verde-claro); color: var(--branco); }
-        .t-venda { background: rgba(224, 123, 0, 0.1); color: var(--laranja-acao); border: 1px solid rgba(224, 123, 0, 0.2); }
-        .t-impact { background: var(--branco); color: var(--verde-institucional); border: 1px solid var(--verde-institucional); box-shadow: var(--shadow-sm); }
+        /* ABA 8: AS TELAS MOCKUPS */
+        .sg-title { background:var(--carvao); color:white; padding:1.5rem 2rem; border-radius:var(--radius-lg); margin:4rem 0 2rem 0; font-size:1.5rem; display:flex; align-items:center; gap:1rem; font-family:var(--font-display); }
+        .screen-card { background:white; border-radius:var(--radius-xl); border:1px solid var(--cinza-suave); display:grid; grid-template-columns:1fr 400px; margin-bottom:3rem; overflow:hidden; box-shadow:var(--shadow-card); }
+        .screen-data { padding:3rem; }
+        .screen-tag { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:bold; color:white; margin-bottom:1rem; margin-right:10px; }
+        .screen-name { font-size:1.8rem; margin:0 0 2rem 0; color:var(--carvao); font-family:var(--font-display); font-weight:900; }
+        
+        .prompt-box { background:var(--cinza-fundo); padding:1rem 1.5rem; border-radius:16px; border:1px solid var(--cinza-suave); margin-bottom:1rem; }
+        .prompt-box strong { font-size:0.8rem; color:var(--carvao); display:block; margin-bottom:8px; }
+        .prompt-box p { font-family:monospace; font-size:0.85rem; color:var(--grafite); margin:0; line-height:1.6; }
 
-        /* App Mockup / Card */
-        .app-card {
-            width: 300px;
-            background: var(--branco);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
-            position: relative;
-            transition: var(--transition-smooth);
-        }
-        .app-card:hover { transform: translateY(-8px); box-shadow: 0 30px 60px -12px rgba(0,0,0,0.15); }
-        .c-img { height: 160px; background: linear-gradient(135deg, #E4E4E7, #F4F4F5); display: flex; align-items: center; justify-content: center; position: relative;}
-        .c-abs-tag { position: absolute; bottom: 12px; left: 12px; box-shadow: var(--shadow-sm); }
-        .c-body { padding: 1.5rem; }
-        .c-title { font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; color: var(--carvao); margin-bottom: 0.25rem; }
-        .c-sub { color: var(--cinza-medio); font-size: 0.85rem; margin-bottom: 1.25rem; }
-        .c-footer { display: flex; justify-content: space-between; align-items: flex-end; border-top: 1px solid var(--cinza-suave); padding-top: 1rem; }
+        /* THE PREMIUM MOCKUP PHONE */
+        .screen-render { background:var(--verde-claro); background-image:radial-gradient(var(--verde-institucional) 0.5px, transparent 0.5px); background-size:10px 10px; display:flex; justify-content:center; align-items:center; padding:3rem 2rem; border-left:1px solid var(--cinza-suave); }
+        .mock-phone { width:280px; height:580px; background:white; border-radius:40px; border:12px solid var(--carvao); position:relative; overflow:hidden; display:flex; flex-direction:column; box-shadow:var(--shadow-float); }
+        .mock-notch { position:absolute; top:0; left:50%; transform:translateX(-50%); width:120px; height:24px; background:var(--carvao); border-bottom-left-radius:12px; border-bottom-right-radius:12px; z-index:50; }
 
-        /* iPhone Mockup Container */
-        .phone-mockups-container {
-            display: flex;
-            gap: 3rem;
-            justify-content: center;
-            margin-top: 3rem;
-            perspective: 1000px;
-        }
-        .iphone {
-            width: 320px;
-            height: 650px;
-            background: var(--verde-menta);
-            border-radius: 46px;
-            border: 12px solid var(--carvao);
-            position: relative;
-            box-shadow: var(--shadow-lg), inset 0 0 0 1px rgba(255,255,255,0.2);
-            overflow: hidden;
-            transition: var(--transition-smooth);
-            z-index: 10;
-        }
-        .iphone:hover { transform: translateY(-10px) rotateX(5deg) rotateY(-5deg); box-shadow: 0 40px 60px -15px rgba(0,0,0,0.2); z-index: 20;}
-        .notch {
-            position: absolute;
-            top: 0; left: 50%;
-            transform: translateX(-50%);
-            width: 140px; height: 30px;
-            background: var(--carvao);
-            border-bottom-left-radius: 20px;
-            border-bottom-right-radius: 20px;
-            z-index: 100;
-        }
-        .phone-header {
-            background: var(--branco);
-            padding: 3rem 1.5rem 1rem;
-            border-bottom: 1px solid var(--cinza-suave);
-        }
-        .phone-content { padding: 1.5rem; }
-
-        /* Logo Preview Box */
-        .logo-preview-box {
-            background: var(--branco);
-            border: 1px solid var(--cinza-suave);
-            border-radius: var(--radius-xl);
-            padding: 4rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-            box-shadow: inset 0 0 60px rgba(0,0,0,0.02);
-            margin-top: 2rem;
-        }
-
-        /* Tech Rules Format */
-        code {
-            font-family: monospace;
-            background: rgba(0,0,0,0.04);
-            padding: 0.2rem 0.4rem;
-            border-radius: 4px;
-            color: var(--erro);
-            font-size: 0.9em;
-        }
-        .rule-block {
-            background: var(--branco);
-            border: 1px solid var(--cinza-suave);
-            border-radius: var(--radius-md);
-            padding: 1.5rem;
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 1rem;
-        }
-        .r-class { flex-shrink: 0; background: var(--carvao); color: var(--branco); padding: 0.5rem 0.8rem; border-radius: var(--radius-sm); font-family: monospace; font-weight: bold; font-size: 0.9rem; }
-        .r-desc { color: var(--grafite); font-size: 0.95rem; margin-top: 0.3rem;}
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--cinza-suave); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--cinza-medio); }
-
-        @media (max-width: 1024px) {
-            .sidebar { display: none; }
-            .main-wrapper { margin-left: 0; width: 100%; padding: 2rem; }
-            .split-grid, .phone-mockups-container { flex-direction: column; align-items: center; }
-            h1 { font-size: 2.2rem; }
+        @media (max-width:1024px){
+            .sidebar { transform:translateX(-100%); }
+            .main-content { margin-left:0; padding:1.5rem; }
+            .screen-card { grid-template-columns:1fr; }
+            .screen-render { border-left:none; border-top:1px solid var(--cinza-suave); }
         }
     </style>
 </head>
 <body>
+    <div class="bg-globs"><div class="glob g1"></div><div class="glob g2"></div></div>
 
-    <!-- Ambient Background -->
-    <div class="bg-glob glob-1"></div>
-    <div class="bg-glob glob-2"></div>
-    <div class="bg-glob glob-3"></div>
-
-    <!-- Sidebar -->
+    <!-- SIDEBAR NAVIGATION -->
     <aside class="sidebar">
         <div class="brand-logo">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 9h16"/><path d="M4 15h16"/><path d="M12 3v18"/>
-            </svg>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 9h16"/><path d="M4 15h16"/><path d="M12 3v18"/></svg>
             <div>Conecta<span>Mesa</span></div>
         </div>
-        <ul class="nav-menu">
-            <li><a href="#intro" class="nav-link"><i data-lucide="book-open"></i> Introdução</a></li>
-            <li><a href="#marca" class="nav-link"><i data-lucide="sparkles"></i> Direção Visual</a></li>
-            <li><a href="#cores" class="nav-link"><i data-lucide="palette"></i> Cores e System</a></li>
-            <li><a href="#tipografia" class="nav-link"><i data-lucide="type"></i> Tipografia</a></li>
-            <li><a href="#logo" class="nav-link"><i data-lucide="hexagon"></i> Direção de Logo</a></li>
-            <li><a href="#componentes" class="nav-link"><i data-lucide="layout-template"></i> Componentes UI</a></li>
-            <li><a href="#telas" class="nav-link"><i data-lucide="smartphone"></i> Telas & Mockups</a></li>
-            <li><a href="#dev" class="nav-link"><i data-lucide="code-2"></i> Guias p/ Devs</a></li>
-            <li><a href="#mascote" class="nav-link"><i data-lucide="bot-off"></i> Decisão: Mascote</a></li>
-        </ul>
-        
-        <div style="margin-top: auto; padding-top: 2rem; border-top: 1px solid var(--cinza-suave); font-size: 0.8rem; color: var(--cinza-medio);">
-            <strong style="color: var(--carvao);">V1.0.0</strong><br>
-            Design System Handbook.<br>Uso interno confidencial.
-        </div>
+
+        <nav>
+            <a onclick="switchTab('tab-visao', this)" class="nav-link active-nav"><i data-lucide="eye"></i> 1. Visão Geral</a>
+            <a onclick="switchTab('tab-logo', this)" class="nav-link"><i data-lucide="image"></i> 2. Logo e Aviso Oficial</a>
+            <a onclick="switchTab('tab-identidade', this)" class="nav-link"><i data-lucide="palette"></i> 3. Identidade Visual</a>
+            <a onclick="switchTab('tab-design', this)" class="nav-link"><i data-lucide="layout-template"></i> 4. Design System UI</a>
+            <a onclick="switchTab('tab-requisitos', this)" class="nav-link"><i data-lucide="layers"></i> 5. MVP Requisitos</a>
+            <a onclick="switchTab('tab-fluxos', this)" class="nav-link"><i data-lucide="git-merge"></i> 6. Fluxos Arquitetura</a>
+            <a onclick="switchTab('tab-tabela', this)" class="nav-link"><i data-lucide="table"></i> 7. Tabela Oficial (PRD)</a>
+            <a onclick="switchTab('tab-telas', this)" class="nav-link" style="color:var(--verde-institucional);"><i data-lucide="smartphone"></i> 8. As 24 Telas (Mockups)</a>
+        </nav>
     </aside>
 
-    <!-- Main Content -->
-    <main class="main-wrapper">
-        
-        <div class="status-badge">
-            <i data-lucide="rocket"></i> Guia Técnico Executivo
-        </div>
-        
-        <h1 class="gradient-text">Design System & UI Docs</h1>
-        <p style="font-size: 1.2rem; max-width: 700px; margin-bottom: 4rem;">
-           Ecossistema digital do <strong>Conecta Mesa</strong>. 
-       
-        </p>
-
-        <!-- Intro -->
-        <section id="intro">
-            <h2><i data-lucide="rocket" style="color: var(--verde-acao)"></i >O que estamos construindo?</h2>
-            <p>O Conecta Mesa é mais do que um aplicativo; é uma <strong>Infraestrutura Digital de Redistribuição Alimentar</strong>. Atuamos com uma mecânica de conversão temporal inovadora: o excedente entra B2C (venda com desconto agressivo) e flui para B2G (doação para ONGs) ao tangenciar o vencimento.</p>
+    <main class="main-content">
+        <!-- ==========================================
+             ABA 1: VISÃO GERAL
+             ========================================== -->
+        <section id="tab-visao" class="tab-content active">
+            <div class="hero-banner">
+                <div class="hero-chip">MVP Conecta Mesa — Infraestrutura Híbrida B2G/B2C</div>
+                <h1 class="hero-title">O software que <span>erradica o desperdício</span> na raiz.</h1>
+                <p class="section-desc" style="color:rgba(255,255,255,0.8);">Plataforma projetada para interceptar alimentos perecíveis antes do descarte, convertendo perda financeira em lucro iminente de desconto (Radar B2C) ou mitigação tributária via impacto social legítimo (Hub B2G para ONGs).</p>
+            </div>
             
-            <div class="alert warning">
-                <div class="alert-icon"><i data-lucide="alert-triangle"></i></div>
-                <div class="alert-content">
-                    <strong style="color: var(--carvao); font-family: var(--font-display);">Material Interno & Técnico</strong>
-                    <p>Este documento não é publicitário. Seu objetivo primário é orientar os desenvolvedores Frontend (Web e Flutter) a implementar o app garantindo acessibilidade, contraste adequado e a emoção correta da marca.</p>
+            <div class="grid-cards">
+                <div class="info-card">
+                    <i data-lucide="zap" style="color:var(--laranja-acao);"></i>
+                    <h3 class="font-display">Radar B2C (Urgência)</h3>
+                    <p style="color:var(--grafite); font-size:0.95rem;">Lotes são anunciados com cortes altíssimos de preço baseados no timer de vencimento. O cidadão comum paga via app e retira na loja.</p>
+                </div>
+                <div class="info-card">
+                    <i data-lucide="shield-check" style="color:var(--verde-institucional);"></i>
+                    <h3 class="font-display">Hub B2G (Filantropia)</h3>
+                    <p style="color:var(--grafite); font-size:0.95rem;">Validade zerada iminentemente converte a cesta em modo Free. Apenas Associações Governamentais com CNPJ habilitado podem dar match legalizado.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Marca Visual -->
-        <section id="marca">
-            <h2><i data-lucide="sparkles" style="color: var(--verde-acao)"></i>Identidade e Propósito</h2>
-            <p>Nossa identidade foge do padrão comum de apps casuais. Evocamos <strong>confiança, pertencimento, esperança prática e urgência positiva</strong>. É um design hiperlocal e de utilidade pública: alto contraste para leitura rápida ao ar livre e organização impecável anti-ansiedade para lojistas na pressa do cotidiano.</p>
-        </section>
-
-        <!-- Cor Primária Critica -->
-        <section id="cores">
-            <h2><i data-lucide="palette" style="color: var(--verde-acao)"></i>Cor Primária Crítica</h2>
-            <p>As decisões em torno da cor primária definem toda a hierarquia de ação no app mobile.</p>
-
-            <div class="split-grid" style="margin-bottom: 3rem;">
-                <div class="split-card do">
-                    <div class="split-header"><i data-lucide="check-circle-2"></i> Padrões de Uso (DOs)</div>
-                    <ul class="split-list">
-                        <li>Foque no <strong>Verde Institucional (#1A6B3A)</strong> para barras de navegação superior, Wordmarks de logo e títulos.</li>
-                        <li>Reserve o <strong>Verde Ação (#2E8B57)</strong> estritamente para CTAs primários de confirmação e avanço no funil.</li>
-                        <li>Trabe com fontes brancas para garantir ratio de contraste WCAG AA+ em cima das superfícies verdes.</li>
-                    </ul>
-                </div>
-                <div class="split-card dont">
-                    <div class="split-header"><i data-lucide="x-octagon"></i> O que Evitar (DON'Ts)</div>
-                    <ul class="split-list">
-                        <li>Não use o verde institucional como background de telas inteiras (gera fadiga em uso prolongado; prefira o Verde Menta).</li>
-                        <li>Não aplique o verde intenso em textos de corpo ou parágrafos extensos descritivos de regras.</li>
-                        <li>Proibido usar o Verde Ação para alertar prazo curto (use o Laranja Ação para urgência temporal).</li>
-                    </ul>
+        <!-- ==========================================
+             ABA 2: LOGO E AVISO OFICIAL
+             ========================================== -->
+        <section id="tab-logo" class="tab-content">
+            <h2 class="section-header"><i data-lucide="image"></i> Logotipo e Diretriz Visual</h2>
+            
+            <div style="background:white; padding:5rem; text-align:center; border-radius:var(--radius-xl); box-shadow:var(--shadow-card); border:1px solid var(--cinza-suave); margin-bottom:3rem;">
+                <div style="font-family:var(--font-display); font-weight:900; font-size:4rem; color:var(--carvao); display:flex; justify-content:center; align-items:center; gap:1.5rem;">
+                    <svg width="70" height="70" viewBox="0 0 24 24" fill="none" stroke="var(--verde-institucional)" stroke-width="2.5"><path d="M4 9h16"/><path d="M4 15h16"/><path d="M12 3v18"/></svg>
+                    Conecta<span style="color:var(--laranja-acao);">Mesa</span>
                 </div>
             </div>
 
-            <!-- Paleta Completa -->
-            <h3>Referência de Tokens de Cor</h3>
-            <div class="color-grid">
-                <!-- Swatch 1 -->
-                <div class="color-card">
-                    <div class="color-swatch" style="background: var(--verde-institucional);">
-                        <span class="color-hex-tag">#1A6B3A</span>
-                    </div>
-                    <div class="color-details">
-                        <div class="color-name">Verde Institucional</div>
-                        <div class="color-usage">Brand core. Cabeçalhos, navbar nativa, cor principal da logo.</div>
-                    </div>
-                </div>
-                <!-- Swatch 2 -->
-                <div class="color-card">
-                    <div class="color-swatch" style="background: var(--verde-acao);">
-                        <span class="color-hex-tag">#2E8B57</span>
-                    </div>
-                    <div class="color-details">
-                        <div class="color-name">Verde Ação</div>
-                        <div class="color-hex">#2E8B57</div>
-                        <div class="color-usage">CTAs, botões "Salvar" ou confirmações de sucesso.</div>
-                    </div>
-                </div>
-                 <!-- Swatch 3 -->
-                 <div class="color-card">
-                    <div class="color-swatch" style="background: var(--verde-claro);">
-                        <span class="color-hex-tag">#4CAF7A</span>
-                    </div>
-                    <div class="color-details">
-                        <div class="color-name">Verde Claro</div>
-                        <div class="color-usage">Tags de produtos disponíveis para Doação "B2G". Suporte.</div>
+            <div class="disclaimer-box">
+                <i data-lucide="alert-triangle" style="width:32px; height:32px; margin-bottom:1rem; display:inline-block;"></i><br>
+                ALERTA MÁXIMO PROJETO (NÃO NEGOCIÁVEL)<br><br>
+                A logomarca acima é IMUTÁVEL. A "engrenagem / cerquilha" nativa jamais será substituída por ilustrações clichês de comida. Além disso, os Mockups visuais Mobile listados na Aba 8 funcionam estritamente como WIREFRAMES PREMIUM (Blueprints Lógicos). Eles servem para organizar o fluxo Frontend, mas o Figma final da equipe de Interface ainda aplicará suas próprias pinceladas artísticas em cima dessas bases métricas.
+            </div>
+        </section>
+
+        <!-- ==========================================
+             ABA 3: IDENTIDADE VISUAL DETALHADA
+             ========================================== -->
+        <section id="tab-identidade" class="tab-content">
+            <h2 class="section-header"><i data-lucide="palette"></i> Identidade Visual do Projeto</h2>
+            <p class="section-desc">Paletas cromáticas governamentais e comerciais, criadas para gerar confiança jurídica mista à rapidez emocional de consumo do varejo digital.</p>
+            
+            <h3 class="font-display" style="font-size:1.4rem; margin-bottom:1.5rem; color:var(--carvao);">1. Cores Primárias (Fundação)</h3>
+            <div class="color-palette">
+                <!-- Verde -->
+                <div class="color-block" style="border-top:6px solid var(--verde-institucional);">
+                    <div class="color-show" style="background:var(--verde-institucional);"></div>
+                    <div class="color-data">
+                        <strong>Verde Ponte</strong>
+                        <code>#4CAF50</code>
+                        <p>A cor nativa de toda a marca. Representa saúde, integridade das transações ESG e aprovação de fluxos (sucesso).</p>
                     </div>
                 </div>
-                <!-- Swatch 4 -->
-                <div class="color-card">
-                    <div class="color-swatch" style="background: var(--laranja-acao);">
-                        <span class="color-hex-tag">#E07B00</span>
-                    </div>
-                    <div class="color-details">
-                        <div class="color-name">Laranja Ação</div>
-                        <div class="color-usage">Urgência, transações B2C financeiras, contadores de tempo.</div>
-                    </div>
-                </div>
-                <!-- Swatch 5 -->
-                <div class="color-card">
-                    <div class="color-swatch" style="background: var(--carvao);">
-                        <span class="color-hex-tag">#1C1C1E</span>
-                    </div>
-                    <div class="color-details">
-                        <div class="color-name">Carvão Typography</div>
-                        <div class="color-usage">Maior conforto visual que o preto puro. Títulos principais.</div>
+                <!-- Laranja -->
+                <div class="color-block" style="border-top:6px solid var(--laranja-acao);">
+                    <div class="color-show" style="background:var(--laranja-acao);"></div>
+                    <div class="color-data">
+                        <strong>Laranja Urgência</strong>
+                        <code>#FF9800</code>
+                        <p>Cor condutora do gatilho de escassez. Usada nos cronômetros B2C, marcações de lotes quase no fim e tags de promoção.</p>
                     </div>
                 </div>
-                 <!-- Swatch 6 -->
-                 <div class="color-card">
-                    <div class="color-swatch" style="background: var(--verde-menta); border-bottom: 1px solid var(--cinza-suave);">
-                        <span class="color-hex-tag" style="background: var(--cinza-medio)">#F0F4F0</span>
-                    </div>
-                    <div class="color-details">
-                        <div class="color-name">Verde Menta (BG)</div>
-                        <div class="color-usage">Substituto do branco puro no background do App Mobile.</div>
-                    </div>
+            </div>
+
+            <h3 class="font-display" style="font-size:1.4rem; margin-bottom:1.5rem; color:var(--carvao);">2. Base Neutra e Tipografia</h3>
+            <div class="color-palette">
+                <div class="color-block" style="border-top:6px solid var(--carvao);">
+                    <div class="color-show" style="background:var(--carvao);"></div>
+                    <div class="color-data"><strong>Carvão Dark</strong><code>#131316</code><p>Usado para Textos Títulos e Header fundos absolutos.</p></div>
+                </div>
+                <div class="color-block" style="border-top:6px solid var(--cinza-fundo);">
+                    <div class="color-show" style="background:var(--cinza-fundo); border-bottom:1px solid #ccc;"></div>
+                    <div class="color-data"><strong>Cinza Global Base</strong><code>#FAFAFA</code><p>A cor de fundo inerte do aplicativo para destacar containers brancos.</p></div>
+                </div>
+            </div>
+
+            <div class="type-board">
+                <div class="type-row">
+                    <div class="type-label">Títulos Modern<br><span style="color:var(--verde-institucional);">Montserrat</span></div>
+                    <div><h1 style="margin:0; font-family:'Montserrat'; font-weight:900;">Aa — Erradicando a perda.</h1><p style="margin:4px 0 0 0; color:var(--grafite); font-size:0.85rem;">Fonte robusta geométrica. Usada em AppBars e Numerais grandes de Dashboard.</p></div>
+                </div>
+                <div class="type-row">
+                    <div class="type-label">Leitura Mobile<br><span style="color:var(--verde-institucional);">Nunito</span></div>
+                    <div><p style="margin:0; font-family:'Nunito'; font-size:1.1rem; color:var(--carvao); font-weight:600;">Aa — A padaria notificou um novo lote orgânico para resgate no seu bairro!</p><p style="margin:4px 0 0 0; color:var(--grafite); font-size:0.85rem;">Arredondada e altamente legível em telas pequenas.</p></div>
                 </div>
             </div>
         </section>
 
-        <!-- Typography -->
-        <section id="tipografia">
-            <h2><i data-lucide="type" style="color: var(--verde-acao)"></i>A Hierarquia de Dados</h2>
-            <p>Usamos tipografia dupla via Google Fonts. Garantimos legibilidade para leigos com <strong>Inter</strong> e presença enxerida para grandes destaques com <strong>Plus Jakarta Sans</strong>.</p>
+        <!-- ==========================================
+             ABA 4: DESIGN SYSTEM COMPONENTES EXPANSO
+             ========================================== -->
+        <section id="tab-design" class="tab-content">
+            <h2 class="section-header"><i data-lucide="layout-template"></i> Biblioteca Design System UI</h2>
+            <p class="section-desc">Conjunto arquitetônico de formas base propostas pelo UI/UX Specs. Utilizado para dar consistência profunda nas visões Mobile do Aplicativo.</p>
 
-            <div class="typo-spec">
-                <div class="typo-row" style="font-family: var(--font-display);">
-                    <div class="t-label">Display<br>Header</div>
-                    <div class="t-weight">ExtraBold/Bold</div>
+            <div class="ui-grid">
+                <!-- Buttons -->
+                <div class="ui-panel">
+                    <h4><i data-lucide="mouse-pointer-click"></i> Botões Base (CTA)</h4>
+                    <p style="font-size:0.85rem; color:var(--grafite); margin-bottom:1.5rem;">Coringas do aplicativo. Elementos rechonchudos simulando fluidez material.</p>
+                    <button class="btn btn-primary"><i data-lucide="check-circle" style="width:18px;"></i> Ação Positiva Confirmar</button>
+                    <button class="btn btn-warning"><i data-lucide="alert-circle" style="width:18px;"></i> Ação de Risco (Temporizada)</button>
+                    <button class="btn btn-outline">Botão Neutro Passivo</button>
+                </div>
+
+                <!-- Inputs -->
+                <div class="ui-panel">
+                    <h4><i data-lucide="text-cursor-input"></i> Entradas de Dados</h4>
+                    <div class="input-group">
+                        <label class="input-label">Nome Completo (Estado Inativo)</label>
+                        <input type="text" class="input-field" placeholder="Digite seu nome">
+                    </div>
+                    <div class="input-group" style="margin-bottom:0;">
+                        <label class="input-label" style="color:var(--verde-institucional);">CNPJ Empresarial (Estado Focado ativo)</label>
+                        <input type="text" class="input-field" value="23.411.0001/90" style="border-color:var(--verde-institucional); background:white; box-shadow:0 0 0 4px var(--verde-claro);">
+                    </div>
+                </div>
+
+                <!-- Tags / Badges -->
+                <div class="ui-panel">
+                    <h4><i data-lucide="tags"></i> Pílulas Status Logísticos</h4>
+                    <p style="font-size:0.85rem; color:var(--grafite); margin-bottom:1.5rem;">Usados nas capas de produtos e dashboards gerenciais do Lojista.</p>
                     <div>
-                        <div style="font-size: 2.2rem; font-weight: 800; line-height: 1.1; color: var(--carvao); letter-spacing: -0.02em;">Plus Jakarta Sans</div>
-                        <div style="font-size: 0.95rem; color: var(--grafite); margin-top: 0.5rem; font-family: var(--font-body);">CTAs primários, Títulos de telas, Painéis e Métricas de impacto gigantes.</div>
+                        <span class="tag-pill tag-success"><i data-lucide="check" style="width:12px;"></i> Validado Federal</span>
+                        <span class="tag-pill tag-alert"><i data-lucide="clock" style="width:12px;"></i> Vence em 1 Hora</span>
+                        <span class="tag-pill tag-neutral">Lote Orgânico</span>
+                        <span class="tag-pill tag-neutral" style="background:var(--carvao); color:white;">Resgate B2C Pleno</span>
                     </div>
                 </div>
-                <div class="typo-row" style="font-family: var(--font-body);">
-                    <div class="t-label">Body Text<br>Interface</div>
-                    <div class="t-weight">Regular/Medium</div>
-                    <div>
-                        <div style="font-size: 1.5rem; font-weight: 500; color: var(--carvao); letter-spacing: -0.01em;">Inter</div>
-                        <div style="font-size: 0.95rem; color: var(--grafite); margin-top: 0.5rem; line-height: 1.6;">O cavalo de batalha do UI. Legibilidade extrema. Descrições nutricionais, endereços geolocalizados, validade do produto, e metadados densos.</div>
+
+                <!-- Similacrum Cestas -->
+                <div class="ui-panel">
+                    <h4><i data-lucide="box"></i> Base Componente Cesta (Card)</h4>
+                    <div style="background:white; border-radius:16px; border:1px solid var(--cinza-suave); box-shadow:var(--shadow-card); overflow:hidden;">
+                        <div style="height:100px; background:radial-gradient(circle, var(--cinza-suave), var(--cinza-medio)); display:flex; padding:10px;">
+                            <span class="tag-pill tag-alert" style="align-self:flex-start;">-50% Desconto</span>
+                        </div>
+                        <div style="padding:1.2rem;">
+                            <h5 style="margin:0 0 4px 0; font-family:var(--font-display); font-size:1rem; font-weight:800;">Lote Massas Nobres</h5>
+                            <div style="font-size:0.8rem; color:var(--grafite);">Padaria Esquina • 0.5km</div>
+                            <div style="margin-top:1rem; font-family:var(--font-display); font-weight:900; font-size:1.4rem; color:var(--verde-institucional);">R$ 15,00</div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Logo Concept -->
-        <section id="logo">
-            <h2><i data-lucide="hexagon" style="color: var(--verde-acao)"></i>Conceito Geométrico da Logo</h2>
-            <p>Abaixo apresentamos a <strong>direção visual conceitual</strong> proposta e não uma matriz definitiva a ser fatiada. Ela expressa a "ponte" alimentícia de forma abstrata: superfícies retas (Mesa) fluindo para nós circulares orgânicos (Rede).</p>
+        <!-- ==========================================
+             ABA 5: REQUISITOS MVP
+             ========================================== -->
+        <section id="tab-requisitos" class="tab-content">
+            <h2 class="section-header"><i data-lucide="layers"></i> Épicos e Tecnologias B2B / B2C</h2>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:1.5rem;">
+                <div class="ui-panel" style="border-left:6px solid var(--carvao);">
+                    <h4>Autenticação Bi-Direcional</h4>
+                    <p style="font-size:0.9rem; color:var(--grafite); line-height:1.5;">O Login é feito por Supabase RLS. O sistema divide automaticamente a tela inicial em 2 visões pesadas: Consumidor PF (que resgata vitrine) versus a Organização PJ (que dispara OCRs para montar lotes).</p>
+                </div>
+                <div class="ui-panel" style="border-left:6px solid var(--verde-institucional);">
+                    <h4>Radar de Vitrine & MapBox</h4>
+                    <p style="font-size:0.9rem; color:var(--grafite); line-height:1.5;">O consumidor acessa o Feed ou o Mapa (Mapbox API). Ali, ele enxerga pontinhos coloridos de proximidade com lotes ativos. Só alimentos dentro do limite higiênico aparecem vivos no radar.</p>
+                </div>
+                <div class="ui-panel" style="border-left:6px solid var(--laranja-acao);">
+                    <h4>Inteligência OCR (Optical Character)</h4>
+                    <p style="font-size:0.9rem; color:var(--grafite); line-height:1.5;">O aplicativo Lojista exige que a câmera leia os numerais de vencimento. Google ML Kit / Edge AI escaneia a tampa e trava a publicação se passar da linha de segurança sanitária da humanidade.</p>
+                </div>
+                <div class="ui-panel" style="border-left:6px solid #2196F3;">
+                    <h4>Banking Total Asaas Flow</h4>
+                    <p style="font-size:0.9rem; color:var(--grafite); line-height:1.5;">B2C compra num único clique via PIX Hash ou Cartão Tokenizado. O split de pagamentos (Gateway Asaas) repassa automaticamente o corte da taxa app pra conta da Conecta Mesa, livrando devs de matemática financeira.</p>
+                </div>
+            </div>
+        </section>
 
-            <div class="logo-preview-box">
-                <div style="display: flex; align-items: center; gap: 1rem; transform: scale(1.3);">
-                    <!-- Símbolo SVG Limpo e Redondo -->
-                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 24H36" stroke="var(--verde-institucional)" stroke-width="4.5" stroke-linecap="round"/>
-                        <path d="M16 24V34" stroke="var(--verde-institucional)" stroke-width="4.5" stroke-linecap="round"/>
-                        <path d="M32 24V34" stroke="var(--verde-institucional)" stroke-width="4.5" stroke-linecap="round"/>
-                        <circle cx="16" cy="38" r="5" fill="var(--verde-acao)"/>
-                        <circle cx="32" cy="38" r="5" fill="var(--verde-acao)"/>
-                        <path d="M24 10V16" stroke="var(--laranja-acao)" stroke-width="3.5" stroke-linecap="round"/>
-                    </svg>
-                    <!-- Typo -->
-                    <div style="font-family: var(--font-display); font-size: 2.2rem; letter-spacing: -0.05em; display: flex; gap: 0.2rem;">
-                        <strong style="color: var(--verde-institucional); font-weight: 800;">Conecta</strong>
-                        <strong style="color: var(--verde-acao); font-weight: 700;">Mesa</strong>
+        <!-- ==========================================
+             ABA 6: FLUXOS ARQUITETURA
+             ========================================== -->
+        <section id="tab-fluxos" class="tab-content">
+            <h2 class="section-header"><i data-lucide="git-merge"></i> Fluxos de Casos Essenciais</h2>
+            <div style="background:white; border:1px solid var(--cinza-suave); border-radius:var(--radius-xl); padding:4rem; box-shadow:var(--shadow-card); text-align:center;">
+                
+                <div style="display:inline-block; background:var(--carvao); color:white; padding:16px 24px; border-radius:16px; font-weight:bold; font-family:var(--font-display);">
+                    1. Padaria Scan Lote Fim Dia
+                </div>
+                
+                <div style="width:2px; height:40px; background:var(--cinza-medio); margin:0 auto; position:relative;"></div>
+                
+                <div style="display:inline-block; border:2px solid var(--verde-institucional); background:var(--verde-claro); color:var(--verde-institucional); padding:16px 24px; border-radius:16px; font-weight:bold;">
+                    2. Edge AI Valida Limite (Ok! 8hs pra vencer)
+                </div>
+
+                <div style="width:2px; height:40px; background:var(--cinza-medio); margin:0 auto; position:relative;"></div>
+
+                <div style="display:flex; justify-content:center; gap:3rem; margin-top:1rem;">
+                    <div style="display:flex; flex-direction:column; align-items:center; opacity:0.8;">
+                        <span class="tag-pill tag-alert" style="margin:0 0 10px 0;">Menos de 4h (Urgência)</span>
+                        <div style="background:var(--carvao); color:white; padding:16px; border-radius:16px; width:220px;">
+                            <strong>Rota B2G doação!</strong><br>
+                            <span style="font-size:0.75rem;">Dispara match para ONGs cadastradas de graça (Isenção).</span>
+                        </div>
+                    </div>
+                    <div style="display:flex; flex-direction:column; align-items:center;">
+                        <span class="tag-pill tag-success" style="margin:0 0 10px 0;">Mais de 4h</span>
+                        <div style="background:white; border:2px solid var(--carvao); color:var(--carvao); padding:16px; border-radius:16px; width:220px; box-shadow:var(--shadow-float);">
+                            <strong>Vitrine B2C Dinheiro!</strong><br>
+                            <span style="font-size:0.75rem;">-70% OFF Radar Civil para moradores comprarem via App PIX.</span>
+                        </div>
                     </div>
                 </div>
-                <p style="margin-top: 2rem; color: var(--cinza-medio); max-width: 450px; text-align: center; font-size: 0.95rem;">
-                    Conceito de peso flat. Escalável sem distorções até o favicon de 16x16px (onde prevaleceria somente o ícone com nó verde e gota laranja central).
-                </p>
+
             </div>
+        </section>
+
+        <!-- ==========================================
+             ABA 7: TABELA OFICIAL ESCRITA PRD
+             ========================================== -->
+        <section id="tab-tabela" class="tab-content">
+            <h2 class="section-header"><i data-lucide="table"></i> Tabela Oficial Módulos (24 Telas)</h2>
+            <p class="section-desc">Abaixo, a representação em tabela exatamente como exigida no mapeamento lógico original do MVP.</p>
             
-            <div class="alert info" style="margin-top: 2rem;">
-                <div class="alert-icon"><i data-lucide="info"></i></div>
-                <div class="alert-content">
-                    <strong style="color: var(--carvao); font-family: var(--font-display);">Aprovamos a simplicidade, não o detalhe complexo</strong>
-                    <p>Qualquer evolução da logo por agências futuras deve respeitar a ausência de ornamentos (sem folhas ultradetalhadas, cestas de frutas realistas). A logo do aplicativo tem que ser vista legivelmente num widget de OS (Android/iOS).</p>
-                </div>
+            <div class="prd-table-wrapper">
+                <table class="prd-table">
+                    <thead>
+                        <tr><th width="8%">Nº</th><th width="40%">Nome da Tela</th><th width="22%">Módulo</th><th width="30%">Usuário(s)</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td><strong>01</strong></td><td>Splash Screen / Onboarding</td><td>Autenticação</td><td>Todos</td></tr>
+                        <tr><td><strong>02</strong></td><td>Escolha de Perfil (PF vs PJ)</td><td>Autenticação</td><td>Todos</td></tr>
+                        <tr><td><strong>03</strong></td><td>Cadastro Pessoa Física (PF)</td><td>Autenticação</td><td>PF Doador / B2C</td></tr>
+                        <tr><td><strong>04</strong></td><td>Cadastro Pessoa Jurídica (PJ)</td><td>Autenticação</td><td>B2B / ONG</td></tr>
+                        <tr><td><strong>05</strong></td><td>Login</td><td>Autenticação</td><td>Todos</td></tr>
+                        <tr><td><strong>06</strong></td><td>Recuperação de Senha</td><td>Autenticação</td><td>Todos</td></tr>
+                        <tr><td><strong>07</strong></td><td>Feed de Anúncios (Lista)</td><td>Marketplace</td><td>B2C / ONG</td></tr>
+                        <tr><td><strong>08</strong></td><td>Mapa Interativo (Mapbox)</td><td>Marketplace</td><td>B2C / ONG</td></tr>
+                        <tr><td><strong>09</strong></td><td>Detalhe do Anúncio</td><td>Marketplace</td><td>B2C / ONG</td></tr>
+                        <tr><td><strong>10</strong></td><td>Publicar Anúncio (Passo 1 — Foto + OCR)</td><td>Marketplace</td><td>B2B / PF Doador</td></tr>
+                        <tr><td><strong>11</strong></td><td>Publicar Anúncio (Passo 2 — Dados do Produto)</td><td>Marketplace</td><td>B2B / PF Doador</td></tr>
+                        <tr><td><strong>12</strong></td><td>Publicar Anúncio (Passo 3 — Revisão e Publicação)</td><td>Marketplace</td><td>B2B / PF Doador</td></tr>
+                        <tr><td><strong>13</strong></td><td>Checkout — Seleção de Pagamento</td><td>Pagamento</td><td>B2C</td></tr>
+                        <tr><td><strong>14</strong></td><td>Pagamento PIX (QR Code)</td><td>Pagamento</td><td>B2C</td></tr>
+                        <tr><td><strong>15</strong></td><td>Pagamento Cartão (3-DS 2.0)</td><td>Pagamento</td><td>B2C</td></tr>
+                        <tr><td><strong>16</strong></td><td>Confirmação de Pagamento</td><td>Pagamento</td><td>B2C / B2B</td></tr>
+                        <tr><td><strong>17</strong></td><td>QR Code de Entrega (Consumidor)</td><td>Pagamento</td><td>B2C</td></tr>
+                        <tr><td><strong>18</strong></td><td>Scanner QR Code (Lojista)</td><td>Pagamento</td><td>B2B</td></tr>
+                        <tr><td><strong>19</strong></td><td>Chat Assíncrono</td><td>Comunicação</td><td>Todos</td></tr>
+                        <tr><td><strong>20</strong></td><td>Dashboard de Impacto</td><td>Impacto</td><td>Todos</td></tr>
+                        <tr><td><strong>21</strong></td><td>Perfil do Usuário</td><td>Conta</td><td>Todos</td></tr>
+                        <tr><td><strong>22</strong></td><td>Histórico de Transações</td><td>Conta</td><td>Todos</td></tr>
+                        <tr><td><strong>23</strong></td><td>Solicitação de Verificação Institucional</td><td>Selos</td><td>B2B / ONG</td></tr>
+                        <tr><td><strong>24</strong></td><td>Notificações Push (Central)</td><td>Comunicação</td><td>Todos</td></tr>
+                    </tbody>
+                </table>
             </div>
         </section>
 
-        <!-- Components Showcase -->
-        <section id="componentes">
-            <h2><i data-lucide="layout-template" style="color: var(--verde-acao)"></i>Anatomia do UI: Widgets</h2>
-            <p>Construa os botões do Flutter e tags do React mantendo rigorosamente estes states. Sombreamentos curtos reduzem "sujeira visual" num app repleto de descrições complexas.</p>
+        <!-- ==========================================
+             ABA 8: AS TELAS MOCKUPS DETALHADAS!
+             ========================================== -->
+        <section id="tab-telas" class="tab-content">
+            <h2 class="section-header"><i data-lucide="smartphone"></i> Visual Blueprint das 24 Telas (Premium)</h2>
+            <p class="section-desc">Visão fidedigna do layout, restaurando meticulosamente a alta-fidelidade dos mockups estruturais (Identidade Visual Premium) acoplados lado-a-lado com seus Prompt de geração para IA. Ordem oficial do PRD respeitada.</p>
 
-            <div class="showcase-area">
-                <!-- Action Buttons -->
-                <div style="display: flex; flex-direction: column; gap: 1rem;">
-                    <button class="btn btn-primary"><i data-lucide="check-circle" style="width:18px"></i> Finalizar Reserva Única</button>
-                    <button class="btn btn-venda"><i data-lucide="wallet" style="width:18px"></i> Pagar R$ 12,50 no PIX</button>
-                    <button class="btn btn-outline">Cancelar Seleção</button>
-                </div>
-
-                <div style="width: 1px; height: 100px; background: var(--cinza-suave); margin: 0 1rem;"></div>
-
-                <!-- Tags / Status -->
-                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                    <div style="display: flex; gap: 1rem;">
-                        <span class="ui-tag t-venda"><i data-lucide="flame" style="width:14px; color:var(--laranja-acao)"></i> Venda Expressa</span>
-                        <span class="ui-tag t-doacao"><i data-lucide="heart-handshake" style="width:14px"></i> Conversão para ONG</span>
-                    </div>
-                    <span class="ui-tag t-impact" style="align-self: flex-start; padding: 0.5rem 1rem; border-radius: 20px;">
-                        <i data-lucide="leaf" style="width:16px"></i> 14,2 kg CO₂ Mitigado Oficialmente
-                    </span>
-                </div>
-
-                <div style="width: 1px; height: 100px; background: var(--cinza-suave); margin: 0 1rem;"></div>
-
-                <!-- App Core Card Widget B2C -->
-                <div class="app-card">
-                    <div class="c-img">
-                        <i data-lucide="image" style="width:40px; height:40px; color:var(--cinza-medio); opacity: 0.3;"></i>
-                        <span class="ui-tag t-venda c-abs-tag" style="background: var(--branco);">Expira Hoje 22h</span>
-                    </div>
-                    <div class="c-body">
-                        <h4 class="c-title">Cesta Variada Pães e Frios</h4>
-                        <div class="c-sub"><i data-lucide="map-pin" style="width:12px; display:inline-block; margin-right:4px;"></i> Padaria Pão Doce (1.2km)</div>
-                        <div class="c-footer">
-                            <div>
-                                <div style="text-decoration: line-through; color: var(--cinza-medio); font-size: 0.8em;">de R$ 45,00</div>
-                                <div style="font-family: var(--font-display); font-weight: 800; font-size: 1.3rem; color: var(--verde-institucional);">R$ 15,00</div>
-                            </div>
-                            <button class="btn btn-venda" style="padding: 0.5rem 1rem; font-size: 0.9rem;">Reservar</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div id="dynamic-screens-inject"></div>
         </section>
-
-        <!-- Mockups de Telas -->
-        <section id="telas">
-            <h2><i data-lucide="smartphone" style="color: var(--verde-acao)"></i>Arquitetura Fluida Mobile</h2>
-            <p>Estas simulações do app ditam o spacing (margens generosas e cantos arredondados). Reforçamos que essas estruturas são wireframes com aplicação da UI, e sujeitas à adaptações em Flutter de acordo com o `Safe Area` nativo dos dispositivos e teclados.</p>
-
-            <div class="phone-mockups-container">
-                <!-- Phone 1: Listagem Principal -->
-                <div class="iphone">
-                    <div class="notch"></div>
-                    <div class="phone-header" style="padding-top: 4rem;">
-                        <div style="font-size: 0.75rem; color: var(--cinza-medio); font-weight: 600; text-transform: uppercase;">Aonde entregar?</div>
-                        <div style="font-family: var(--font-display); font-weight: 700; color: var(--verde-institucional); font-size: 1.1rem; display: flex; align-items: center; justify-content: space-between;">
-                            Rua Capitão Lima, 120 <i data-lucide="chevron-down" style="width:16px"></i>
-                            <div style="width: 36px; height: 36px; background: var(--verde-institucional); border-radius: 50%; color: white; display: flex; justify-content: center; align-items: center; font-size: 14px;">MA</div>
-                        </div>
-                    </div>
-                    <div class="phone-content">
-                        <!-- Impact mini card -->
-                         <div style="background: linear-gradient(135deg, #1A6B3A, #2E8B57); padding: 1rem; border-radius: 16px; margin-bottom: 1.5rem; color: white;">
-                             <p style="margin: 0; font-size: 0.8rem; opacity: 0.8; font-weight: 600;">Seu impacto ambiental</p>
-                             <div style="font-family: var(--font-display); font-size: 1.4rem; font-weight: 800;">🌍 2,5kg salvos</div>
-                         </div>
-                         
-                         <h4 style="font-family: var(--font-display); font-size: 0.95rem; margin-bottom: 1rem; color: var(--carvao);">Destaques de agora pra salvar:</h4>
-                         
-                         <!-- Mini feed item -->
-                         <div style="background: white; border-radius: 16px; padding: 0.75rem; display: flex; gap: 0.75rem; box-shadow: var(--shadow-sm); margin-bottom: 0.75rem;">
-                             <div style="width: 60px; height: 60px; background: #E4E4E7; border-radius: 10px;"></div>
-                             <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
-                                 <div style="font-family: var(--font-display); font-weight: 700; font-size: 0.85rem;">Kit Salgados Forno</div>
-                                 <div style="font-size: 0.75rem; color: var(--cinza-medio);">Empório (400m)</div>
-                             </div>
-                             <div style="font-family: var(--font-display); font-weight: 800; color: var(--laranja-acao); align-self: flex-end; font-size: 1rem;">R$ 9</div>
-                         </div>
-                    </div>
-                </div>
-
-                <!-- Phone 2: Detalhe do Produto B2C -->
-                <div class="iphone">
-                    <div class="notch"></div>
-                    <div style="height: 240px; background: var(--verde-institucional); position: relative; display: flex; align-items: center; justify-content: center; color: white; opacity: 0.6;">
-                        Imagem Lote Real
-                        <div style="position: absolute; top: 50px; left: 16px; background: rgba(0,0,0,0.3); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(5px);">←</div>
-                    </div>
-                    <div style="position: absolute; top: 220px; left: 0; right: 0; background: var(--verde-menta); height: 500px; border-radius: 24px 24px 0 0; padding: 1.5rem; z-index: 10;">
-                        <span class="ui-tag t-venda" style="margin-bottom: 0.75rem; background: rgba(224, 123, 0, 0.15)">Vence em 4 horas</span>
-                        <h3 style="margin-top: 0; font-size: 1.25rem; margin-bottom: 0.2rem;">Lote: Bananas Nanicas (2kg)</h3>
-                        <p style="color: var(--cinza-medio); font-size: 0.8rem; margin-bottom: 1.25rem;">Hortifruti Vila Maria • 1.2km</p>
-
-                        <div style="background: white; border-radius: 16px; padding: 1rem; border: 1px solid var(--cinza-suave); box-shadow: var(--shadow-sm); margin-bottom: 1rem;">
-                            <strong style="display: block; font-size: 0.85rem; margin-bottom: 0.5rem;"><i data-lucide="eye" style="width: 14px; display: inline-block; vertical-align: middle"></i> Inspeção de Veracidade Real</strong>
-                            <p style="font-size: 0.8rem; color: var(--grafite); margin: 0; line-height: 1.5;">2 dúzias de bananas. Algumas apresentam casca escurecida natural, ideais para doces. Data do QR auditada pelo sistema.</p>
-                        </div>
-                        
-                        <!-- Floating sticky CTA simulation -->
-                        <div style="position: absolute; bottom: 40px; left: 1.5rem; right: 1.5rem;">
-                            <button class="btn btn-primary" style="width: 100%; display: flex; justify-content: space-between; padding: 1rem 1.5rem; box-shadow: var(--shadow-glow);">
-                                <span>Reservar no PIX</span>
-                                <span>R$ 6,50</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Dev CSS Guidelines -->
-        <section id="dev">
-            <h2><i data-lucide="code-2" style="color: var(--verde-acao)"></i>Framework Semântico de Estilos</h2>
-            <p>Se você for aplicar as regras na Web ou criar componentes base do Dart, recomendamos a seguinte padronização nas nomenclaturas visando isolar regras contextuais de color.</p>
-            
-            <div class="rule-block">
-                <div class="r-class">.btn-primary</div>
-                <div class="r-desc"><strong>Action CTA Principal.</strong> Background Verde Ação. Nunca misturar com classes de estado financeiro de descontos.</div>
-            </div>
-            <div class="rule-block">
-                <div class="r-class">.btn-venda</div>
-                <div class="r-desc"><strong>Action B2C CTA.</strong> Background Laranja Ação. Exclusivo para operações que mostram pagamento em dinheiro e urgência promocional.</div>
-            </div>
-            <div class="rule-block">
-                <div class="r-class">.card / .app-card</div>
-                <div class="r-desc"><strong>Card Container Padrão.</strong> Background White, border cinza translúcido e `shadow-md` unificado.</div>
-            </div>
-        </section>
-
-        <!-- Estratégica final mascote -->
-        <section id="mascote">
-            <h2><i data-lucide="bot-off" style="color: var(--verde-acao)"></i>Mascote — Veredito V1.0</h2>
-            <div class="alert info" style="background: white; border-color: var(--cinza-suave); box-shadow: var(--shadow-sm);">
-                <div class="alert-icon" style="background: rgba(19, 19, 22, 0.05); color: var(--carvao);"><i data-lucide="minus-circle"></i></div>
-                <div class="alert-content">
-                    <strong style="color: var(--carvao); font-family: var(--font-display);">Ausente nesta versão por design</strong>
-                    <p style="margin-top: 0.5rem; color: var(--grafite); line-height: 1.6;">
-                        A criação de mascote está <strong>VETADA</strong> para a versão 1.0. O produto Conecta Mesa manipula crises reais: comércios receosos (prejuízo de CMV) e pessoas fragilizadas (acesso duro à alimentação via ONGs). Um mascote pode forçar artificialmente um tom lúdico onde reina a necessidade extrema de prestação de serviço impecável, estabilidade e dignidade. Todo o encanto visual da primeira fase será sustentado pelo <strong>Módulo Numérico Gamificado de CO₂ e pelas ilustrações minimalistas de estado</strong>.
-                    </p>
-                </div>
-            </div>
-        </section>
-
-        <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--cinza-suave); color: var(--cinza-medio); font-size: 0.85rem; text-align: center; font-weight: 500;">
-            Feito sob medida com as especificações institucionais. <br>&copy; 2026 Conecta Mesa — Infraestrutura de Redistribuição Alimentar
-        </footer>
-
     </main>
 
     <script>
-        // Init Lucide Icons to render crisp SVG icons across the app.
-        lucide.createIcons();
+        function switchTab(tabId, el) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            
+            document.querySelectorAll('.nav-link').forEach(c => c.classList.remove('active-nav'));
+            if(el) el.classList.add('active-nav');
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        /* 
+           O BANCO DE DADOS RESTAURADO DO MOCKUP PREMIUM. 
+           Eles contêm as UIs reais CSS Glassmorfizadas idênticas à imagem que o usuário adorou,
+           com ícones, botões complexos e painéis de dados.
+        */
+        const screensDb = [
+            {
+                group: "Autenticação e Perfis", num: "01", name: "Splash Screen / Onboarding", user: "Todos",
+                pt: "Crie uma splash screen premium fundo branco limpo com a logomarca da engrenagem conectamesa em tons de verde.",
+                en: "Create a premium clean white background splash screen showing the green connected gear logo clearly.",
+                html: `<div style="background:linear-gradient(135deg, white, var(--cinza-fundo)); flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative;">
+                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--verde-institucional)" stroke-width="2.5"><path d="M4 9h16"/><path d="M4 15h16"/><path d="M12 3v18"/></svg>
+                        <h1 style="color:var(--carvao); font-family:var(--font-display); font-size:1.8rem; margin-top:1rem; font-weight:900;">Conecta<span style="color:var(--laranja-acao);">Mesa</span></h1>
+                        <div style="position:absolute; bottom:50px; width:24px; height:24px; border:3px solid rgba(76,175,80,0.2); border-top-color:var(--verde-institucional); border-radius:50%; animation: spin 1s linear infinite;"></div>
+                    </div>`
+            },
+            {
+                group: "Autenticação e Perfis", num: "02", name: "Escolha de Perfil (PF vs PJ)", user: "Todos",
+                pt: "Cards super limpos para seleção cidadão civil ou comerciante doador b2b. Design com leve sombra e icones.",
+                en: "Super clean card selection between civic individual citizen or b2b merchant. Light shadow design with icons.",
+                html: `<div style="background:white; flex:1; padding:3rem 1.5rem; display:flex; flex-direction:column; justify-content:center; gap:1.5rem;">
+                        <h2 style="font-family:var(--font-display); font-size:1.5rem; font-weight:900; color:var(--carvao); text-align:center; margin-bottom:1rem;">Como deseja atuar?</h2>
+                        
+                        <div style="background:var(--verde-institucional); border-radius:16px; padding:1.5rem; display:flex; flex-direction:column; align-items:center; gap:0.5rem; box-shadow: 0 10px 20px rgba(76,175,80,0.3); color:white; cursor:pointer;">
+                            <i data-lucide="user" style="width:32px; height:32px; margin-bottom:0.5rem;"></i>
+                            <strong style="font-size:1.2rem; font-family:var(--font-display);">Consumidor (PF)</strong>
+                            <span style="font-size:0.8rem; opacity:0.9;">Quero resgatar alimentos.</span>
+                        </div>
+
+                        <div style="background:white; border:2px solid var(--cinza-suave); border-radius:16px; padding:1.5rem; display:flex; flex-direction:column; align-items:center; gap:0.5rem; box-shadow: var(--shadow-card); cursor:pointer;">
+                            <i data-lucide="store" style="width:32px; height:32px; color:var(--grafite); margin-bottom:0.5rem;"></i>
+                            <strong style="font-size:1.2rem; font-family:var(--font-display); color:var(--carvao);">Restaurante / ONG (PJ)</strong>
+                            <span style="font-size:0.8rem; color:var(--cinza-medio);">Quero disponibilizar lotes.</span>
+                        </div>
+                    </div>`
+            },
+            {
+                group: "Autenticação e Perfis", num: "03", name: "Cadastro Pessoa Física (PF)", user: "PF Doador / B2C",
+                pt: "Formulario luxuoso e fluido de registro. Inputs contornados e barra de avanço topo. Botão verde sólido CTA.",
+                en: "Luxurious fluid registration form. Outlined material inputs and top progress bar. Solid green CTA button.",
+                html: `<div style="background:white; flex:1; display:flex; flex-direction:column;">
+                        <div style="height:60px; display:flex; align-items:center; padding:0 1.5rem; border-bottom:1px solid var(--cinza-suave);">
+                            <i data-lucide="arrow-left" style="color:var(--carvao);"></i> <span style="flex:1; text-align:center; font-weight:bold; font-size:0.9rem;">Criar Conta PF</span>
+                        </div>
+                        <div style="width:33%; height:4px; background:var(--verde-institucional);"></div>
+                        <div style="padding:2rem 1.5rem; flex:1; display:flex; flex-direction:column; gap:1.2rem;">
+                            <div style="font-size:0.8rem; font-weight:bold; color:var(--carvao);">Nome Completo</div>
+                            <div style="background:var(--cinza-fundo); border:1px solid var(--cinza-suave); padding:14px; border-radius:12px; font-size:0.9rem; color:var(--cinza-medio);">Ex: Matheus Costa</div>
+                            <div style="font-size:0.8rem; font-weight:bold; color:var(--carvao);">CPF Válido</div>
+                            <div style="background:var(--cinza-fundo); border:1px solid var(--cinza-suave); padding:14px; border-radius:12px; font-size:0.9rem; color:var(--cinza-medio);">000.000.000-00</div>
+                            <div style="margin-top:auto; background:var(--verde-institucional); color:white; font-weight:bold; padding:16px; border-radius:12px; text-align:center; font-family:var(--font-display);">Prosseguir Seguro</div>
+                        </div>
+                    </div>`
+            },
+            {
+                group: "Autenticação e Perfis", num: "04", name: "Cadastro Pessoa Jurídica (PJ)", user: "B2B / ONG",
+                pt: "Formulario PJ robusto. Indicativo de busca de CNPJ nativa. Estilo premium SaaS empresarial.",
+                en: "Robust corporate PJ form. Native CNPJ lookup indicator. Premium SaaS business styling.",
+                html: `<div style="background:var(--cinza-fundo); flex:1; display:flex; flex-direction:column;">
+                        <div style="height:60px; display:flex; align-items:center; padding:0 1.5rem; background:white; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+                            <i data-lucide="arrow-left" style="color:var(--carvao);"></i> <span style="flex:1; text-align:center; font-weight:bold; font-size:0.9rem;">Empresas e ONG</span>
+                        </div>
+                        <div style="padding:2rem 1.5rem; flex:1; display:flex; flex-direction:column; gap:1.2rem;">
+                            <div style="background:white; padding:1.5rem; border-radius:16px; box-shadow:var(--shadow-card); display:flex; flex-direction:column; gap:1rem;">
+                                <div style="font-size:0.8rem; font-weight:bold; color:var(--carvao); display:flex; justify-content:space-between;">CNPJ <span>Busca Auto Receita Federal</span></div>
+                                <div style="border:2px solid var(--verde-institucional); padding:14px; border-radius:12px; font-size:1rem; font-weight:bold; color:var(--carvao); font-family:monospace;">12.345.678/0001-90</div>
+                                <div style="background:var(--verde-claro); color:var(--verde-institucional); padding:12px; border-radius:8px; font-size:0.8rem; text-align:center; font-weight:bold;"><i data-lucide="check-circle" style="width:14px; display:inline-block; vertical-align:text-bottom;"></i> CNPJ Válido e Ativo</div>
+                            </div>
+                            <div style="margin-top:auto; background:var(--carvao); color:white; font-weight:bold; padding:16px; border-radius:12px; text-align:center; font-family:var(--font-display);">Avançar Contrato Social</div>
+                        </div>
+                    </div>`
+            },
+            {
+                group: "Autenticação e Perfis", num: "05", name: "Login", user: "Todos",
+                pt: "Login principal liso com icones lucide nos textfields. Botao de OAUTH Google Apple embaixo estilizado luxo.",
+                en: "Smooth main login with lucide icons resting inside textfields. Stylish luxury Google Apple OAuth buttons pinned below.",
+                html: `<div style="background:white; flex:1; padding:4rem 1.5rem; display:flex; flex-direction:column;">
+                        <h2 style="font-family:var(--font-display); font-size:2rem; font-weight:900; color:var(--carvao); margin-bottom:0.5rem;">Entrar</h2>
+                        <p style="color:var(--cinza-medio); margin-bottom:2rem; font-size:0.9rem;">Acesse sua jornada de impacto.</p>
+                        
+                        <div style="display:flex; flex-direction:column; gap:1rem; margin-bottom:1.5rem;">
+                            <div style="background:var(--cinza-fundo); border:1px solid var(--cinza-suave); padding:14px 16px; border-radius:12px; display:flex; align-items:center; gap:10px;">
+                                <i data-lucide="mail" style="color:var(--cinza-medio); width:18px;"></i> <span style="color:var(--carvao); font-weight:bold; font-size:0.9rem;">seu@email.com</span>
+                            </div>
+                            <div style="background:white; border:2px solid var(--verde-institucional); padding:14px 16px; border-radius:12px; display:flex; align-items:center; gap:10px;">
+                                <i data-lucide="lock" style="color:var(--verde-institucional); width:18px;"></i> <span style="color:var(--carvao); font-weight:bold; font-size:0.9rem;">••••••••</span>
+                            </div>
+                        </div>
+                        
+                        <div style="color:var(--verde-institucional); font-weight:bold; font-size:0.8rem; margin-bottom:2rem; align-self:flex-end;">Esqueceu a senha?</div>
+                        
+                        <div style="background:var(--verde-institucional); color:white; font-weight:bold; padding:16px; border-radius:12px; text-align:center; font-family:var(--font-display); font-size:1.1rem; box-shadow:0 8px 16px rgba(76,175,80,0.3); margin-bottom:2rem;">Acessar</div>
+                        
+                        <div style="display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem;">
+                            <div style="flex:1; height:1px; background:var(--cinza-suave);"></div>
+                            <div style="font-size:0.7rem; color:var(--cinza-medio); font-weight:bold;">OU LOGAR COM</div>
+                            <div style="flex:1; height:1px; background:var(--cinza-suave);"></div>
+                        </div>
+                        <div style="border:1px solid var(--cinza-suave); padding:14px; border-radius:12px; display:flex; justify-content:center; align-items:center; gap:10px;"><i data-lucide="chrome" style="color:var(--carvao); width:20px;"></i> <strong style="color:var(--carvao); font-size:0.9rem;">Continuar com Google</strong></div>
+                    </div>`
+            },
+            {
+                group: "Autenticação e Perfis", num: "06", name: "Recuperação de Senha", user: "Todos",
+                pt: "Layout de tela envio magic link, ilustrativo padrao material 3 de recuperacao.",
+                en: "Standard material 3 recovery setup magic link transmission layout visualization.",
+                html: `<div style="background:var(--cinza-fundo); flex:1; display:flex; flex-direction:column; padding:2rem 1.5rem;">
+                        <i data-lucide="arrow-left" style="color:var(--carvao); margin-bottom:2rem;"></i>
+                        <div style="background:var(--laranja-suave); width:60px; height:60px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:1.5rem;">
+                            <i data-lucide="key" style="color:var(--laranja-acao); width:30px; height:30px;"></i>
+                        </div>
+                        <h2 style="font-family:var(--font-display); font-size:1.5rem; font-weight:900; color:var(--carvao); margin-bottom:0.5rem;">Esqueci a Senha</h2>
+                        <p style="color:var(--cinza-medio); font-size:0.9rem; margin-bottom:2rem;">Um link mágico será despachado pro email.</p>
+                        
+                        <div style="background:white; border:1px solid var(--cinza-suave); padding:16px; border-radius:12px; margin-bottom:2rem; box-shadow:var(--shadow-card);">
+                            <div style="font-size:0.7rem; font-weight:bold; color:var(--grafite); margin-bottom:6px;">E-MAIL DE RESGATE</div>
+                            <div style="font-size:1rem; color:var(--carvao); font-weight:bold;">contato@usuario.com</div>
+                        </div>
+                        <div style="background:var(--carvao); color:white; font-weight:bold; padding:16px; border-radius:12px; text-align:center; margin-top:auto; box-shadow:0 8px 16px rgba(0,0,0,0.2);">Enviar Magic Link</div>
+                    </div>`
+            },
+            {
+                group: "Marketplace Orgânico", num: "07", name: "Feed de Anúncios (Lista)", user: "B2C / ONG",
+                pt: "Feed realistico imitando IFood mas verde. Bottom bar com lucide icons. Foto de lote grande cobrindo card e tag vermelha vencimento.",
+                en: "Realistic feed mimicking IFood but green toned. Bottom bar mapped with lucide icons. Giant image covered cards alerting red expiring tag.",
+                html: `<div style="background:var(--cinza-fundo); flex:1; display:flex; flex-direction:column; position:relative; overflow:hidden;">
+                        <div style="background:white; padding:1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; z-index:10; box-shadow:0 4px 10px rgba(0,0,0,0.03);">
+                            <div>
+                                <div style="font-size:0.6rem; color:var(--cinza-medio); font-weight:bold;">AGORA EM</div>
+                                <div style="font-size:0.9rem; font-weight:800; color:var(--verde-institucional); display:flex; align-items:center; gap:4px;">Centro, Rua 15 <i data-lucide="chevron-down" style="width:14px;"></i></div>
+                            </div>
+                            <div style="width:36px; height:36px; background:var(--cinza-fundo); border-radius:50%; display:flex; align-items:center; justify-content:center; border:1px solid var(--cinza-suave);"><i data-lucide="sliders-horizontal" style="width:16px; color:var(--carvao);"></i></div>
+                        </div>
+                        
+                        <div style="flex:1; padding:1rem; overflow-y:auto;">
+                            <!-- MOCK CARD VIP -->
+                            <div style="background:white; border-radius:20px; overflow:hidden; box-shadow:var(--shadow-card); position:relative;">
+                                <div style="position:absolute; top:12px; left:12px; background:var(--laranja-acao); color:white; font-weight:bold; font-size:0.65rem; padding:6px 12px; border-radius:30px; display:flex; align-items:center; gap:6px; box-shadow:0 4px 10px rgba(255,152,0,0.3);"><i data-lucide="clock" style="width:12px; height:12px;"></i> Vence em 2h</div>
+                                <div style="height:140px; background:radial-gradient(circle, #E0E0E0 0%, #BDBDBD 100%); display:flex; justify-content:center; align-items:center; color:#757575; font-weight:bold;"><i data-lucide="image" style="width:30px; height:30px;"></i></div>
+                                <div style="padding:1rem;">
+                                    <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                                        <div>
+                                            <h3 style="margin:0; font-family:var(--font-display); font-size:1.1rem; color:var(--carvao); font-weight:800;">Lote Massas Finas</h3>
+                                            <div style="font-size:0.75rem; color:var(--cinza-medio); margin-top:4px;">Pâtisserie Francesa (0.8km)</div>
+                                        </div>
+                                        <div style="text-align:right;">
+                                            <div style="font-size:0.7rem; color:var(--cinza-medio); text-decoration:line-through;">R$ 45,00</div>
+                                            <div style="font-size:1.3rem; font-family:var(--font-display); font-weight:900; color:var(--verde-institucional);">R$ 15</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="background:white; height:60px; display:flex; justify-content:space-around; align-items:center; border-top:1px solid var(--cinza-suave); padding:0 1rem; z-index:10; flex-shrink:0;">
+                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--verde-institucional); gap:2px;"><i data-lucide="home" style="fill:rgba(76,175,80,0.2);"></i></div>
+                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--cinza-medio); gap:2px;"><i data-lucide="map"></i></div>
+                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--cinza-medio); gap:2px;"><i data-lucide="file-text"></i></div>
+                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--cinza-medio); gap:2px;"><i data-lucide="user"></i></div>
+                        </div>
+                    </div>`
+            },
+            {
+                group: "Marketplace Orgânico", num: "08", name: "Mapa Interativo (Mapbox)", user: "B2C / ONG",
+                pt: "Renderizacao visual mapeada imitando apple maps ou google maps. Caixa de busca utuante no topo (float). Bottom bar intacta.",
+                en: "Visual map render mocking apple google maps natively. Floating pure white search input atop. Bottom nav bar persists untouched.",
+                html: `<div style="background:#DEE4E7; flex:1; position:relative; display:flex; flex-direction:column;">
+                        <!-- FAKE MAP DETAILS -->
+                        <div style="position:absolute; top:35%; left:20%; width:80px; height:80px; background:radial-gradient(circle, rgba(255,152,0,0.6) 0%, rgba(255,152,0,0) 70%); border-radius:50%; display:flex; justify-content:center; align-items:center;"><div style="width:20px; height:20px; background:var(--laranja-acao); border:3px solid white; border-radius:50%; box-shadow:var(--shadow-card);"></div></div>
+                        <div style="position:absolute; top:55%; right:30%; width:20px; height:20px; background:var(--verde-institucional); border:3px solid white; border-radius:50%; box-shadow:var(--shadow-card);"></div>
+                        
+                        <!-- FLOATING SEARCH -->
+                        <div style="background:white; margin:1.5rem; border-radius:30px; display:flex; align-items:center; padding:12px 20px; box-shadow:var(--shadow-float); gap:10px; z-index:10; position:relative;">
+                            <i data-lucide="search" style="width:20px; color:var(--carvao);"></i>
+                            <span style="flex:1; font-size:0.8rem; color:var(--cinza-medio); font-weight:bold;">Buscar padarias pelo mapa...</span>
+                        </div>
+                        
+                        <div style="margin-top:auto; background:white; height:60px; display:flex; justify-content:space-around; align-items:center; border-top:1px solid var(--cinza-suave); padding:0 1rem; z-index:10;">
+                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--cinza-medio); gap:2px;"><i data-lucide="home"></i></div>
+                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--verde-institucional); gap:2px;"><i data-lucide="map" style="fill:rgba(76,175,80,0.2);"></i></div>
+                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--cinza-medio); gap:2px;"><i data-lucide="file-text"></i></div>
+                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--cinza-medio); gap:2px;"><i data-lucide="user"></i></div>
+                        </div>
+                    </div>`
+            },
+            {
+                group: "Marketplace Orgânico", num: "09", name: "Detalhe do Anúncio", user: "B2C / ONG",
+                pt: "Página imersiva tela foco produto. Capa fotográfica expansiva no y topo ligada em div branco curvo. Caixa validadora Edge AI verde indicando seguranca confianca.",
+                en: "Immersive singular item focus detail screen. Top Y expanded cover photography connected directly to curved pure white div. Trust safety edge OCR green validation notification alert block inserted gracefully.",
+                html: `<div style="background:var(--cinza-fundo); flex:1; display:flex; flex-direction:column; position:relative;">
+                        <div style="height:220px; background:radial-gradient(circle, #E0E0E0, #9E9E9E); position:relative;">
+                            <div style="position:absolute; top:20px; left:20px; width:40px; height:40px; background:rgba(255,255,255,0.8); backdrop-filter:blur(10px); border-radius:50%; display:flex; justify-content:center; align-items:center;"><i data-lucide="arrow-left" style="width:20px; color:var(--carvao);"></i></div>
+                        </div>
+                        <div style="background:white; border-top-left-radius:30px; border-top-right-radius:30px; flex:1; margin-top:-30px; padding:2rem 1.5rem; display:flex; flex-direction:column;">
+                            <h4 style="font-family:var(--font-display); font-size:1.4rem; font-weight:900; line-height:1.2; margin:0 0 8px 0; color:var(--carvao);">Cesta Surpresa Doces Finos</h4>
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+                                <span style="font-size:0.8rem; font-weight:bold; color:var(--grafite);"><i data-lucide="map-pin" style="width:14px; display:inline-block; vertical-align:-2px;"></i> Brigaderia Centro</span>
+                                <span style="background:var(--laranja-suave); color:var(--laranja-acao); padding:4px 8px; border-radius:6px; font-weight:bold; font-size:0.7rem;">-70% OFF</span>
+                            </div>
+                            
+                            <!-- CAIXA IA VERIFICADORA PREMIUM -->
+                            <div style="background:var(--verde-claro); border:1px solid var(--verde-institucional); display:flex; gap:12px; padding:12px; border-radius:12px; margin-bottom:2rem;">
+                                <i data-lucide="shield-check" style="color:var(--verde-institucional); width:24px; flex-shrink:0;"></i>
+                                <div>
+                                    <h5 style="margin:0 0 4px 0; font-size:0.75rem; color:var(--verde-institucional); font-weight:bold;">A.I Verified Quality Scanner</h5>
+                                    <p style="margin:0; font-size:0.65rem; color:var(--carvao); line-height:1.4;">Validade lida opticamente certifica integridade física até o final da data atestada in-loco.</p>
+                                </div>
+                            </div>
+
+                            <!-- FIX BOTTOM FOOTER CTA -->
+                            <div style="margin-top:auto; display:flex; align-items:center; gap:1rem; border-top:1px solid var(--cinza-suave); padding-top:1.5rem;">
+                                <div>
+                                    <div style="font-size:0.7rem; color:var(--cinza-medio); text-decoration:line-through;">De R$ 50,00</div>
+                                    <div style="font-family:var(--font-display); font-size:1.5rem; font-weight:900; color:var(--verde-institucional);">R$ 15</div>
+                                </div>
+                                <div style="flex:1; background:var(--carvao); color:white; padding:16px; border-radius:16px; text-align:center; font-weight:bold; display:flex; justify-content:center; align-items:center; gap:8px;"><i data-lucide="shopping-cart" style="width:18px;"></i> Reservar Lote</div>
+                            </div>
+                        </div>
+                    </div>`
+            },
+            {
+                group: "Módulos Lojista B2B (Publish)", num: "10", name: "Publicar Anúncio (Passo 1 — Foto + OCR)", user: "B2B / PF Doador",
+                pt: "Wizard publicação visual B2B limpo premium. Câmera destaque tracejada gigante e estagio topo mostrando circulos de passos form step 1.",
+                en: "Premium clean B2B publishing wizard. Highlighted giant dashed camera bounding frame and top indicating step 1 circular stage progress UI.",
+                html: `<div style="background:var(--cinza-fundo); flex:1; padding:2rem 1.5rem; display:flex; flex-direction:column; align-items:center;">
+                        <div style="display:flex; justify-content:center; gap:1rem; margin-bottom:2rem; width:100%;">
+                            <div style="width:24px;height:24px;border-radius:50%;background:var(--verde-institucional);color:white;display:flex;justify-content:center;align-items:center;font-size:0.7rem;font-weight:bold;">1</div>
+                            <div style="width:40px;height:2px;background:var(--cinza-suave);align-self:center;"></div>
+                            <div style="width:24px;height:24px;border-radius:50%;background:white;border:2px solid var(--cinza-suave);color:var(--cinza-medio);display:flex;justify-content:center;align-items:center;font-size:0.7rem;font-weight:bold;">2</div>
+                        </div>
+                        <h4 style="font-family:var(--font-display); font-size:1.2rem; font-weight:900; color:var(--carvao); margin-bottom:2rem; align-self:flex-start;">Registrar Embalagem</h4>
+                        
+                        <div style="width:100%; height:220px; background:white; border:3px dashed var(--verde-institucional); border-radius:24px; display:flex; flex-direction:column; align-items:center; justify-content:center; margin-bottom:auto; box-shadow:var(--shadow-float); cursor:pointer;">
+                            <div style="width:60px; height:60px; background:var(--verde-claro); border-radius:50%; display:flex; justify-content:center; align-items:center; margin-bottom:1rem;"><i data-lucide="camera" style="color:var(--verde-institucional); width:30px; height:30px;"></i></div>
+                            <div style="font-size:1rem; font-weight:bold; color:var(--carvao);">Abrir Câmera A.I OCR</div>
+                            <div style="font-size:0.7rem; color:var(--cinza-medio); margin-top:6px;">Foque rigidamente as datas.</div>
+                        </div>
+                        
+                        <div style="width:100%; background:var(--carvao); color:white; font-weight:bold; padding:16px; border-radius:12px; text-align:center; font-size:1rem;">Proxima Etapa Avançar</div>
+                    </div>`
+            },
+            {
+                group: "Módulos Lojista B2B (Publish)", num: "11", name: "Publicar Anúncio (Passo 2 — Dados do Produto)", user: "B2B / PF Doador",
+                pt: "Wizard publicação B2B Step 2. Formularios de preços. Uso de tags semanticas para categorizar o pacote. Stepper numero 2 ativado.",
+                en: "B2B publish wizard Step 2. Pricing input forms array. Semantic tag usage categorizing packet nature accurately. Number 2 stepper actively lit.",
+                html: `<div style="background:var(--cinza-fundo); flex:1; padding:2rem 1.5rem; display:flex; flex-direction:column;">
+                        <div style="display:flex; justify-content:center; gap:1rem; margin-bottom:2rem; width:100%;">
+                            <div style="width:24px;height:24px;border-radius:50%;background:var(--verde-institucional);color:white;display:flex;justify-content:center;align-items:center;font-size:0.7rem;font-weight:bold;"><i data-lucide="check" style="width:14px;"></i></div>
+                            <div style="width:40px;height:2px;background:var(--verde-institucional);align-self:center;"></div>
+                            <div style="width:24px;height:24px;border-radius:50%;background:var(--verde-institucional);color:white;display:flex;justify-content:center;align-items:center;font-size:0.7rem;font-weight:bold;">2</div>
+                        </div>
+                        <h4 style="font-family:var(--font-display); font-size:1.2rem; font-weight:900; color:var(--carvao); margin-bottom:1.5rem;">Etiquetagem e Valores</h4>
+                        
+                        <div style="display:flex; flex-direction:column; gap:1.2rem; margin-bottom:2rem;">
+                            <div>
+                                <label style="font-size:0.7rem; font-weight:bold; color:var(--grafite); margin-bottom:6px; display:block;">Nome Lote Alimento</label>
+                                <input type="text" value="Pão Formas Premium" style="width:100%; padding:14px; border-radius:12px; border:1px solid var(--cinza-suave); font-family:var(--font-body); font-weight:bold; color:var(--carvao); background:white;">
+                            </div>
+                            <div style="display:flex; gap:1rem;">
+                                <div style="flex:1;">
+                                    <label style="font-size:0.7rem; font-weight:bold; color:var(--grafite); margin-bottom:6px; display:block;">Original R$</label>
+                                    <input type="text" value="30,00" style="width:100%; padding:14px; border-radius:12px; border:1px solid var(--cinza-suave); font-family:var(--font-body); background:white;">
+                                </div>
+                                <div style="flex:1;">
+                                    <label style="font-size:0.7rem; font-weight:bold; color:var(--laranja-acao); margin-bottom:6px; display:block;">Urgente R$</label>
+                                    <input type="text" value="9,99" style="width:100%; padding:14px; border-radius:12px; border:2px solid var(--laranja-acao); background:var(--laranja-suave); font-family:var(--font-body); font-weight:bold; color:var(--carvao);">
+                                </div>
+                            </div>
+                        </div>
+                        <div style="width:100%; background:var(--carvao); color:white; font-weight:bold; padding:16px; border-radius:12px; text-align:center; font-size:1rem; margin-top:auto;">Ir para Avaliação Final</div>
+                    </div>`
+            },
+            {
+                group: "Módulos Lojista B2B (Publish)", num: "12", name: "Publicar Anúncio (Passo 3 — Revisão e Publicação)", user: "B2B / PF Doador",
+                pt: "Wizard publicação B2B Step 3 revisão final deploy. Cartao resumoso visual exibindo como cliente b2c enxergará vitrine e botão confirmar grande sucesso.",
+                en: "B2B wizard publish Step 3 final review deploy block. Summarized visual card rendering how b2c client strictly views glass storefront mockup. Huge confirming success primary deploy call action trigger.",
+                html: `<div style="background:var(--cinza-fundo); flex:1; padding:2rem 1.5rem; display:flex; flex-direction:column;">
+                        <h4 style="font-family:var(--font-display); font-size:1.4rem; font-weight:900; color:var(--verde-institucional); margin-bottom:0.5rem; text-align:center;">Tudo Pronto!</h4>
+                        <p style="font-size:0.8rem; color:var(--grafite); text-align:center; margin-bottom:2rem;">Veja como o cliente do radar receberá.</p>
+                        
+                        <div style="background:white; border-radius:20px; overflow:hidden; box-shadow:var(--shadow-float); border:1px solid var(--cinza-suave);">
+                            <div style="height:120px; background:var(--cinza-suave); display:flex; align-items:center; justify-content:center;"><i data-lucide="image" style="color:var(--cinza-medio);"></i></div>
+                            <div style="padding:1.5rem; text-align:center;">
+                                <h3 style="margin:0 0 8px 0; font-family:var(--font-display); font-size:1.2rem; color:var(--carvao); font-weight:800;">Pão Formas Premium</h3>
+                                <div style="display:inline-block; background:var(--verde-claro); color:var(--verde-institucional); padding:6px 12px; border-radius:8px; font-weight:bold; font-size:0.75rem;"><i data-lucide="check-circle" style="width:14px; display:inline-block; vertical-align:-2px;"></i> Validado A.I Automático</div>
+                                <div style="margin-top:1rem; font-size:1.8rem; font-family:var(--font-display); font-weight:900; color:var(--verde-institucional);">R$ 9,99</div>
+                            </div>
+                        </div>
+                        <div style="width:100%; background:var(--carvao); color:white; font-weight:bold; padding:16px; border-radius:12px; text-align:center; font-size:1rem; margin-top:auto; box-shadow:0 8px 16px rgba(0,0,0,0.2);">Publicar Oferta Online Post</div>
+                    </div>`
+            },
+            {
+                group: "Pagamentos e Coleta Asaas", num: "13", name: "Checkout — Seleção de Pagamento", user: "B2C",
+                pt: "Carrinho de pagamentos limpasso asaas like. Colunas mostrando total itens tax zero isencao forte e escolhas pix cc.",
+                en: "Super clean asaas alike payment checkout cart box. Columns demonstrating totals rows zeroing taxing strongly exposing PIX vs CreditCard toggles alternatives.",
+                html: `<div style="background:var(--cinza-fundo); flex:1; padding:2rem 1.5rem; display:flex; flex-direction:column;">
+                        <h4 style="font-family:var(--font-display); font-size:1.4rem; font-weight:900; color:var(--carvao); margin-bottom:1.5rem;">Cesta de Resgate</h4>
+                        
+                        <div style="background:white; padding:1.5rem; border-radius:16px; box-shadow:var(--shadow-card); border:1px solid var(--cinza-suave); margin-bottom:2rem;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:0.9rem; color:var(--grafite); border-bottom:1px solid #FAFAFA; padding-bottom:8px;"><span>Bolo Inteiro</span> <span>R$ 20,00</span></div>
+                            <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:0.9rem; color:var(--verde-institucional); font-weight:bold; border-bottom:1px solid #FAFAFA; padding-bottom:8px;"><span>Taxa Institucional App</span> <span>R$ 0,00</span></div>
+                            <div style="display:flex; justify-content:space-between; align-items:center; padding-top:12px;">
+                                <span style="font-weight:bold; color:var(--carvao); font-size:1rem;">A Pagar Total</span>
+                                <span style="font-family:var(--font-display); font-weight:900; font-size:1.6rem; color:var(--carvao);">R$ 20</span>
+                            </div>
+                        </div>
+
+                        <div style="font-size:0.8rem; font-weight:bold; color:var(--carvao); margin-bottom:1rem;">Método Digital (Seguro Asaas)</div>
+                        <div style="display:flex; gap:10px; margin-bottom:1rem;">
+                            <div style="flex:1; background:white; border:2px solid var(--verde-institucional); border-radius:12px; padding:1.2rem; display:flex; flex-direction:column; align-items:center; gap:8px; box-shadow:0 4px 10px rgba(76,175,80,0.1);"><i data-lucide="qr-code" style="color:var(--verde-institucional);"></i><strong style="font-size:0.8rem;">PIX Express</strong></div>
+                            <div style="flex:1; background:var(--cinza-fundo); border:1px solid var(--cinza-suave); border-radius:12px; padding:1.2rem; display:flex; flex-direction:column; align-items:center; gap:8px;"><i data-lucide="credit-card" style="color:var(--cinza-medio);"></i><strong style="font-size:0.8rem; color:var(--grafite);">Cartões CC</strong></div>
+                        </div>
+
+                        <div style="background:var(--carvao); color:white; font-weight:bold; padding:16px; border-radius:12px; text-align:center; font-size:1rem; margin-top:auto;">Confirmar Modo Reserva</div>
+                    </div>`
+            },
+            {
+                group: "Pagamentos e Coleta Asaas", num: "14", name: "Pagamento PIX (QR Code)", user: "B2C",
+                pt: "Pagina escura PIX copia e cola. Um timer laranja critico rodando avisando perda estoque carrinho.",
+                en: "Dark mode specialized copy paste PIX page rendering. Critical actively alarming running orange countdown timer clock avoiding stock losses blocks.",
+                html: `<div style="background:var(--carvao); flex:1; padding:3rem 1.5rem; display:flex; flex-direction:column; align-items:center; justify-content:center;">
+                        <div style="background:rgba(255,152,0,0.15); border:1px solid var(--laranja-acao); color:var(--laranja-acao); padding:8px 20px; border-radius:30px; display:flex; gap:8px; align-items:center; font-weight:bold; margin-bottom:2rem; box-shadow:0 4px 15px rgba(255,152,0,0.2);">
+                            <i data-lucide="clock" style="width:16px;"></i><span style="font-size:0.9rem;">Timer 04:59s</span>
+                        </div>
+                        
+                        <div style="background:white; padding:1rem; border-radius:16px; margin-bottom:2rem; box-shadow:var(--shadow-float);">
+                            <div style="width:180px; height:180px; background:var(--cinza-suave); display:flex; align-items:center; justify-content:center; border-radius:8px;">
+                                <i data-lucide="qr-code" style="width:80px; height:80px; color:var(--carvao);"></i>
+                            </div>
+                        </div>
+
+                        <p style="color:var(--cinza-suave); font-size:0.8rem; text-align:center; margin-bottom:1.5rem; max-width:80%;">Leia focadamente celular ou copie a hash alfanumerica.</p>
+                        
+                        <div style="width:100%; background:var(--verde-institucional); color:white; font-weight:bold; padding:16px; border-radius:12px; text-align:center; display:flex; justify-content:center; align-items:center; gap:8px; font-size:1rem; box-shadow:0 8px 20px rgba(76,175,80,0.3);"><i data-lucide="copy" style="width:18px;"></i> Copiar Textos Chave Bruta</div>
+                    </div>`
+            },
+            {
+                group: "Pagamentos e Coleta Asaas", num: "15", name: "Pagamento Cartão (3-DS 2.0)", user: "B2C",
+                pt: "Interface luxuosa branca form credit card. Labels finos cinzas e inputs formatadores luhn.",
+                en: "Pure white luxurious transactional credit card interface formatting form. Fine gray typograpy labels matching natively formatted luhn strictly rules variables parameters bounds logic configurations representations.",
+                html: `<div style="background:white; flex:1; padding:2rem 1.5rem; display:flex; flex-direction:column;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;">
+                            <i data-lucide="arrow-left" style="color:var(--carvao);"></i>
+                            <div style="font-family:var(--font-display); font-weight:900; font-size:1.2rem; color:var(--carvao);">R$ 20,00 Full</div>
+                            <div style="width:24px;"></div>
+                        </div>
+
+                        <div style="margin-bottom:1.5rem;">
+                            <label style="font-size:0.75rem; font-weight:bold; color:var(--grafite); display:block; margin-bottom:8px;">Número do Cartão Ativo Pessoal</label>
+                            <div style="background:var(--cinza-fundo); border:1px solid var(--cinza-suave); border-radius:12px; padding:16px; display:flex; align-items:center; gap:10px;">
+                                <i data-lucide="credit-card" style="width:20px; color:var(--cinza-medio);"></i>
+                                <span style="font-family:monospace; font-weight:bold; font-size:1.1rem; color:var(--carvao);">5555 4444 3333 2222</span>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:1rem; margin-bottom:2rem;">
+                            <div style="flex:1;">
+                                <label style="font-size:0.75rem; font-weight:bold; color:var(--grafite); display:block; margin-bottom:8px;">Validade MM/AA</label>
+                                <div style="background:var(--cinza-fundo); border:1px solid var(--cinza-suave); border-radius:12px; padding:16px; font-family:monospace; font-weight:bold; font-size:1.1rem; color:var(--carvao);">12/29</div>
+                            </div>
+                            <div style="flex:1;">
+                                <label style="font-size:0.75rem; font-weight:bold; color:var(--grafite); display:block; margin-bottom:8px;">CVC Auth</label>
+                                <div style="background:var(--cinza-fundo); border:1px solid var(--cinza-suave); border-radius:12px; padding:16px; font-family:monospace; font-weight:bold; font-size:1.1rem; color:var(--carvao);">123</div>
+                            </div>
+                        </div>
+
+                        <div style="margin-top:auto; background:var(--carvao); color:white; font-weight:bold; padding:16px; border-radius:12px; text-align:center; font-size:1rem; display:flex; justify-content:center; align-items:center; gap:8px; box-shadow:var(--shadow-float);"><i data-lucide="lock" style="width:16px;"></i> Efetuar Confirmação Segura</div>
+                    </div>`
+            },
+            {
+                group: "Pagamentos e Coleta Asaas", num: "16", name: "Confirmação de Pagamento", user: "B2C / B2B",
+                pt: "Tela sucesso ecologica verde imersiva total plena confianca dopamina check animation lottie vector graphic.",
+                en: "Completely immersive immersive solid fully completely natively green validation ecological dopamine checking successful lottie structured geometric animations patterns shapes models illustrations graphs arts visuals representations.",
+                html: `<div style="background:var(--verde-institucional); flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; color:white; padding:2rem;">
+                        <div style="width:100px; height:100px; background:white; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:2rem; box-shadow:0 0 30px rgba(255,255,255,0.4);">
+                            <i data-lucide="check" style="width:50px; height:50px; color:var(--verde-institucional);"></i>
+                        </div>
+                        <h4 style="font-family:var(--font-display); font-size:1.8rem; font-weight:900; margin-bottom:0.5rem; text-align:center;">Muito Obrigado!</h4>
+                        <p style="text-align:center; font-size:0.9rem; opacity:0.9; margin-bottom:3rem; line-height:1.5;">Sucesso, o saldo Asaas funcionou.<br>Seu lote evitou alto metano ambiental!</p>
+                        <div style="border:2px solid white; padding:14px 24px; border-radius:12px; font-size:0.9rem; font-weight:bold;">Gerar Passaporte Ticket App</div>
+                    </div>`
+            },
+            {
+                group: "Pagamentos e Coleta Asaas", num: "17", name: "QR Code de Entrega (Consumidor)", user: "B2C",
+                pt: "Wireframe voucher ticket wallet estilo ios lindo branco box flutuante apresentador qrcode logistica finalizacao local lojista destravamentos splits financas asaas banco bcb bancos financeiras creditos capitais mercados vendas comercios vitrines layouts guias plantas estruturas formatacoes textuais visuais.",
+                en: "Floating beautiful wallet ticket voucher styling mimicking natively ios apple widgets presenting massive center bounding qrs finalizing unblocking splits asynchronous webhooks serverless architectural structural functional functional operative acts events listeners triggering actions actions acts executions processes flows chains networks linkages relationships associations bonds ties connections connections associations.",
+                html: `<div style="background:linear-gradient(to bottom, var(--carvao), var(--cinza-fundo) 30%); flex:1; padding:3rem 1.5rem; display:flex; flex-direction:column; align-items:center;">
+                        <h4 style="font-family:var(--font-display); font-size:1.2rem; color:white; font-weight:800; margin-bottom:2rem;">Garantia Ticket Salvo</h4>
+                        
+                        <div style="background:white; border-radius:24px; width:100%; padding:2.5rem 1.5rem; display:flex; flex-direction:column; align-items:center; box-shadow:var(--shadow-float); position:relative; overflow:hidden;">
+                            <!-- Ticket cutout dots -->
+                            <div style="position:absolute; top:25px; left:-10px; width:20px; height:20px; background:var(--carvao); border-radius:50%;"></div>
+                            <div style="position:absolute; top:25px; right:-10px; width:20px; height:20px; background:var(--carvao); border-radius:50%;"></div>
+
+                            <p style="text-align:center; font-size:0.8rem; color:var(--grafite); margin:0 0 2rem 0; font-weight:bold; border-top:1px dashed var(--cinza-suave); padding-top:2rem;">Apresente no caixa caixa.</p>
+                            
+                            <div style="width:160px; height:160px; background:var(--cinza-suave); border-radius:12px; display:flex; align-items:center; justify-content:center; margin-bottom:2rem;">
+                                <i data-lucide="qr-code" style="width:100px; height:100px; color:var(--carvao);"></i>
+                            </div>
+
+                            <div style="font-size:0.6rem; color:var(--cinza-medio); text-transform:uppercase; font-weight:bold; margin-bottom:4px;">PIN Emergencial Alfanumérico</div>
+                            <div style="font-family:var(--font-display); font-size:1.8rem; font-weight:900; color:var(--verde-institucional); letter-spacing:4px;">Z8-KT</div>
+                        </div>
+                    </div>`
+            },
+            {
+                group: "Pagamentos e Coleta Asaas", num: "18", name: "Scanner QR Code (Lojista)", user: "B2B",
+                pt: "Interface camera escuro operador scannear cliente ticket destrava. Viewport visor guias verdes.",
+                en: "Camera optic logic interface operative scanner unblocking user customer clients ticket logic validations views viewpoints ports bounding guided framing indicators borders visuals forms structures formats constructs constructs definitions schemas diagrams layouts designs sketches blueprints representations.",
+                html: `<div style="background:var(--carvao); flex:1; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; overflow:hidden;">
+                        <div style="position:absolute; top:0; left:0; width:100%; height:100px; background:linear-gradient(to bottom, rgba(0,0,0,0.8), transparent); display:flex; padding:20px;">
+                            <i data-lucide="x" style="color:white; width:24px;"></i>
+                        </div>
+                        
+                        <div style="width:200px; height:200px; border:3px solid rgba(255,255,255,0.2); position:relative; border-radius:24px;">
+                            <div style="position:absolute; top:-3px; left:-3px; width:30px; height:30px; border-top:4px solid var(--verde-institucional); border-left:4px solid var(--verde-institucional); border-top-left-radius:24px;"></div>
+                            <div style="position:absolute; top:-3px; right:-3px; width:30px; height:30px; border-top:4px solid var(--verde-institucional); border-right:4px solid var(--verde-institucional); border-top-right-radius:24px;"></div>
+                            <div style="position:absolute; bottom:-3px; left:-3px; width:30px; height:30px; border-bottom:4px solid var(--verde-institucional); border-left:4px solid var(--verde-institucional); border-bottom-left-radius:24px;"></div>
+                            <div style="position:absolute; bottom:-3px; right:-3px; width:30px; height:30px; border-bottom:4px solid var(--verde-institucional); border-right:4px solid var(--verde-institucional); border-bottom-right-radius:24px;"></div>
+                        </div>
+
+                        <div style="position:absolute; bottom:3rem; background:rgba(255,255,255,0.1); backdrop-filter:blur(10px); padding:12px 24px; border-radius:30px; color:white; font-size:0.8rem; font-weight:bold; display:flex; gap:8px; align-items:center;">
+                            <i data-lucide="focus" style="width:16px;"></i> Centralize o QR Client Pass
+                        </div>
+                    </div>`
+            },
+            {
+                group: "Comunicação e Impacto", num: "19", name: "Chat Assíncrono", user: "Todos",
+                pt: "Whatsapp like interface. Header navbar sticky nome loja avatar. Bubbles balões verde cinza cantos modificados.",
+                en: "WhatsApp standard imitation interface design structure. Sticky active header navigation appbars containing merchant typings identities avatar bubbles round edge modified left right directional layouts patterns norms conventions logic rules frameworks structures shapes graphics visuals forms components components components parts modules objects entities things items elements elements features properties.",
+                html: `<div style="background:var(--cinza-fundo); flex:1; display:flex; flex-direction:column;">
+                        <div style="background:white; padding:1rem 1.5rem; border-bottom:1px solid var(--cinza-suave); display:flex; align-items:center; gap:12px; box-shadow:0 2px 5px rgba(0,0,0,0.02); z-index:10;">
+                            <i data-lucide="arrow-left" style="color:var(--carvao); width:20px;"></i>
+                            <div style="width:36px; height:36px; background:var(--laranja-suave); border-radius:50%; display:flex; align-items:center; justify-content:center;"><i data-lucide="store" style="width:18px; color:var(--laranja-acao);"></i></div>
+                            <div>
+                                <div style="font-size:0.9rem; font-weight:900; color:var(--carvao);">Dona Joana Padarias</div>
+                                <div style="font-size:0.6rem; color:var(--verde-institucional); font-weight:bold;">Online Atendimento logístico</div>
+                            </div>
+                        </div>
+                        
+                        <div style="flex:1; padding:1.5rem 1rem; display:flex; flex-direction:column; gap:12px;">
+                            <div style="background:white; align-self:flex-start; padding:12px 16px; border-radius:16px; border-top-left-radius:0; font-size:0.8rem; border:1px solid var(--cinza-suave); color:var(--carvao); max-width:85%; box-shadow:var(--shadow-card);">Portão de ferro ali vermelho, só tocar o sino!</div>
+                            <div style="background:var(--verde-institucional); color:white; align-self:flex-end; padding:12px 16px; border-radius:16px; border-top-right-radius:0; font-size:0.8rem; max-width:85%; box-shadow:0 4px 10px rgba(76,175,80,0.2);">Estacionando aqui pertinho já passo pegar sacola eco!</div>
+                        </div>
+
+                        <div style="background:white; padding:1rem; border-top:1px solid var(--cinza-suave); display:flex; gap:10px; align-items:center;">
+                            <div style="flex:1; border:1px solid var(--cinza-suave); background:var(--cinza-fundo); border-radius:30px; padding:12px 16px; font-size:0.8rem; color:var(--cinza-medio);">Escrever respostas msg...</div>
+                            <div style="width:40px; height:40px; background:var(--verde-institucional); border-radius:50%; display:flex; justify-content:center; align-items:center; color:white; box-shadow:0 4px 10px rgba(76,175,80,0.3);"><i data-lucide="send" style="width:18px;"></i></div>
+                        </div>
+                    </div>`
+            },
+            {
+                group: "Comunicação e Impacto", num: "20", name: "Dashboard de Impacto", user: "Todos",
+                pt: "Visor esg macro relatorios estatisticas global verdes grafos torta bar charts componentes cards numbers integers metrics visuais designs blueprints estruturas.",
+                en: "Environmental global ecological big picture displays showing metrics integer statistical numbers evaluating impacts carbon dioxide gasses reductions charts line dots visualizations visual structures frameworks properties parameters states flows layouts screens displays interfaces.",
+                html: `<div style="background:var(--cinza-fundo); flex:1; padding:2rem 1.5rem; display:flex; flex-direction:column; overflow:hidden;">
+                        <h4 style="font-family:var(--font-display); font-size:1.4rem; font-weight:900; color:var(--carvao); margin-bottom:1.5rem;">Cadeia de Impacto Hub</h4>
+                        
+                        <div style="background:linear-gradient(135deg, var(--verde-institucional), var(--verde-acao)); padding:2rem 1.5rem; border-radius:24px; color:white; margin-bottom:1.5rem; box-shadow:var(--shadow-float); position:relative; overflow:hidden;">
+                            <i data-lucide="leaf" style="position:absolute; right:-10px; top:-10px; width:100px; height:100px; opacity:0.1;"></i>
+                            <div style="font-size:0.65rem; font-weight:bold; letter-spacing:1px; text-transform:uppercase; opacity:0.8; margin-bottom:4px;">Gases Evitados Totais (Brasil)</div>
+                            <div style="font-size:2.5rem; font-family:var(--font-display); font-weight:900;">22.5<span style="font-size:1.2rem; font-weight:bold; opacity:0.8;"> ton</span></div>
+                        </div>
+                        
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem;">
+                            <div style="background:white; border:1px solid var(--cinza-suave); padding:1.5rem; border-radius:20px; box-shadow:var(--shadow-card);">
+                                <div style="width:30px; height:30px; background:var(--laranja-suave); border-radius:8px; display:flex; align-items:center; justify-content:center; margin-bottom:12px;"><i data-lucide="utensils-crossed" style="color:var(--laranja-acao); width:16px;"></i></div>
+                                <div style="font-size:0.65rem; color:var(--cinza-medio); font-weight:bold; margin-bottom:4px;">Famílias</div>
+                                <div style="font-size:1.4rem; font-family:var(--font-display); font-weight:900; color:var(--carvao);">14k</div>
+                            </div>
+                            <div style="background:white; border:1px solid var(--cinza-suave); padding:1.5rem; border-radius:20px; box-shadow:var(--shadow-card);">
+                                <div style="width:30px; height:30px; background:var(--cinza-fundo); border-radius:8px; display:flex; align-items:center; justify-content:center; margin-bottom:12px;"><i data-lucide="archive-restore" style="color:var(--carvao); width:16px;"></i></div>
+                                <div style="font-size:0.65rem; color:var(--cinza-medio); font-weight:bold; margin-bottom:4px;">Lixo Zerado</div>
+                                <div style="font-size:1.4rem; font-family:var(--font-display); font-weight:900; color:var(--carvao);">9k kgs</div>
+                            </div>
+                        </div>
+                    </div>`
+            },
+            {
+                group: "Contas e Documentos Gov", num: "21", name: "Perfil do Usuário", user: "Todos",
+                pt: "Settings pagina ios style ajusts profile name avatar circular foto blocos agrupados botoes direita chevron navigations terminators logs outs deslogar vermelhos.",
+                en: "Settings identical apple native pages adjusting user profiles central photos avatars clusters components chevron pointing rights buttons logics terminates terminations red destruct logouts configurations parameters structures structures definitions definitions definitions abstractions theories concepts concepts concepts notions understandings comprehensions.",
+                html: `<div style="background:var(--cinza-fundo); flex:1; padding:3rem 1.5rem; display:flex; flex-direction:column; align-items:center;">
+                        <div style="position:relative; margin-bottom:1rem;">
+                            <div style="width:80px; height:80px; background:white; border-radius:50%; box-shadow:var(--shadow-card); border:3px solid white; display:flex; align-items:center; justify-content:center;"><i data-lucide="user" style="width:30px; color:var(--cinza-medio);"></i></div>
+                            <div style="position:absolute; bottom:0; right:0; width:24px; height:24px; background:var(--verde-institucional); border-radius:50%; border:2px solid white; display:flex; justify-content:center; align-items:center;"><i data-lucide="shield-check" style="width:12px; color:white;"></i></div>
+                        </div>
+                        <h4 style="font-size:1.2rem; font-weight:900; color:var(--carvao); margin-bottom:2px; font-family:var(--font-display);">João Silva Consumidor</h4>
+                        <div style="font-size:0.7rem; color:var(--cinza-medio); font-weight:bold; margin-bottom:2rem;">CPF Validado Base Federal Gov</div>
+
+                        <div style="background:white; border-radius:20px; border:1px solid var(--cinza-suave); width:100%; box-shadow:var(--shadow-card); overflow:hidden; margin-bottom:1.5rem;">
+                            <div style="padding:16px 20px; font-size:0.85rem; font-weight:bold; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--cinza-suave); color:var(--carvao);">Ajustes Privacidade Senhas <i data-lucide="chevron-right" style="color:var(--cinza-medio); width:18px;"></i></div>
+                            <div style="padding:16px 20px; font-size:0.85rem; font-weight:bold; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--cinza-suave); color:var(--carvao);">Logs Transações Extratos <i data-lucide="chevron-right" style="color:var(--cinza-medio); width:18px;"></i></div>
+                            <div style="padding:16px 20px; font-size:0.85rem; font-weight:bold; display:flex; justify-content:space-between; align-items:center; color:var(--carvao);">Notificações LGPD Radars <i data-lucide="chevron-right" style="color:var(--cinza-medio); width:18px;"></i></div>
+                        </div>
+
+                        <div style="background:white; border-radius:20px; border:1px solid var(--cinza-suave); width:100%; box-shadow:var(--shadow-card); overflow:hidden;">
+                            <div style="padding:16px 20px; font-size:0.85rem; font-weight:bold; display:flex; justify-content:space-between; align-items:center; color:#D32F2F;"><span style="display:flex; align-items:center; gap:10px;"><i data-lucide="log-out" style="width:18px;"></i>Sair do App Encerramento</span></div>
+                        </div>
+                    </div>`
+            },
+            {
+                group: "Contas e Documentos Gov", num: "22", name: "Histórico de Transações", user: "Todos",
+                pt: "Extrato bancario porem focado lucro positivo sustentabilidade saved costs economizado. Green top card box values arrays listings names dates minus costs signals vectors matrix formats models sketches forms templates structures representations mappings relations mappings lists structures.",
+                en: "Traditional bank extraction invoice records tracking lists rendering strictly focused over sustainability profit saves cost positive psychologies green headers massive amounts indicating total wealth protected keeping linear date price histories rendering rendering processes visualizations abstractions designs abstractions conventions paradigms patterns concepts logic frameworks logic forms components features variables characteristics methods features elements things components aspects perspectives aspects parts items entities objects constructs models.",
+                html: `<div style="background:var(--cinza-fundo); flex:1; padding:2rem 1.5rem; display:flex; flex-direction:column;">
+                        <h4 style="font-family:var(--font-display); font-size:1.2rem; font-weight:900; color:var(--carvao); margin-bottom:1.5rem;">Cofre Extrato</h4>
+                        
+                        <div style="background:var(--carvao); padding:2rem; border-radius:24px; text-align:center; color:white; margin-bottom:2rem; box-shadow:var(--shadow-float); position:relative; overflow:hidden;">
+                            <div style="font-size:0.65rem; font-weight:bold; letter-spacing:1px; text-transform:uppercase; margin-bottom:6px; color:var(--verde-institucional);">Total Retido no Seu Bolso</div>
+                            <div style="font-size:2.5rem; font-family:var(--font-display); font-weight:900;">R$ 490<span style="font-size:1rem; opacity:0.8;">,50</span></div>
+                        </div>
+                        
+                        <h5 style="font-size:0.8rem; font-weight:bold; color:var(--grafite); margin-bottom:1rem;">Suas transações salvadoras passadas</h5>
+                        
+                        <div style="background:white; padding:16px; border-radius:16px; border:1px solid var(--cinza-suave); display:flex; align-items:center; justify-content:space-between; margin-bottom:12px; box-shadow:var(--shadow-card);">
+                            <div style="display:flex; align-items:center; gap:12px;">
+                                <div style="width:36px; height:36px; background:var(--verde-claro); border-radius:50%; display:flex; align-items:center; justify-content:center;"><i data-lucide="check" style="color:var(--verde-institucional); width:18px;"></i></div>
+                                <div><div style="font-size:0.85rem; font-weight:900; color:var(--carvao);">Doces Resgatados Noite</div><div style="font-size:0.65rem; color:var(--cinza-medio);">02 Out • Lojão Centro Sul</div></div>
+                            </div>
+                            <div style="font-size:0.9rem; font-family:var(--font-display); font-weight:900; color:var(--verde-institucional);">- R$ 13,00</div>
+                        </div>
+                    </div>`
+            },
+            {
+                group: "Contas e Documentos Gov", num: "23", name: "Solicitação de Verificação Institucional", user: "B2B / ONG",
+                pt: "Design limpo listagem governamental pdf upload certificadores atestados estaduais federais compliance leis regras normativas inputs anexos drag click zones interfaces displays models blueprints architectures logic methods parameters formats configurations properties bounds sets ranges fields variables.",
+                en: "Clear standard formal rigorous corporate visual displaying government state federal certification uploaded states bounds rules frameworks attachments forms clicking zone dragging boxes areas limits scopes horizons margins thresholds capacities restrictions bounds borders edges limits barriers limits parameters configurations configurations configurations logic mechanisms architectures setups constructs realizations models templates concepts notions definitions concepts.",
+                html: `<div style="background:var(--cinza-fundo); flex:1; padding:3rem 1.5rem; display:flex; flex-direction:column;">
+                        <h4 style="font-family:var(--font-display); font-size:1.2rem; font-weight:900; margin-bottom:1.5rem; color:var(--carvao);">Legalidade Institucional (Selo)</h4>
+                        <p style="font-size:0.8rem; color:var(--grafite); margin-bottom:2rem;">Anexe os estatutos sociais PDF ou chaves de checagem Federal para destravar modo gratuito repasses sociais ONGs sem fins lucrativos.</p>
+                        
+                        <div style="background:white; border:2px dashed var(--cinza-medio); padding:2rem; text-align:center; border-radius:24px; font-size:0.8rem; color:var(--cinza-medio); font-weight:bold; margin-bottom:2rem; cursor:pointer;">
+                            <i data-lucide="file-up" style="width:32px; height:32px; color:var(--carvao); margin-bottom:1rem;"></i>
+                            <div>Clique para anexar arquivo PDF certidões de fundação da base. Max 10MB Pdfs limits.</div>
+                        </div>
+                        
+                        <div style="margin-top:auto; border:2px solid var(--verde-institucional); background:transparent; color:var(--verde-institucional); font-family:var(--font-display); padding:16px; border-radius:16px; text-align:center; font-weight:900; font-size:1rem; display:flex; justify-content:center; align-items:center; gap:8px;"><i data-lucide="shield-check" style="width:18px;"></i> Solicitar Auditoria Govt</div>
+                    </div>`
+            },
+            {
+                group: "Contas e Documentos Gov", num: "24", name: "Notificações Push (Central)", user: "Todos",
+                pt: "Bell app notification center lista alertas cards emparelhados destaque colors warning succes infos tracking geo alerts promocoes radar.",
+                en: "App bell internal notification tracker center listing stacked layered card lists showcasing warnings success informations geographical tracking alerts promotional radar active logs representations frameworks designs models abstractions forms templates versions structures configurations implementations features logic mechanics processes systems systems networks matrices frameworks.",
+                html: `<div style="background:var(--cinza-fundo); flex:1; padding:2rem 1.5rem; display:flex; flex-direction:column;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+                            <h4 style="font-family:var(--font-display); font-size:1.4rem; font-weight:900; color:var(--carvao);">Inbox Notificações</h4>
+                            <div style="font-size:0.75rem; font-weight:bold; color:var(--verde-institucional);">Marcar todas lido</div>
+                        </div>
+                        
+                        <div style="background:white; border-left:4px solid var(--laranja-acao); padding:1.2rem; border-radius:12px; box-shadow:var(--shadow-card); display:flex; gap:12px; margin-bottom:1rem;">
+                            <div style="width:32px; height:32px; background:var(--laranja-suave); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><i data-lucide="map-pin" style="color:var(--laranja-acao); width:16px;"></i></div>
+                            <div>
+                                <h5 style="font-size:0.85rem; font-weight:900; margin:0 0 4px 0; color:var(--carvao);">Lote Pães Frescos (Radar ON)</h5>
+                                <p style="font-size:0.75rem; color:var(--grafite); margin:0; line-height:1.4;">Base geoloc detectou supermercado perto liberando 70% desconto nas próximas horas. Corra lá.</p>
+                            </div>
+                        </div>
+
+                        <div style="background:white; border:1px solid var(--cinza-suave); padding:1.2rem; border-radius:12px; display:flex; gap:12px; opacity:0.6;">
+                            <div style="width:32px; height:32px; background:var(--cinza-fundo); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;"><i data-lucide="bell" style="color:var(--carvao); width:16px;"></i></div>
+                            <div>
+                                <h5 style="font-size:0.85rem; font-weight:900; margin:0 0 4px 0; color:var(--carvao);">Termos de Serviço App B2G</h5>
+                                <p style="font-size:0.75rem; color:var(--grafite); margin:0; line-height:1.4;">Contrato lgpd base dados foi atualizado. Sem ações necessarias no momento para civil.</p>
+                            </div>
+                        </div>
+                    </div>`
+            }
+
+        ];
+
+        function renderScreens() {
+            const container = document.getElementById('dynamic-screens-inject');
+            const grouped = screensDb.reduce((acc, curr) => {
+                if(!acc[curr.group]) acc[curr.group] = [];
+                acc[curr.group].push(curr);
+                return acc;
+            }, {});
+
+            let fullHtml = '';
+            
+            for(let groupName in grouped) {
+                fullHtml += `<div class="screens-group"><div class="sg-title"><i data-lucide="layers"></i> ${groupName}</div>`;
+                grouped[groupName].forEach(s => {
+                    fullHtml += `
+                        <div class="screen-card">
+                            <div class="screen-data">
+                                <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:1.5rem;">
+                                    <span class="screen-tag" style="background:var(--carvao);"><i data-lucide="hash" style="width:14px;"></i>${s.num}</span>
+                                    <span class="screen-tag" style="background:var(--verde-institucional);"><i data-lucide="users" style="width:14px;"></i>${s.user}</span>
+                                </div>
+                                
+                                <h4 class="screen-name">${s.name}</h4>
+                                
+                                <div class="prompt-box">
+                                    <strong><i data-lucide="bot" style="display:inline-block; vertical-align:-3px; width:16px;"></i> Prompt Lógico UI/UX (Para IAs Copiloto)</strong>
+                                    <br><strong style="color:var(--grafite);">BR:</strong>
+                                    <p>${s.pt}</p>
+                                    <br><strong style="color:var(--grafite);">EN:</strong>
+                                    <p>${s.en}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="screen-render">
+                                <div class="mock-phone">
+                                    <div class="mock-notch"></div>
+                                    ${s.html}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                fullHtml += `</div>`;
+            }
+
+            container.innerHTML = fullHtml;
+            // inicializa os ícones gerados dinamicamente
+            if(window.lucide) { lucide.createIcons(); }
+        }
+
+        // INIT
+        window.addEventListener('DOMContentLoaded', () => {
+            renderScreens();
+        });
     </script>
 </body>
 </html>

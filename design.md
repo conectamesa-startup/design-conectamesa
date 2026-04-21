@@ -1,332 +1,159 @@
-# CONECTA MESA — Guia de Identidade Visual
+# CONECTA MESA — Design System
 
-> **Infraestrutura Digital de Redistribuição Alimentar**  
-> Recife, Pernambuco — Brasil  
-> Versão 1.0 | 2026
+**Infraestrutura Digital de Redistribuição Alimentar**
+Recife, Pernambuco — Brasil
+Versão 2.0 | 2026
 
----
+⚠️ **CONFIDENCIAL** — Uso Interno Exclusivo
 
-**Brand Identity & Design System**
-
-Este documento define a identidade visual completa do Conecta Mesa: paleta de cores, tipografia, direção de logo, aplicações no produto e diretrizes de acessibilidade. Serve como base para o design system e guia para equipe de produto e desenvolvedores.
-
-> ⚠️ **CONFIDENCIAL** — Uso Interno Exclusivo
+Este documento define o Design System e a identidade visual completa do Conecta Mesa e atua como a única fonte de verdade de UI/UX e Branding para a equipe de desenvolvimento (Flutter) e de produto. Ele foi realinhado a partir da documentação base do produto (PRD, Doc Institucional e Especificação UI/UX) para refletir a interface real e as melhores práticas de mercado.
 
 ---
 
-## Sumário
+## 1. Princípios de Design
 
-1. [Conceito da Marca](#1-conceito-da-marca)
-2. [Tipografia](#2-tipografia)
-3. [Paleta de Cores](#3-paleta-de-cores)
-4. [Aplicação das Cores no Produto](#4-aplicação-das-cores-no-produto)
-5. [Direção da Logo](#5-direção-da-logo)
-6. [Mascote](#6-mascote)
-7. [Acessibilidade](#7-acessibilidade)
-8. [Resumo Estratégico da Identidade](#8-resumo-estratégico-da-identidade)
+O design do Conecta Mesa foca em combinar uma experiência fluida de marketplace com o impacto social profundo de uma infraestrutura governamental/B2G e corporativa (ESG).
 
----
+1. **Eficiência e Urgência Positiva**: O design incentiva a compra e doação ágeis, especialmente para itens próximos do vencimento. A interface não é passiva; ela instiga a ação preventiva contra o desperdício alimentar.
+2. **Confiança Visual e Transparência**: Através de leitura clara de alérgenos, validação com OCR por IA (Google ML Kit), e exibições honestas de ficha nutricional, criamos a antítese da "sacola surpresa". O usuário precisa de garantias e segurança.
+3. **Escalável e Inclusivo (Mobile-First)**: Interfaces de alto contraste preparadas para rodar em dispositivos móveis menos potentes e para serem legíveis para o público sênior ou no corre-corre diário por consumidores na periferia do Recife.
+4. **Comunicação Direta (Zero Fricção)**: Fluxo híbrido com conversão automatizada do modelo de venda para B2G usando transições e badges visuais sem desorientar o modelo mental do usuário comum.
 
-## 1. Conceito da Marca
+## 2. Tradução do Produto em Design
 
-### 1.1 Ideia Central
+Baseando-nos nos fluxos do **PRD**, a lógica do negócio exige comunicação visual de status muito específicos:
+- **Modelo Híbrido Temporal**: A interface precisa guiar as empresas (B2B) durante a fase de **Venda com Desconto**, e, 4 horas antes do limite estipulado, transformar a UI da oferta para o layout de **Doação Gratuita (B2G/ONGs)**. O design usará a cor Primária (Verde) e Secundária (Laranja) para delinear e reforçar esses estados.
+- **Validação com Edge AI (ML Kit)**: A validação de OCR precisa de um feedback de sucesso (verde/check) ou bloqueio (vermelho/erro) instantâneo para ser compreensível para os lojistas doadores durante o upload.
+- **Micro-interações Financeiras Seguras**: Com **Asaas Split** nas transações de PIX e Cartão (3-DS 2.0), precisamos incutir selos de segurança (PCI DSS) e status responsivos da transação que acalmem o usuário.
 
-O Conecta Mesa não é um aplicativo — é uma infraestrutura de impacto social que redefine a cadeia de redistribuição alimentar no Nordeste. A ideia central da marca é a de uma ponte viva entre quem tem excedente e quem tem necessidade, mediada por tecnologia transparente e propósito genuíno.
+## 3. Integração com UI/UX (CRÍTICO)
 
-> *"Conectar é o ato mais revolucionário em um sistema marcado pela desconexão."*
->
-> A marca nasce da convicção de que o problema da fome no Brasil não é de produção — é de distribuição.
+Baseado no arquivo `Conecta_Mesa_Especificacao_UI_UX.md`, a integração central mapeia as telas aos padrões de interface. 
 
-### 1.2 Emoção da Marca
+### Telas de Autenticação e Onboarding
+- **Objetivo:** Reduzir a fricção na entrada e direcionando PF do B2B e ONGs.
+- **Hierarquia:** Priorização dos "Paginadores de 3 dots", ilustrações flat de impacto local e apelo emotivo no login.
+- **Padrões:** Clean screen white (#FFFFFF), Form inputs baseados no Material 3 e CTAs de bottom sticky.
 
-A identidade emocional do Conecta Mesa deve evocar:
+### Feed de Marketplace (Lista) e Mapa (Mapbox)
+- **Objetivo:** Conversão hiperlocal por proximidade.
+- **Hierarquia:** Filtros textuais em AppBar -> Chips de categoria -> Cards verticais.
+- **Padrões:** Cards com *shimmer loading*, tags flutuantes "50% OFF" vs "GRATUITO", badges de urgência "⏰ Urgente". Pins no mapa coloridos baseados no tipo.
 
-- **Confiança:** o usuário sabe exatamente o que está comprando — sem opacidade, sem surpresas.
-- **Pertencimento:** a marca celebra os protagonistas locais — a padeira da Madalena, a coordenadora da Cozinha Solidária do Ibura, a estudante de Santo Amaro.
-- **Esperança prática:** não é uma narrativa de caridade, mas de eficiência com propósito. Dignidade alimentar conquistada por tecnologia.
-- **Urgência positiva:** cada transação salva comida, evita CO₂, alimenta uma família. O impacto é imediato e mensurável.
+### Ficha do Produto e Checkout
+- **Objetivo:** Absorver fichas técnicas completas com foco em confiança visual e pagamento por Pix dinâmico.
+- **Hierarquia:** Hero Image Edge-to-edge estendida -> Header c/ Verified Badge -> Macronutrientes -> Mapbox View -> CTA Fixo de "Pagar R$X" / "Reservar".
+- **Padrões:** Polling states (verificação de PIX e animação de "check" e transição para o Asaas).
 
-### 1.3 Diferenciação no Mercado
+## 4. Design Tokens
 
-O Conecta Mesa se posiciona na interseção única entre três pilares que nenhum concorrente atual integra:
+Adota a **Paleta Ponte**, implementada via `ThemeData` e `ColorScheme` no Material 3, garantindo acessibilidade sem perca de expressividade visual.
 
-| Marketplace Transparente | Motor Social Integrado | Infraestrutura ESG |
-|---|---|---|
-| Ficha nutricional, alérgenos e validade atestada por IA — o oposto da sacola surpresa. | Venda com desconto e doação assistencial no mesmo fluxo de software, com B2G real. | Relatórios de CO₂ evitado e Selo Doador de Alimentos (Lei 15.224/2025) para empresas. |
+### Cores
 
----
+| Token Name | Cor | Atribuição no Flutter | Uso e Aplicação Principal |
+|------------|-----|----------------------|---------------------------|
+| **Verde Ponte** | `#4CAF50` | `primary` | Doações, ONGs, CTAs primários, ícones de sucesso, fundos B2G. |
+| **Laranja Ponte** | `#FF9800` | `secondary` | Vendas, urgência, ofertas/preços, empresas verificadas. |
+| **Background Principal** | `#FFFFFF` | `surface` / `background`| Scaffold bg, fundo de todas as telas. |
+| **Surface Claro** | `#F5F5F5` | `surfaceVariant` | TextFields de busca, fundos de chips, botões inativos e cards. |
+| **Texto Foreground** | `#333333` | `onSurface` | Cor de tipografia primária para BodyLarge e descrições sólidas. |
+| **Texto Muted** | `#737373` | `onSurfaceVariant` | Labels, ícones inativos, bodySmall, distâncias. |
+| **Verde Badges** | `#E8F5E9` | `primaryContainer` | Fundo de selos "ONG Verificada", tags de aprovação. |
+| **Laranja Badges** | `#FFF3E0` | `secondaryContainer`| Fundo de selos "Empresa Verificada", balões de info. |
+| **Erro Crítico** | `#C62828` | `error` | Bloqueio do OCR em validade falha, erros de Auth. |
+| **Azul Info** | `#1565C0` | `info` | Tags hipertexto, notificações pontuais. |
 
-## 2. Tipografia
+### Tipografia
 
-### 2.1 Fonte Principal — Plus Jakarta Sans
+Famílias tipográficas de fácil leitura que reforçam autoridade premium:
 
-#### Justificativa Estratégica
+| Token / Escala | Tamanho | Peso (Weight) | Fonte | Exemplo de Aplicação |
+|----------------|---------|---------------|-------|----------------------|
+| **Display/Hero**| 24sp, 28sp | Montserrat ExtraBold (800) | Montserrat | Hero AppBar, Valores de "R$ / Pix", Telas Fixas. |
+| **Títulos/Sub** | 20sp, 22sp | Montserrat Bold (700) | Montserrat | Nomes de produtos, "Como você vai usar o app?". |
+| **Labels CTA** | 16sp | Montserrat SemiBold (600) | Montserrat | Label ElevatedButton, Tags nos FilterChips. |
+| **Secundário** | 14sp | Montserrat Medium (500) | Montserrat | Categorizações dentro de views e seções. |
+| **Corpo Bold** | 16sp | Nunito Bold (700) | Nunito | Variáveis de KPI no dashboard, ênfases de métricas. |
+| **Corpo Standard**| 14sp | Nunito Regular (400) | Nunito | Multilines de chat, descrição de produto, text normais. |
+| **Caption/Meta** | 11sp, 12sp | Nunito Regular (400) | Nunito | Datas, distâncias no feed (ex: "a 1.2km"), selos SEC. |
 
-Plus Jakarta Sans é uma fonte sans-serif geométrica moderna, projetada com atenção especial para legibilidade em interfaces digitais e telas pequenas — condição crítica para um produto mobile-first como o Conecta Mesa. Seu caráter é ao mesmo tempo acolhedor e contemporâneo: transmite a acessibilidade que o produto precisa sem perder a sofisticação de uma plataforma de impacto real.
+### Espaçamento (Spaces) e Grid
+Base de fator de repetição 8.
+- `gap_small`: **8dp** - Elementos vizinhos mínimos num component (Ex.: ícone e numeração).
+- `gap_medium`: **16dp** - Dentro dos padding de *Cards* e Margem de bordos (Padding screen total).
+- `gap_large`: **24dp** - Separação vertical entre seções do formulário ou abaixo da AppBar.
 
-A fonte possui excelente suporte para caracteres do português brasileiro (acentuação, til, cedilha) e ótimo desempenho em peso Bold para hierarquias de CTA e títulos de impacto.
+### Radius (Bordas)
+- `border_radius_card`: **16dp** - Todos os Cards de superfície Material 3, Modais e Sheets.
+- `border_radius_button`: **12dp** - TextFields e ElevatedButtons.
+- `border_radius_chip`: **9999dp (pill)** - Formato arredondado estilo cápsula para badges, botões circulares e toggles de categoria.
 
-| Categoria | Detalhe |
-|---|---|
-| **Família** | Plus Jakarta Sans |
-| **Pesos** | Regular (400), Medium (500), SemiBold (600), Bold (700), ExtraBold (800) |
-| **Aplicação** | Títulos de tela, CTAs, nomes de produto, impacto de gamificação |
-| **Google Fonts** | `plus-jakarta-sans` |
-| **Flutter** | `google_fonts: GoogleFonts.plusJakartaSans()` |
+## 5. Componentes
 
-### 2.2 Fonte Secundária — Inter
+Os sistemas de componentes reutilizam diretamente a especificação UI/UX garantindo desenvolvimento simplificado em Flutter.
 
-#### Justificativa Estratégica
+### CTAs (Botões)
+- **Primary (Elevated)**: Fundo `Verde Ponte #4CAF50` (Doações/Padroes) ou `Laranja Ponte #FF9800` (Urgency/Vendas e Pagamento). Raio 12px, Altura: 52dp. Minimum a11y click height é estritamente 48dp.
+- **Secondary (Outlined)**: OutlinedButton da mesma cor respectiva. 
+- **Estados**: Hover aplica um leve shift no overlay (no mobile, traduzido no material `splash color`); Loading oculta o label para dar espaço a um `CircularProgressIndicator` da cor do botão dentro do surface area com um overlay opaco; Desativado recebe opacity de `0.4` e desativa *gestures*.
 
-Inter é a escolha ideal para textos de corpo, descrições de produto, fichas nutricionais e interfaces de dados — contextos onde a legibilidade em tamanhos pequenos é mais crítica do que expressividade. Desenvolvida especificamente para telas digitais, Inter é o padrão de ouro da indústria para SaaS, aplicativos mobile e dashboards.
+### Inputs e Formulários
+- **TextFields**: Material 3 padrão `OutlinedInputBorder` (Raio 12dp, Borda E0E0E0, Foco no Verde Ponte). Ícones Muted no prefix, helpers de erro (Erro Crítico: `#C62828`).
 
-A combinação **Plus Jakarta Sans** (display/CTAs) + **Inter** (corpo/dados) cria uma hierarquia tipográfica clara, profissional e consistente com os padrões de produtos FoodTech maduros.
+### Product Cards e Chips
+- **Feed Card**: Ocupa width máxima - 32dp (margin grid), altura variável por ratio 16:9 de capa, contendo Badges pill fixos overlayed na top-right (`% OFF` ou `GRATUITO`). Elevação subtil: 2. Tap responde com ripple native do InkWell focado na cor Verde.
+- **Filter Chips**: Scroll horizontal (ListView.builder invertido ou inline). Fundo branco ativado, fallback p/ `#F5F5F5` se desativado.
 
-| Categoria | Detalhe |
-|---|---|
-| **Família** | Inter |
-| **Pesos** | Regular (400), Medium (500), SemiBold (600) |
-| **Aplicação** | Corpo de texto, descrições, fichas de produto, dashboards ESG, preços |
-| **Google Fonts** | `inter` |
-| **Flutter** | `google_fonts: GoogleFonts.inter()` |
-| **Fallback** | `system-ui, -apple-system, Segoe UI, Roboto, sans-serif` |
+### Modal (Draggable Bottom Sheets)
+- **Config**: Sheets puxadas do rodapé com topo em 20px de radius. Apresentam Handles horizontais (Linha cinza 32x4dp para swipe-down gestures). Implementados largamente em validações completas (OCR preview, Confirmação Checkout).
 
-### 2.3 Escala Tipográfica Mobile
+## 6. Layout e Grid
 
-| Uso | Tamanho | Peso | Fonte |
-|---|---|---|---|
-| Display / Impacto (kg salvos) | 28–32sp | ExtraBold 800 | Plus Jakarta Sans |
-| Título de Tela | 22–24sp | Bold 700 | Plus Jakarta Sans |
-| Subtítulo / Nome do Produto | 18–20sp | SemiBold 600 | Plus Jakarta Sans |
-| Corpo / Descrição | 14–16sp | Regular 400 | Inter |
-| Preço / Destaque | 16–18sp | Bold 700 | Plus Jakarta Sans |
-| Caption / Metadado | 12sp | Medium 500 | Inter |
-| Label de Status/Tag | 11–12sp | SemiBold 600 | Inter |
+- Toda tela padrão usa Scaffold do Flutter Material 3 com bgColor `#FFFFFF`. 
+- **Bottom Navigation Bar**: 80dp com uso do *NavigationBar* moderno sem shadow ou com linha limite no topo (`#E0E0E0`). Abas: [Início, Impacto, Anunciar, Conta]. Ícone ativado puxa `#4CAF50`.
+- **Top AppBar**: 56dp. Estilo Flat, sem elevação ou scroll elevation 0, garantindo o "white clean aesthetic" Modern UI iOS/Android.
 
----
+## 7. Padrões por Tela
 
-## 3. Paleta de Cores
+| Módulo Mestre | Design Applicado (UX) | Checkpoints |
+|---------------|-----------------------|-------------|
+| **Home/Marketplace** | Feed ListView com lazy-loading. Pull-to-refresh para Sync Realtime + Mapbox Toggle FAB Flutuante. | 6 Cards Skeleton (shimmer loading). Update via Supabase. |
+| **Mapa Interativo** | Uso de Pins no Mapbox via API Flutter GL. Heatmaps seletivos apenas em Logins B2G Institucional. | Clusters visuais com numeração circulada em Verde. |
+| **Detail Action** | Tela sem AppBar e capa hero transparente no topo (parallax scroll). Fixação sticky-bottom do CTA p/ evitar dropoff. | Badges explícitas e layout focado em validação IA e Alergenos. |
+| **Checkout + Pagamentos** | UX minimalista durante scanner/câmeras. Em pagamentos (13/14), uso de QR Code massivo. Temporizador visual laranja decrescente. | Estado de Confirmação é um takeover de tela completa, animação Lottie celebratória. |
+| **Upload B2B (Foto/OCR)** | Abordagem Wizard linear. Linear Bar progressivo 33% -> 66% -> 100%. Container grande tracejado UI. | Banners pós-capture. Tratamentos por cor "Pass / Warning / Stop" (Verde, Laranja, Vermelho). |
+| **Impact Dashboard** | Grade Múltipla 2x2. Cartões limpos com sombra neutra. Títulos de fonte grande e uso da FlChart API. | Coeficientes da ONU. Cores progressivas. Dashboard claro. |
 
-A paleta do Conecta Mesa parte da referência visual inicial (verde `#4CAF50` e laranja `#FF9800`), refinando os tons para maior sofisticação, acessibilidade e coerência com o posicionamento de infraestrutura de impacto social. O verde foi aprofundado para um verde-floresta institucional; o laranja foi aquecido e controlado para uso estratégico — não decorativo.
+## 8. Interações e Microinterações
 
-> *Princípio: Verde é a identidade; laranja é a ação. Neutros são a estrutura. Estados guiam a experiência.*
+- **Microanimações**: Utilizar Flutter `AnimatedContainer` e blocos transitórios de hero para navegações fluidas intertelas. Lottie animations em confirmações de pagamento Pix para recompensar os B2B e Consumidores na cadeia.
+- **Feedback Háptico:** Uso do `HapticFeedback.lightImpact()` ao confirmar doação/reserva ou gerar os links da API do Asaas Split, garantindo solidez.
+- **Polling Indicator**: Nas telas de PIX onde a web API varre webhook, microinteração circular de loader e texto Muted pulsa 1 vez a cada segundo para informar que não travou.
+- **Animações de Mapbox**: Zoom progressivo nos pins (Spring de 300ms) sem hard-rendering.
 
-### 3.1 Cores Primárias e Secundárias
+## 9. Acessibilidade
 
-| Nome | HEX | Justificativa | Uso no App |
-|---|---|---|---|
-| **Verde Institucional** | `#1A6B3A` | Cor âncora da marca. Evoca saúde, vida e responsabilidade ambiental. Mais profundo que o verde original para transmitir seriedade institucional. | Cabeçalhos, logo principal, navbar ativa, impacto metrics |
-| **Verde Ação** | `#2E8B57` | Tom médio para elementos interativos principais. Contraste WCAG AA em fundo branco (relação 5.2:1). | Botões CTA primários ('Aceitar Coleta', 'Reservar'), links |
-| **Verde Claro** | `#4CAF7A` | Mantido da referência original, refinado (+2% de saturação). Tom de suporte e gradientes. | Tags 'Doação', bordas de cards ativos, ícones de impacto |
-| **Laranja Ação** | `#E07B00` | Versão aquecida do `#FF9800` original. Mais controlado, evita saturação excessiva em mobile. | Botão 'Venda', badges de urgência, contadores regressivos |
-| **Laranja Suave** | `#FFA726` | Laranja de suporte para estados hover e alertas não-críticos. | Hover de botões secundários, alertas de prazo próximo |
-
-### 3.2 Neutros
-
-| Nome | HEX | Justificativa | Uso no App |
-|---|---|---|---|
-| **Carvão** | `#1C1C1E` | Quase-preto com leve tom quente. Preferido ao preto puro para suavizar contraste em leitura longa. | Títulos, textos principais, ícones |
-| **Grafite** | `#3D3D3D` | Tom intermediário para textos secundários de alta legibilidade. | Nomes de estabelecimento, descrições de produto |
-| **Cinza Médio** | `#6B7280` | Informações auxiliares sem peso visual excessivo. | Metadados, distância, horários, captions |
-| **Cinza Suave** | `#D1D9D1` | Neutro com leve toque de verde — integra-se ao tom da marca sem competir. | Bordas de cards, divisores, campos de input |
-| **Verde Menta** | `#F0F4F0` | Background de telas internas. Verde muito diluído que cria ambiência coerente com a marca. | Background principal do app, áreas de conteúdo |
-| **Branco** | `#FFFFFF` | Espaço negativo, clareza de leitura. | Cards, modais, superfícies de input |
-
-### 3.3 Estados do Sistema
-
-| Nome | HEX | Justificativa | Uso no App |
-|---|---|---|---|
-| **Sucesso** | `#2E8B57` | Confirma ações completadas: reserva confirmada, entrega validada, doação recebida. | Toast de sucesso, QR code validado, 'Entregue' |
-| **Alerta** | `#E07B00` | Urgência positiva: produto próximo ao vencimento, poucas unidades. | Badge 'Restam 2h', contador de estoque crítico |
-| **Erro** | `#C0392B` | Falha de operação ou data inválida detectada por OCR. | Bloqueio de validade expirada, falha de pagamento |
-| **Info** | `#1A78C2` | Informações contextuais neutras, dicas de uso. | Tooltips, onboarding, dicas de gamificação |
-| **Doação** | `#4CAF7A` | Estado específico do Conecta Mesa: produto convertido para doação B2G. | Tag 'Doação', badge de ONG, indicador de rota |
-| **Venda** | `#E07B00` | Estado de produto disponível para compra com desconto. | Tag 'Venda (com desconto)', badge de preço |
-
----
-
-## 4. Aplicação das Cores no Produto
-
-> ⚠️ Este guia serve como especificação direta para implementação. Cada elemento de UI possui cor, estado e uso definidos. Desvios devem ser aprovados pelo design lead.
-
-### 4.1 Componentes de Interface
+O propósito assistencial exige **WCAG AA** nativo em toda a escala de produto. 
+- **Tap Targets**: Toda a zona de clique tem 48dp no mínimo.
+- **Visuals vs Semantics**: Sempre ter rótulos e content-descriptions `Semantic(child:)` atrelados às ilustrações SVG, ícones de Alérgenos, preenchimento de campos Date e status temporizações (ex: leitores de Tela devem dizer explicitamente "Faltam 3 horas") e nunca basear informações só em cores (símbolos e ícones sempre combinam as mensagens cruciais junto da cor).
+- **Dark Mode**: No momento MVP o escopo prioriza o High Contrast Light Theme (tema claro base #FFFFFF) para garantir legibilidade com os brilhos do ecossistema do mobile no Brasil.
 
-| Elemento | HEX | Descrição de Uso |
-|---|---|---|
-| **Botão Primário (CTA)** | `#2E8B57` | Texto branco, raio de borda 12px. 'Aceitar Coleta', 'Reservar e Retirar', 'Publicar Lote' |
-| **Botão Venda** | `#E07B00` | Texto branco, raio 12px. Sempre acompanhado de preço com desconto visível. |
-| **Botão Doação** | `#4CAF7A` | Texto branco ou verde escuro. Usado para selecionar tipo de lote como doação. |
-| **Botão Secundário** | `#FFFFFF` | Borda `#2E8B57` (1.5px), texto verde escuro. Ações secundárias, cancelamento suave. |
-| **Botão Destrutivo** | `#C0392B` | Apenas para ações irreversíveis: cancelar reserva, remover produto. |
-| **Card de Produto** | `#FFFFFF` | Sombra leve (`0 2px 8px rgba(0,0,0,0.08)`). Borda `#D1D9D1`. Tag colorida no canto inferior. |
-| **Tag 'Doação'** | `#4CAF7A` | Texto branco, raio 6px, padding 4x8px. Posicionada sobre foto do produto. |
-| **Tag 'Venda'** | `#E07B00` | Idêntica à tag Doação. Cor laranja indica transação comercial. |
-| **Navbar Ativa** | `#1A6B3A` | Ícone e label com cor verde institucional. Inativo: `#6B7280`. |
-| **Background de Tela** | `#F0F4F0` | Verde menta muito diluído. Cria ambiência coerente sem competir com conteúdo. |
-| **Cabeçalho de Seção** | `#1C1C1E` | Texto bold, fonte Plus Jakarta Sans 22sp. Sem cor de background. |
-| **Preço Original (riscado)** | `#6B7280` | Texto cinza médio, `text-decoration: line-through`. Exibe o desconto conquistado. |
-| **Preço com Desconto** | `#1A6B3A` | Texto verde institucional, bold, tamanho maior. Destaque do valor salvo. |
-| **Métrica de Impacto** | `#2E8B57` | Ex: '50kg salvos este mês'. Bold, Plus Jakarta Sans ExtraBold, destaque central. |
+## 10. Regras de Consistência
 
-### 4.2 Mapa e Geolocalização
+1. **Botões jamais alteram seu padding**: Toda chamada a ação principal não difere por tela.
+2. O sistema de Tipografia limita os bold-weights para numéricos (preço ou métricas de dashboard) ou navegação de top-level titles. Nada de texto descritivo denso em negrito.
+3. Se houver falha de rede/Supabase Database, os *Empty States* são unificados no app com layout genérico: Ícone SVG Flat + Label de Error `16sp Muted` + Botão "Tente outra vez".
+4. B2B / Empresa Verificada requer o `Verified Badge` padronizado. Os administradores jamais usarão selo diferenciado do visual estabelecido para parceiros corporativos (pill colorida c/ ícone).
 
-| Elemento | HEX | Descrição de Uso |
-|---|---|---|
-| **Pin de Venda (mapa)** | `#E07B00` | Ícone de localização laranja. Estabelecimento com produto para venda. |
-| **Pin de Doação (mapa)** | `#2E8B57` | Ícone de localização verde. Produto convertido para doação disponível. |
-| **Pin Selecionado** | `#1A6B3A` | Pin amplificado com sombra. Verde institucional mais profundo. |
-| **Área de Raio (2km)** | `#4CAF7A` + 20% opacidade | Círculo translúcido indicando raio de busca do usuário. |
-| **Rota de Coleta** | `#1A6B3A` | Linha pontilhada verde para rota de retirada, conforme Google Maps API. |
+## 11. Integração com Flutter
 
-### 4.3 Gamificação e Impacto
+O Design System acima foi concebido pensando diretamente em componentes limpos e *feature-first* via Riverpod Providers no Flutter, em conjunto com o Material 3. O arquivo `theme.dart` (a ser implementado no repositório) deverá mapear inteiramente o *Color Scheme*, importando fontes globais do *google_fonts*, customizando o *ElevatedButtonThemeData* e assegurando uma única dependência UI partilhada globalmente (ex: *CardTheme* controlando os 16px radius universalmente).
 
-| Elemento | HEX | Descrição de Uso |
-|---|---|---|
-| **Badge de Impacto** | `#1A6B3A` | Ícone circular com fundo verde escuro. Texto branco. '🌿 50kg salvos' |
-| **Leaderboard Top 1** | `#E07B00` | Destaque laranja para o primeiro colocado no ranking de bairros. |
-| **Progress Bar** | Gradiente verde claro → médio | Barra de progresso de impacto mensal. Fundo: `#D1D9D1`. |
-| **Notificação Push** | `#2E8B57` | Ícone de notificação com ponto verde quando há ofertas próximas. |
-| **Toast de Sucesso** | `#2E8B57` | Fundo verde médio, texto branco, ícone check. Duração: 3s. |
-| **Toast de Urgência** | `#E07B00` | Fundo laranja, texto branco. 'Restam apenas 3 unidades!' |
+## 12. Diferenças vs versão anterior
 
----
-
-## 5. Direção da Logo
-
-### 5.1 Conceito da Logo
-
-A logo do Conecta Mesa deve sintetizar visualmente três conceitos simultaneamente: **conexão** (a ponte entre quem tem e quem precisa), **alimentação** (a presença sutil do alimento ou da mesa) e **tecnologia acessível** (linhas limpas, sem ornamentos desnecessários).
-
-> *Conceito central: uma mesa estilizada cujos pés ou extremidades se transformam em nós de rede — representando conexão digital e redistribuição. Simples o suficiente para funcionar em 20px; significativo o suficiente para contar a história do produto.*
-
-### 5.2 Tipo de Logo
-
-- **Logotipo combinado:** símbolo + wordmark ("Conecta Mesa")
-- **Versão compacta:** apenas símbolo (para app icon, favicon, badges)
-- **Versão horizontal:** símbolo à esquerda, nome à direita (uso principal em header)
-- **Versão vertical:** símbolo acima, nome abaixo (uso em splash screen e materiais impressos)
-
-### 5.3 Estilo Visual
-
-- Geometria suave — formas arredondadas (border radius alto), não angulosas
-- Linhas de peso médio (2–3px) — acolhedor, não rígido
-- Versão flat (sem gradientes) como padrão — compatível com todos os contextos digitais
-- Versão com gradiente verde (`#1A6B3A` → `#4CAF7A`) para marketing e splash screen
-
-### 5.4 Elementos Visuais do Símbolo
-
-O símbolo deve incorporar pelo menos dois dos seguintes elementos de forma integrada:
-
-- **Mesa estilizada** — superfície horizontal que representa o ato de compartilhar alimentação
-- **Ponto de conexão / nó de rede** — círculo ou seta que sugere a plataforma digital
-- **Folha ou semente** — referência à origem vegetal dos alimentos e sustentabilidade ambiental
-- **Seta de redistribuição** — movimento circular que expressa o ciclo de recuperação alimentar
-
-### 5.5 Wordmark — Tratamento Tipográfico
-
-- **Fonte:** Plus Jakarta Sans Bold (700) — coerência com o design system
-- **Espaçamento entre letras:** -0.5px (tracking ligeiramente comprimido = senso de solidez)
-- **"Conecta"** em verde institucional (`#1A6B3A`) — a ação de conectar
-- **"Mesa"** em verde ação (`#2E8B57`) — o ponto de encontro
-- **Alternativa monocromática:** todo em `#1C1C1E` para uso sobre fundos coloridos
-
-### 5.6 Passo a Passo de Construção da Logo
-
-| Etapa | Descrição |
-|---|---|
-| **01 — Conceito** | Definir o elemento central: mesa + nó de conexão. Esboçar 5–8 variações em papel antes de digitalizar. Filtrar pela legibilidade em 20px. |
-| **02 — Geometria** | Construir em grid de 24x24px (app icon). Usar formas básicas (retângulo, círculo, path). Testar se é reconhecível sem cor. |
-| **03 — Tipografia** | Aplicar Plus Jakarta Sans Bold para o wordmark. Testar kerning e alinhamento óptico. O símbolo deve ter altura visual igual ao cap-height da fonte. |
-| **04 — Paleta** | Aplicar verde institucional (`#1A6B3A`) como cor principal do símbolo. Testar versão monocromática preta, versão em branco sobre fundo verde. |
-| **05 — Contraste** | Verificar ratio WCAG: mínimo 4.5:1 para texto normal, 3:1 para elementos gráficos grandes. Testar sobre fundo branco, verde claro e laranja. |
-| **06 — Teste Mobile** | Exportar em 20x20, 40x40, 80x80, 192x192px. Verificar legibilidade em tela retina e em dispositivos de baixo DPI. Testar como app icon arredondado (iOS e Android). |
-
----
-
-## 6. Mascote
-
-### 6.1 Avaliação de Necessidade
-
-A adoção de um mascote deve ser avaliada com rigor estratégico. No caso do Conecta Mesa, a recomendação é:
-
-> **Recomendação: NÃO implementar mascote na versão 1.0.** Reavaliar em V2 após validação de mercado e consolidação da identidade visual base.
-
-### 6.2 Justificativa
-
-- O produto serve três perfis de usuário com maturidades digitais e contextos emocionais muito distintos: o comerciante preocupado com CMV, a consumidora periférica buscando dignidade alimentar, e a coordenadora de ONG gerenciando logística crítica. Um mascote corre o risco de parecer infantilizante para o pilar B2B e B2G.
-
-- O posicionamento como "Infraestrutura Digital de Redistribuição Alimentar" exige sobriedade visual. Mascotes comunicam leveza e entretenimento — valores secundários para o Conecta Mesa.
-
-- A gamificação de impacto (badges, leaderboards, CO₂ evitado) já cumpre o papel de engajamento emocional sem necessidade de personagem adicional.
-
-- Caso exista demanda de marketing futura, uma ilustração estilizada de personagens reais (o feirante, a consumidora, a coordenadora) seria mais alinhada ao posicionamento do que um mascote cartoon.
-
----
-
-## 7. Acessibilidade
-
-A acessibilidade no Conecta Mesa não é conformidade regulatória — é valor fundamental do produto. O app foi projetado para populações com baixa renda, maturidade digital variável e dispositivos de hardware limitado. As diretrizes abaixo são **requisitos**, não recomendações.
-
-### 7.1 Contraste — Requisitos Mínimos
-
-| Combinação | Ratio Obtido | Padrão WCAG | Aprovado? |
-|---|---|---|---|
-| Verde Ação (`#2E8B57`) sobre branco | 5.2:1 | AA (4.5:1) | ✅ Sim |
-| Verde Institucional (`#1A6B3A`) sobre branco | 8.1:1 | AAA (7:1) | ✅ Sim |
-| Laranja Ação (`#E07B00`) sobre branco | 4.6:1 | AA (4.5:1) | ✅ Sim |
-| Texto branco sobre Verde Ação (`#2E8B57`) | 5.2:1 | AA | ✅ Sim |
-| Texto branco sobre Laranja (`#E07B00`) | 4.6:1 | AA | ✅ Sim |
-| Carvão (`#1C1C1E`) sobre Verde Menta (`#F0F4F0`) | 15.3:1 | AAA | ✅ Sim |
-
-### 7.2 Tipografia e Legibilidade
-
-- Tamanho mínimo de fonte: **12sp** para qualquer texto legível pelo usuário (nunca abaixo disso)
-- Espaçamento entre linhas (line height): mínimo **1.4x** o tamanho da fonte para textos de corpo
-- Evitar texto sobre imagens sem camada de overlay escuro com opacidade ≥ 40%
-- Nenhuma informação crítica deve ser transmitida apenas por cor — sempre acompanhar com ícone ou texto
-- Campos de input: placeholder com contraste mínimo 4.5:1 sobre o fundo do campo
-
-### 7.3 Tamanho de Toque
-
-- Área mínima de toque para qualquer elemento interativo: **48x48dp** (Apple HIG e Material Design)
-- Espaçamento mínimo entre elementos tocáveis adjacentes: **8dp**
-- Botões CTA principais: mínimo **56dp** de altura para facilitar uso com dedos em movimento
-
-### 7.4 Leitura em Dispositivos de Baixo Custo
-
-- Testar obrigatoriamente em dispositivos com tela de 5 polegadas e resolução HD (720p) — perfil dominante entre usuários periféricos
-- Otimizar carregamento de imagens: usar WebP com fallback JPEG. Tamanho máximo por imagem de produto: **200KB**
-- Implementar modo de imagem reduzida para usuários com dados móveis limitados
-- Feedback tátil (haptic) nos CTAs principais para dispositivos Android que suportam
-
-### 7.5 Acessibilidade para Screen Readers
-
-- Todos os ícones devem ter `ContentDescription` no Flutter (`accessibilityLabel` no iOS)
-- Imagens de produto: alt text descritivo e automático (ex.: 'Pão integral artesanal, Padaria Boa Viagem, R$ 7,00')
-- Ordem de foco: lógica de cima para baixo, esquerda para direita
-- Anunciar mudanças de estado: 'Produto reservado com sucesso' via `Semantics`/`AccessibilityEvent`
-
----
-
-## 8. Resumo Estratégico da Identidade
-
-> *O Conecta Mesa é verde porque salva. É laranja porque age. É limpo porque respeita. E é acessível porque é para todos.*
-
-| Dimensão | Decisão e Rationale |
-|---|---|
-| **Cor âncora** | Verde institucional `#1A6B3A` — profundidade de propósito, não verde de startup genérica |
-| **Cor de ação** | Laranja controlado `#E07B00` — urgência positiva, sem alarme. Saúde sustentável do ecossistema alimentar |
-| **Tipografia display** | Plus Jakarta Sans — humanidade geométrica, mobile-first, identidade própria |
-| **Tipografia corpo** | Inter — clareza máxima para dados, fichas nutricionais, dashboards ESG |
-| **Tom visual** | Sóbrio mas acolhedor. Tecnologia a serviço das pessoas, não o contrário |
-| **Mascote** | Não recomendado na V1.0. Revisitar em V2 com dados de usuário |
-| **Contraste** | WCAG AA mínimo em todos os contextos. AAA nos elementos críticos de texto principal |
-| **Logo** | Combinado (símbolo + wordmark). Mesa estilizada com nó de conexão. Flat, arredondado, legível em 20px |
-
----
-
-Este documento constitui a base oficial para o Design System do Conecta Mesa. Qualquer alteração de elementos aqui definidos deve ser registrada, versionada e aprovada pelo responsável de produto e design.
-
----
-
-*— Conecta Mesa | Guia de Identidade Visual | Versão 1.0 | Confidencial —*
+**Este Design System substitui todas as normas estipuladas em versões antigas do PDF Conecta Mesa (ou `design.md` anteriores).**
+1. **Pauta Cromática Uniformizada**: Tons verdes profundos conflituantes (o `#1A6B3A` "Verde Floresta" do material anterior) não se aplicavam bem no visual mobile de impacto rápido. Alterado a base principal unicamente para **Verde Ponte (#4CAF50)** e **Laranja Ponte (#FF9800)**.
+2. **Tipografia Unificada de Alta Retenção**: Exclusões do font-pairing genérico "Plus Jakarta/Inter". Integração da combinação **Montserrat (Headlines)** + **Nunito (Bodies)** que formam a espinha visual oficial do Especificação UI/UX e do Material Design do produto.
+3. A direção é inteiramente focada no **aplicativo palpável** com validações OCR Edge AI e Mapbox, e não mais apenas num documento teórico de marca. As telas, estados responsivos, ícones sistêmicos estão traçados numa matriz tática e definitiva para o desenvolvedor no dia a dia.
+4. Remoção e adaptação completa de falsos pressupostos operacionais ou componentes ausentes da UI do MVP final. Todas as regras desta versão acompanham obrigatoriamente as tabelas listadas na especificação de UI oficial [Conecta_Mesa_Especificacao_UI_UX.md](./Conecta_Mesa_Especificacao_UI_UX.md).
