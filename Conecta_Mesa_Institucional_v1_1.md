@@ -167,43 +167,213 @@ O MVP do Conecta Mesa deve ser estruturado para validar empiricamente as seguint
 
 ---
 
-## 6. Tipos de Usuários — Mapeamento de Personas
-A modelagem de experiências fluidas exige uma arquitetura de produto alicerçada na profunda compreensão antropológica, econômica e digital dos quatro atores cruciais do ecossistema de redistribuição do Conecta Mesa. As jornadas devem mitigar atritos operacionais de quem publica, suprimir o atrito emocional de quem consome e garantir a integridade transacional de quem distribui.
+## Fluxo Oficial do Produto (Substitui Tipos de Usuários)
 
-### Persona 1 — A Pessoa Física Doadora (Pilar B2C/B2G)
-| Atributo | Descrição Analítica |
-|----------|---------------------|
-| Perfil Demográfico | Moradora de apartamento ou casa, realiza compras semanais e gera sobras de alimentos — frutas maduras, pães, hortifrutas. Quer evitar desperdício e ajudar vizinhos ou instituições próximas. |
-| Dores Profundas | Sente-se culpada ao descartar alimentos ainda aproveitáveis, mas não conhece canais simples para redistribuí-los. Teme o esforço logístico de realizar uma doação. |
-| Objetivos Primários | Publicar excedentes domésticos em poucos toques via câmera e GPS. Combinar retirada por chat. Ter visibilidade do impacto gerado por cada doação. |
-| Comportamento Digital | Heavy user de WhatsApp. Adota PIX como método de pagamento principal. Responde a notificações push com contexto de urgência geolocalizado. |
+## 👥 Personas
 
-### Persona 2 — O Comerciante Local (Pilar B2B)
-| Atributo | Descrição Analítica |
-|----------|---------------------|
-| Perfil Demográfico | Gerente ou proprietário de estabelecimentos de médio a pequeno porte: padarias de bairro na Madalena, hortifrutis na Várzea, mercadinhos em Boa Viagem, permissionários em centros de abastecimento. Idade entre 35 e 55 anos. |
-| Dores Profundas | A quebra operacional corrói o fluxo de caixa: o descarte de perecíveis representa prejuízo puro. Medo constante de autuações do Procon-PE por produtos vencidos dispostos acidentalmente em gôndolas. |
-| Objetivos Primários | Interceptar o prejuízo e recuperar ao menos o CMV. Atrair novo fluxo orgânico de clientes via responsabilidade socioambiental. Obter o Selo Empresa Verificada e relatórios de impacto para o Selo Doador de Alimentos (Lei nº 15.224/2025). |
-| Objeções à Plataforma | Desconfiança sobre complexidade tecnológica. Temor de canibalização de vendas: receio de que o cliente fiel aguarde o produto entrar na plataforma com desconto máximo. |
-| Comportamento Digital | Usuário extensivo de WhatsApp Business e Instagram. Ferramentas complexas de retaguarda geram fadiga cognitiva. Necessita de interfaces utilitaristas de alto contraste e resposta em milissegundos via app nativo Flutter. |
+| Persona | Pode Comprar | Pode Vender | Pode Doar |
+|---|---|---|---|
+| **PF** (Pessoa Física) | ✅ | ✅ | ✅ |
+| **PJ** (Pessoa Jurídica) | ✅ | ✅ | ✅ |
+| **ONG** | ✅ | ✅ | ✅ |
 
-### Persona 3 — A Consumidora Sensível a Preço (Pilar B2C)
-| Atributo | Descrição Analítica |
-|----------|---------------------|
-| Perfil Demográfico | Chefes de família, estudantes universitárias ou jovens trabalhadoras residentes em periferias consolidadas ou regiões centrais adensadas da RMR (Santo Amaro, Ibura). Inseridas na estatística de 59,9% dos domicílios vulneráveis chefiados por mulheres. |
-| Dores Profundas | Orçamento exíguo frente aos preços de hortifrúti e proteínas no varejo formal, empurrando a família ao consumo de ultraprocessados calóricos baratos — com impacto direto na saúde pública e no desenvolvimento cognitivo infantil. |
-| Objetivos Primários | Restaurar a dignidade alimentar e acessar insumos in natura, pães artesanais e laticínios de qualidade. Busca descontos acima de 50% para que a cesta básica dure até o encerramento do mês. |
-| Objeções à Plataforma | Estigma antropológico da 'sobra'. Receio justificado de dispender esforço logístico para buscar mercadoria que apresente indícios de deterioração. |
-| Comportamento Digital | Alta adoção de PIX e QR Codes. Heavy user de redes sociais, cashback e apps de delivery. Responde proativamente a notificações push geolocalizadas com gatilhos de urgência. |
+---
 
-### Persona 4 — A Coordenadora de Ação Social (Pilar B2G)
-| Atributo | Descrição Analítica |
-|----------|---------------------|
-| Perfil Demográfico | Liderança comunitária e responsável operacional de Cozinhas Solidárias ou do Banco de Alimentos do Recife. Dedica-se à sustentação diária de centenas de famílias marginalizadas com recursos escassos e forte engajamento cívico. |
-| Dores Profundas | Insegurança logística severa: falta previsibilidade no fornecimento diário de doações, obrigando a equipe a dispender horas buscando insumos por telefone. Sobram carboidratos vazios; faltam vegetais frescos desperdiçados no CEASA-PE por colapso do frete. |
-| Objetivos Primários | Assegurar estabilidade no suprimento de biomassa nutricional para planejamento de cardápios semanais. Garantir que alimentos doados atendam padrões rigorosos de segurança microbiológica. Obter o Selo ONG Verificada. |
-| Objeções à Plataforma | Rechaça soluções que exijam dispêndio financeiro para retiradas fragmentadas. Teme responsabilização sanitária por doações contaminadas na origem. |
-| Comportamento Digital | Comunicação e planejamento via grupos de WhatsApp. Conectividade móvel mediana. Requer dashboard em tempo real evidenciando hotspots de doações massivas em estabelecimentos próximos para otimizar a frota de resgate. |
+## 📋 Cadastro
+
+**Pessoa Física**
+- Fluxo de cadastro padrão
+
+**Pessoa Jurídica**
+- Fluxo de cadastro padrão
+- Campo adicional: **segmento de atuação**
+
+**ONG**
+- Mesmo fluxo do PJ
+- Diferenciada por uma opção: *"Sou uma ONG"*
+- Internamente cadastrada como `companyType: "ASSOCIATION"` na API do Asaas
+
+> ⚠️ **Atenção técnica:** ONGs exigem documentação adicional no onboarding da subconta Asaas (Ata de Eleição), além dos documentos padrão (selfie + documento de identidade).
+
+---
+
+## 🔄 Fluxo de Compra (todas as personas)
+
+1. Usuário navega pelo **feed** ou pelo **mapa** e encontra um anúncio
+2. Seleciona o anúncio desejado, faz a **reserva** e realiza o **pagamento**
+3. Após o pagamento, acessa o **chat** da plataforma para combinar a retirada com o vendedor
+4. No momento da retirada, o comprador apresenta um **QR Code ou código da reserva**
+5. O vendedor **escaneia o QR Code** ou **digita o código** na plataforma
+6. Confirmada a retirada → o valor muda de **"pendente"** para **"disponível"** na carteira do vendedor
+7. O comprador pode **avaliar** o vendedor e o alimento
+
+---
+
+## 💳 Fluxo de Pagamento e Liberação
+
+O controle de liberação do saldo é feito pelo **banco de dados da Conecta Mesa**, sem uso de Escrow. O Asaas processa o pagamento e o split normalmente — quem decide quando o vendedor pode sacar é o sistema da plataforma.
+
+```
+Comprador paga
+      ↓
+Asaas processa o pagamento
+Split automático: 60% subconta do vendedor / 40% conta-pai
+Saldo do vendedor marcado como "PENDENTE" no banco de dados
+      ↓
+Comprador escaneia QR Code / vendedor confirma entrega na plataforma
+      ↓
+Sistema atualiza status para "DISPONÍVEL"
+      ↓
+Vendedor consegue sacar via Pix
+```
+
+**Estados da transação no banco de dados:**
+
+| Status | Descrição |
+|---|---|
+| `PENDENTE` | Pagamento confirmado, aguardando confirmação da retirada |
+| `DISPONIVEL` | Retirada confirmada, saldo liberado para saque |
+| `CANCELADO` | Compra cancelada, estorno processado automaticamente |
+
+---
+
+## 🔁 Fluxo de Estorno e Cancelamento
+
+### Cancelamento com status PENDENTE (automático)
+
+Enquanto a retirada não foi confirmada, o cancelamento é **100% automático**. O botão *"Cancelar compra"* fica visível para o comprador enquanto o status for `PENDENTE`.
+
+```
+Comprador solicita cancelamento
+        ↓
+Sistema verifica: status = PENDENTE?
+        ↓
+        SIM → Chama POST /v3/payments/{id}/refund
+              Atualiza status para CANCELADO
+              Notifica comprador e vendedor via push + e-mail
+        ↓
+Asaas processa o estorno automaticamente
+        ↓
+Webhook PAYMENT_REFUNDED chega no sistema
+        ↓
+Comprador e vendedor notificados da conclusão
+```
+
+**O estorno volta sempre para a origem do pagamento — a plataforma não toca no dinheiro:**
+
+| Forma de Pagamento | Para onde volta o estorno | Prazo |
+|---|---|---|
+| **Pix** | Conta Pix do comprador | Instantâneo |
+| **Boleto** | Conta bancária informada pelo comprador | Até 10 dias úteis |
+| **Cartão de crédito** | Crédito na fatura do comprador | Até 2 faturas seguintes |
+| **Cartão de débito** | Conta bancária do comprador | Até 10 dias úteis |
+
+> ⚠️ Quando o estorno acontece, o split também é desfeito automaticamente pelo Asaas — os 40% da conta-pai voltam junto. Nenhuma ação manual necessária.
+
+### Disputa com status DISPONÍVEL (suporte interno)
+
+Casos onde o comprador reporta problema **após** confirmar a retirada são raros mas precisam de análise humana — esse é o padrão de qualquer marketplace.
+
+```
+Comprador acessa "Reportar problema" na compra finalizada
+        ↓
+Sistema abre ticket interno com prazo de 48h
+        ↓
+Equipe Conecta Mesa analisa (chat, fotos, avaliações)
+        ↓
+Disputa procedente?
+  SIM → Estorno via painel ou API
+  NÃO → Ticket encerrado com justificativa enviada ao comprador
+```
+
+---
+
+## 🏪 Fluxo de Venda (todas as personas)
+
+1. Usuário solicita ativação como vendedor na plataforma
+2. Passa por **verificação de identidade** (documentos + selfie)
+3. Após aprovação → recebe **notificação push** no app e **e-mail**
+4. Passa a ter acesso ao botão **"Anunciar"**
+5. Cada venda realizada aparece na **Carteira Digital** com status **"Pendente"**
+6. Após confirmação da retirada pelo comprador → status muda para **"Disponível"**
+
+---
+
+## 💰 Carteira Digital (todas as personas vendedoras)
+
+- **Saldo disponível** — valor liberado após confirmação da retirada, pronto para saque
+- **Saldo pendente** — vendas pagas mas ainda aguardando confirmação da retirada
+- **Histórico de vendas** — com data, valor bruto, valor líquido (60%) e status
+- **Sacar via Pix** — transferência para a chave Pix cadastrada pelo vendedor
+
+> ⚠️ **Divisão de receita — comunicar claramente ao vendedor:**
+> - O valor recebido é **60% do valor líquido** (após desconto das taxas do Asaas)
+> - Os **40% restantes** são da Conecta Mesa
+> - Exemplo: venda de R$ 100,00 via Pix → vendedor recebe R$ 60,00 (Pix não tem taxa)
+> - Exemplo: venda de R$ 100,00 via boleto → Asaas desconta R$ 1,99 → vendedor recebe 60% de R$ 98,01 = **R$ 58,81**
+
+> ⚠️ **Taxas de saque:**
+> - PF e MEI: Pix sempre **gratuito**
+> - PJ e ONG: **30 saques Pix gratuitos/mês**, depois R$ 2,00 por saque
+> - A Conecta Mesa cobre os R$ 12,90 de criação de subconta por vendedor aprovado
+
+---
+
+## 🗂️ Navbars
+
+### PF — Navbar
+
+| Ícone | Aba | Comportamento |
+|---|---|---|
+| 🏠 | **Início** | Feed de anúncios de vendas e doações |
+| 🗺️ | **Mapa** | Mapa com localização dos anúncios |
+| ➕ | **Anunciar** | Se não verificado → redireciona para verificação de identidade. Se verificado → abre formulário de anúncio |
+| 👛 | **Carteira** | Se não verificado → redireciona para verificação. Se verificado → saldo disponível, saldo pendente, histórico de vendas e opção de saque via Pix |
+| 📋 | **Histórico** | Cards de compras com status: *A pagar / A retirar / Finalizado*. Se em aberto → botão de chat com o vendedor |
+| 👤 | **Perfil** | Configurações gerais e logout |
+
+---
+
+### PJ — Navbar
+
+| Ícone | Aba | Comportamento |
+|---|---|---|
+| 🏠 | **Início** | Feed de anúncios de vendas e doações |
+| 🗺️ | **Mapa** | Mapa com localização dos anúncios |
+| ➕ | **Anunciar** | Mesmo comportamento do PF |
+| 👛 | **Carteira** | Mesmo comportamento do PF, com destaque para saldo pendente x disponível |
+| 📋 | **Histórico** | Mesmo comportamento do PF |
+| 🌱 | **Impacto** | Tela exclusiva PJ com métricas da cadeia de impacto (ver abaixo) |
+| 👤 | **Perfil** | Configurações gerais e logout |
+
+**Tela de Impacto (exclusiva PJ):**
+
+```
+🌍 Cadeia de Impacto Hub
+
+Gases Evitados Totais (Brasil)
+... ton
+
+Famílias Beneficiadas
+... k
+
+Lixo Zerado
+... k kgs
+```
+
+---
+
+### ONG — Navbar
+
+| Ícone | Aba | Comportamento |
+|---|---|---|
+| 🏠 | **Início** | Feed de anúncios + destaque para doações disponíveis |
+| 🗺️ | **Mapa** | Mapa com localização dos anúncios |
+| ➕ | **Anunciar** | Mesmo comportamento do PF, adaptado para contexto de ONG |
+| 👛 | **Carteira** | Mesmo comportamento do PF, com histórico de doações recebidas |
+| 📋 | **Histórico** | Cards de compras, retiradas e doações com status |
+| 🌱 | **Impacto** | Mesma tela de impacto do PJ, com foco em doações e famílias atendidas |
+| 👤 | **Perfil** | Configurações gerais e logout |
 
 ---
 

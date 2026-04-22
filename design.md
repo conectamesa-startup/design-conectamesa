@@ -157,3 +157,213 @@ O Design System acima foi concebido pensando diretamente em componentes limpos e
 2. **Tipografia Unificada de Alta Retenção**: Exclusões do font-pairing genérico "Plus Jakarta/Inter". Integração da combinação **Montserrat (Headlines)** + **Nunito (Bodies)** que formam a espinha visual oficial do Especificação UI/UX e do Material Design do produto.
 3. A direção é inteiramente focada no **aplicativo palpável** com validações OCR Edge AI e Mapbox, e não mais apenas num documento teórico de marca. As telas, estados responsivos, ícones sistêmicos estão traçados numa matriz tática e definitiva para o desenvolvedor no dia a dia.
 4. Remoção e adaptação completa de falsos pressupostos operacionais ou componentes ausentes da UI do MVP final. Todas as regras desta versão acompanham obrigatoriamente as tabelas listadas na especificação de UI oficial [Conecta_Mesa_Especificacao_UI_UX.md](./Conecta_Mesa_Especificacao_UI_UX.md).
+
+---
+
+## 13. Fluxo Oficial do Produto
+
+## 👥 Personas
+
+| Persona | Pode Comprar | Pode Vender | Pode Doar |
+|---|---|---|---|
+| **PF** (Pessoa Física) | ✅ | ✅ | ✅ |
+| **PJ** (Pessoa Jurídica) | ✅ | ✅ | ✅ |
+| **ONG** | ✅ | ✅ | ✅ |
+
+---
+
+## 📋 Cadastro
+
+**Pessoa Física**
+- Fluxo de cadastro padrão
+
+**Pessoa Jurídica**
+- Fluxo de cadastro padrão
+- Campo adicional: **segmento de atuação**
+
+**ONG**
+- Mesmo fluxo do PJ
+- Diferenciada por uma opção: *"Sou uma ONG"*
+- Internamente cadastrada como `companyType: "ASSOCIATION"` na API do Asaas
+
+> ⚠️ **Atenção técnica:** ONGs exigem documentação adicional no onboarding da subconta Asaas (Ata de Eleição), além dos documentos padrão (selfie + documento de identidade).
+
+---
+
+## 🔄 Fluxo de Compra (todas as personas)
+
+1. Usuário navega pelo **feed** ou pelo **mapa** e encontra um anúncio
+2. Seleciona o anúncio desejado, faz a **reserva** e realiza o **pagamento**
+3. Após o pagamento, acessa o **chat** da plataforma para combinar a retirada com o vendedor
+4. No momento da retirada, o comprador apresenta um **QR Code ou código da reserva**
+5. O vendedor **escaneia o QR Code** ou **digita o código** na plataforma
+6. Confirmada a retirada → o valor muda de **"pendente"** para **"disponível"** na carteira do vendedor
+7. O comprador pode **avaliar** o vendedor e o alimento
+
+---
+
+## 💳 Fluxo de Pagamento e Liberação
+
+O controle de liberação do saldo é feito pelo **banco de dados da Conecta Mesa**, sem uso de Escrow. O Asaas processa o pagamento e o split normalmente — quem decide quando o vendedor pode sacar é o sistema da plataforma.
+
+```
+Comprador paga
+      ↓
+Asaas processa o pagamento
+Split automático: 60% subconta do vendedor / 40% conta-pai
+Saldo do vendedor marcado como "PENDENTE" no banco de dados
+      ↓
+Comprador escaneia QR Code / vendedor confirma entrega na plataforma
+      ↓
+Sistema atualiza status para "DISPONÍVEL"
+      ↓
+Vendedor consegue sacar via Pix
+```
+
+**Estados da transação no banco de dados:**
+
+| Status | Descrição |
+|---|---|
+| `PENDENTE` | Pagamento confirmado, aguardando confirmação da retirada |
+| `DISPONIVEL` | Retirada confirmada, saldo liberado para saque |
+| `CANCELADO` | Compra cancelada, estorno processado automaticamente |
+
+---
+
+## 🔁 Fluxo de Estorno e Cancelamento
+
+### Cancelamento com status PENDENTE (automático)
+
+Enquanto a retirada não foi confirmada, o cancelamento é **100% automático**. O botão *"Cancelar compra"* fica visível para o comprador enquanto o status for `PENDENTE`.
+
+```
+Comprador solicita cancelamento
+        ↓
+Sistema verifica: status = PENDENTE?
+        ↓
+        SIM → Chama POST /v3/payments/{id}/refund
+              Atualiza status para CANCELADO
+              Notifica comprador e vendedor via push + e-mail
+        ↓
+Asaas processa o estorno automaticamente
+        ↓
+Webhook PAYMENT_REFUNDED chega no sistema
+        ↓
+Comprador e vendedor notificados da conclusão
+```
+
+**O estorno volta sempre para a origem do pagamento — a plataforma não toca no dinheiro:**
+
+| Forma de Pagamento | Para onde volta o estorno | Prazo |
+|---|---|---|
+| **Pix** | Conta Pix do comprador | Instantâneo |
+| **Boleto** | Conta bancária informada pelo comprador | Até 10 dias úteis |
+| **Cartão de crédito** | Crédito na fatura do comprador | Até 2 faturas seguintes |
+| **Cartão de débito** | Conta bancária do comprador | Até 10 dias úteis |
+
+> ⚠️ Quando o estorno acontece, o split também é desfeito automaticamente pelo Asaas — os 40% da conta-pai voltam junto. Nenhuma ação manual necessária.
+
+### Disputa com status DISPONÍVEL (suporte interno)
+
+Casos onde o comprador reporta problema **após** confirmar a retirada são raros mas precisam de análise humana — esse é o padrão de qualquer marketplace.
+
+```
+Comprador acessa "Reportar problema" na compra finalizada
+        ↓
+Sistema abre ticket interno com prazo de 48h
+        ↓
+Equipe Conecta Mesa analisa (chat, fotos, avaliações)
+        ↓
+Disputa procedente?
+  SIM → Estorno via painel ou API
+  NÃO → Ticket encerrado com justificativa enviada ao comprador
+```
+
+---
+
+## 🏪 Fluxo de Venda (todas as personas)
+
+1. Usuário solicita ativação como vendedor na plataforma
+2. Passa por **verificação de identidade** (documentos + selfie)
+3. Após aprovação → recebe **notificação push** no app e **e-mail**
+4. Passa a ter acesso ao botão **"Anunciar"**
+5. Cada venda realizada aparece na **Carteira Digital** com status **"Pendente"**
+6. Após confirmação da retirada pelo comprador → status muda para **"Disponível"**
+
+---
+
+## 💰 Carteira Digital (todas as personas vendedoras)
+
+- **Saldo disponível** — valor liberado após confirmação da retirada, pronto para saque
+- **Saldo pendente** — vendas pagas mas ainda aguardando confirmação da retirada
+- **Histórico de vendas** — com data, valor bruto, valor líquido (60%) e status
+- **Sacar via Pix** — transferência para a chave Pix cadastrada pelo vendedor
+
+> ⚠️ **Divisão de receita — comunicar claramente ao vendedor:**
+> - O valor recebido é **60% do valor líquido** (após desconto das taxas do Asaas)
+> - Os **40% restantes** são da Conecta Mesa
+> - Exemplo: venda de R$ 100,00 via Pix → vendedor recebe R$ 60,00 (Pix não tem taxa)
+> - Exemplo: venda de R$ 100,00 via boleto → Asaas desconta R$ 1,99 → vendedor recebe 60% de R$ 98,01 = **R$ 58,81**
+
+> ⚠️ **Taxas de saque:**
+> - PF e MEI: Pix sempre **gratuito**
+> - PJ e ONG: **30 saques Pix gratuitos/mês**, depois R$ 2,00 por saque
+> - A Conecta Mesa cobre os R$ 12,90 de criação de subconta por vendedor aprovado
+
+---
+
+## 🗂️ Navbars
+
+### PF — Navbar
+
+| Ícone | Aba | Comportamento |
+|---|---|---|
+| 🏠 | **Início** | Feed de anúncios de vendas e doações |
+| 🗺️ | **Mapa** | Mapa com localização dos anúncios |
+| ➕ | **Anunciar** | Se não verificado → redireciona para verificação de identidade. Se verificado → abre formulário de anúncio |
+| 👛 | **Carteira** | Se não verificado → redireciona para verificação. Se verificado → saldo disponível, saldo pendente, histórico de vendas e opção de saque via Pix |
+| 📋 | **Histórico** | Cards de compras com status: *A pagar / A retirar / Finalizado*. Se em aberto → botão de chat com o vendedor |
+| 👤 | **Perfil** | Configurações gerais e logout |
+
+---
+
+### PJ — Navbar
+
+| Ícone | Aba | Comportamento |
+|---|---|---|
+| 🏠 | **Início** | Feed de anúncios de vendas e doações |
+| 🗺️ | **Mapa** | Mapa com localização dos anúncios |
+| ➕ | **Anunciar** | Mesmo comportamento do PF |
+| 👛 | **Carteira** | Mesmo comportamento do PF, com destaque para saldo pendente x disponível |
+| 📋 | **Histórico** | Mesmo comportamento do PF |
+| 🌱 | **Impacto** | Tela exclusiva PJ com métricas da cadeia de impacto (ver abaixo) |
+| 👤 | **Perfil** | Configurações gerais e logout |
+
+**Tela de Impacto (exclusiva PJ):**
+
+```
+🌍 Cadeia de Impacto Hub
+
+Gases Evitados Totais (Brasil)
+... ton
+
+Famílias Beneficiadas
+... k
+
+Lixo Zerado
+... k kgs
+```
+
+---
+
+### ONG — Navbar
+
+| Ícone | Aba | Comportamento |
+|---|---|---|
+| 🏠 | **Início** | Feed de anúncios + destaque para doações disponíveis |
+| 🗺️ | **Mapa** | Mapa com localização dos anúncios |
+| ➕ | **Anunciar** | Mesmo comportamento do PF, adaptado para contexto de ONG |
+| 👛 | **Carteira** | Mesmo comportamento do PF, com histórico de doações recebidas |
+| 📋 | **Histórico** | Cards de compras, retiradas e doações com status |
+| 🌱 | **Impacto** | Mesma tela de impacto do PJ, com foco em doações e famílias atendidas |
+| 👤 | **Perfil** | Configurações gerais e logout |
