@@ -100,10 +100,16 @@ Os sistemas de componentes reutilizam diretamente a especificação UI/UX garant
 
 ### Inputs e Formulários
 - **TextFields**: Material 3 padrão `OutlinedInputBorder` (Raio 12dp, Borda E0E0E0, Foco no Verde Ponte). Ícones Muted no prefix, helpers de erro (Erro Crítico: `#C62828`).
+- **Checklists (Sanitário & Compliance)**: Checkboxes com Material `ListTile`. Cor primária Verde Ponte. Usados estritamente em **Termo de Responsabilidade Sanitária** e **Checklist de Validade e Embalagem** no pré-anúncio.
 
 ### Product Cards e Chips
 - **Feed Card**: Ocupa width máxima - 32dp (margin grid), altura variável por ratio 16:9 de capa, contendo Badges pill fixos overlayed na top-right (`% OFF` ou `GRATUITO`). Elevação subtil: 2. Tap responde com ripple native do InkWell focado na cor Verde.
 - **Filter Chips**: Scroll horizontal (ListView.builder invertido ou inline). Fundo branco ativado, fallback p/ `#F5F5F5` se desativado.
+
+### Badges de Gamificação (Reputação)
+- **Heróis da Ponte**: Avatares de Top 3 no ranking de impacto, com bordas Ouro (#FFD700), Prata (#C0C0C0) e Bronze (#CD7F32).
+- **Selo Resgatador Veloz**: Badge circular com ícone de raio Laranja, dado a quem salva produtos por Push Agressivo.
+- **Loja de Confiança**: Shield icon Verde para estabelecimentos com alto score de reputação.
 
 ### Modal (Draggable Bottom Sheets)
 - **Config**: Sheets puxadas do rodapé com topo em 20px de radius. Apresentam Handles horizontais (Linha cinza 32x4dp para swipe-down gestures). Implementados largamente em validações completas (OCR preview, Confirmação Checkout).
@@ -111,7 +117,7 @@ Os sistemas de componentes reutilizam diretamente a especificação UI/UX garant
 ## 6. Layout e Grid
 
 - Toda tela padrão usa Scaffold do Flutter Material 3 com bgColor `#FFFFFF`. 
-- **Bottom Navigation Bar**: 80dp com uso do *NavigationBar* moderno sem shadow ou com linha limite no topo (`#E0E0E0`). Abas: [Início, Impacto, Anunciar, Conta]. Ícone ativado puxa `#4CAF50`.
+- **Bottom Navigation Bar**: 80dp com uso do *NavigationBar* moderno sem shadow ou com linha limite no topo (`#E0E0E0`). Universal com **6 abas**: [Início, Carteira, Anunciar, Histórico, Impacto, Perfil]. Ícone ativado puxa `#4CAF50`.
 - **Top AppBar**: 56dp. Estilo Flat, sem elevação ou scroll elevation 0, garantindo o "white clean aesthetic" Modern UI iOS/Android.
 
 ## 7. Padrões por Tela
@@ -312,58 +318,15 @@ Disputa procedente?
 
 ---
 
-## 🗂️ Navbars
+## 🗂️ Universal Bottom Navbar (Todas as Personas)
 
-### PF — Navbar
-
-| Ícone | Aba | Comportamento |
-|---|---|---|
-| 🏠 | **Início** | Feed de anúncios de vendas e doações |
-| 🗺️ | **Mapa** | Mapa com localização dos anúncios |
-| ➕ | **Anunciar** | Se não verificado → redireciona para verificação de identidade. Se verificado → abre formulário de anúncio |
-| 👛 | **Carteira** | Se não verificado → redireciona para verificação. Se verificado → saldo disponível, saldo pendente, histórico de vendas e opção de saque via Pix |
-| 📋 | **Histórico** | Cards de compras com status: *A pagar / A retirar / Finalizado*. Se em aberto → botão de chat com o vendedor |
-| 👤 | **Perfil** | Configurações gerais e logout |
-
----
-
-### PJ — Navbar
+O Conecta Mesa adota um padrão de **Bottom Navbar Universal de 6 abas**, nivelando a experiência entre PF, PJ (B2B) e ONG. 
 
 | Ícone | Aba | Comportamento |
 |---|---|---|
-| 🏠 | **Início** | Feed de anúncios de vendas e doações |
-| 🗺️ | **Mapa** | Mapa com localização dos anúncios |
-| ➕ | **Anunciar** | Mesmo comportamento do PF |
-| 👛 | **Carteira** | Mesmo comportamento do PF, com destaque para saldo pendente x disponível |
-| 📋 | **Histórico** | Mesmo comportamento do PF |
-| 🌱 | **Impacto** | Tela exclusiva PJ com métricas da cadeia de impacto (ver abaixo) |
-| 👤 | **Perfil** | Configurações gerais e logout |
-
-**Tela de Impacto (exclusiva PJ):**
-
-```
-🌍 Cadeia de Impacto Hub
-
-Gases Evitados Totais (Brasil)
-... ton
-
-Famílias Beneficiadas
-... k
-
-Lixo Zerado
-... k kgs
-```
-
----
-
-### ONG — Navbar
-
-| Ícone | Aba | Comportamento |
-|---|---|---|
-| 🏠 | **Início** | Feed de anúncios + destaque para doações disponíveis |
-| 🗺️ | **Mapa** | Mapa com localização dos anúncios |
-| ➕ | **Anunciar** | Mesmo comportamento do PF, adaptado para contexto de ONG |
-| 👛 | **Carteira** | Mesmo comportamento do PF, com histórico de doações recebidas |
-| 📋 | **Histórico** | Cards de compras, retiradas e doações com status |
-| 🌱 | **Impacto** | Mesma tela de impacto do PJ, com foco em doações e famílias atendidas |
-| 👤 | **Perfil** | Configurações gerais e logout |
+| 🏠 | **Início** | Feed principal ordenado por proximidade. O Mapa pode ser acessado no topo do feed. |
+| 👛 | **Carteira** | Saldo disponível/pendente, histórico de repasses financeiros e opção de saque. |
+| ➕ | **Anunciar** | Formulário de criação de anúncio. Bloqueado se pendente de Verificação KYC ou Sanitária. |
+| 📋 | **Histórico** | Controla as reservas/pedidos. Possui um *toggle superior* para alternar entre **"Compras/Resgates"** e **"Meus Anúncios"**. |
+| 🌱 | **Impacto** | Dashboard de métricas (CO₂, refeições) e o ranking "Heróis da Ponte". Exibe o impacto coletivo e individual. |
+| 👤 | **Perfil** | Status KYC, Reputação, Selos, Configurações de notificações push agressivas, Suporte e Logout. |

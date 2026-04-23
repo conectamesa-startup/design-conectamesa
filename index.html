@@ -8,7 +8,9 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
@@ -41,668 +43,1588 @@
             --radius-lg: 20px;
             --radius-xl: 32px;
 
-            --shadow-card: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-            --shadow-float: 0 20px 25px -5px rgba(0,0,0,0.08), 0 10px 10px -5px rgba(0,0,0,0.04);
-            --transition: all 0.25s cubic-bezier(0.2,0.8,0.2,1);
+            --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            --shadow-float: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            --transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
-        html, body { margin:0; padding:0; width:100%; min-height:100vh; overflow-x:hidden; background-color:var(--cinza-fundo); font-family:var(--font-body); color:var(--carvao); -webkit-font-smoothing:antialiased; display:flex; }
-        *, *:before, *:after { box-sizing:border-box; }
-        h1,h2,h3,h4,h5,.font-display { font-family:var(--font-display); }
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-color: var(--cinza-fundo);
+            font-family: var(--font-body);
+            color: var(--carvao);
+            -webkit-font-smoothing: antialiased;
+            display: flex;
+        }
 
-        .bg-globs { position:fixed; top:0; left:0; width:100vw; height:100vh; overflow:hidden; z-index:-1; pointer-events:none; }
-        .glob { position:absolute; border-radius:50%; filter:blur(140px); opacity:0.1; animation:fl 15s infinite alternate; }
-        .g1 { top:-10%; left:-5%; width:50vw; height:50vw; background:var(--verde-institucional); }
-        .g2 { bottom:-10%; right:-5%; width:40vw; height:40vw; background:var(--laranja-acao); animation-delay:-5s; }
-        @keyframes fl { 0%{transform:translateY(0)} 100%{transform:translateY(50px)} }
+        *,
+        *:before,
+        *:after {
+            box-sizing: border-box;
+        }
 
-        .sidebar { width:280px; height:100vh; position:fixed; top:0; left:0; background:rgba(255,255,255,0.95); backdrop-filter:blur(20px); border-right:1px solid var(--cinza-suave); padding:2rem 1.5rem; display:flex; flex-direction:column; z-index:100; overflow-y:auto; }
-        .brand-logo { font-family:var(--font-display); font-weight:800; font-size:1.4rem; color:var(--verde-institucional); display:flex; align-items:center; gap:0.5rem; margin-bottom:2.5rem; }
-        .brand-logo span { color:var(--laranja-acao); }
-        .brand-logo svg { flex-shrink:0; }
-        .nav-link { display:flex; align-items:center; gap:0.75rem; padding:0.8rem 1rem; color:var(--cinza-medio); font-weight:700; font-size:0.85rem; border-radius:var(--radius-md); text-decoration:none; cursor:pointer; transition:var(--transition); margin-bottom:0.25rem; }
-        .nav-link:hover { background:var(--cinza-fundo); color:var(--carvao); }
-        .nav-link.active-nav { background:var(--verde-claro); color:var(--verde-institucional); }
-        .nav-link i { width:18px; height:18px; }
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        .font-display {
+            font-family: var(--font-display);
+        }
 
-        .main-content { margin-left:280px; flex:1; padding:3rem; position:relative; }
-        .tab-content { display:none; max-width:1100px; margin:0 auto; animation:fade 0.4s ease; }
-        .tab-content.active { display:block; }
-        @keyframes fade { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+        .bg-globs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            z-index: -1;
+            pointer-events: none;
+        }
 
-        .section-header { font-size:2.2rem; font-weight:900; color:var(--carvao); margin-bottom:1rem; display:flex; align-items:center; gap:0.75rem; }
-        .section-desc { font-size:1.1rem; color:var(--grafite); margin-bottom:3rem; max-width:800px; line-height:1.6; }
+        .glob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(140px);
+            opacity: 0.1;
+            animation: fl 15s infinite alternate;
+        }
+
+        .g1 {
+            top: -10%;
+            left: -5%;
+            width: 50vw;
+            height: 50vw;
+            background: var(--verde-institucional);
+        }
+
+        .g2 {
+            bottom: -10%;
+            right: -5%;
+            width: 40vw;
+            height: 40vw;
+            background: var(--laranja-acao);
+            animation-delay: -5s;
+        }
+
+        @keyframes fl {
+            0% {
+                transform: translateY(0)
+            }
+
+            100% {
+                transform: translateY(50px)
+            }
+        }
+
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--cinza-suave);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .brand-logo {
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: var(--verde-institucional);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .brand-logo span {
+            color: var(--laranja-acao);
+        }
+
+        .brand-logo svg {
+            flex-shrink: 0;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.8rem 1rem;
+            color: var(--cinza-medio);
+            font-weight: 700;
+            font-size: 0.85rem;
+            border-radius: var(--radius-md);
+            text-decoration: none;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 0.25rem;
+        }
+
+        .nav-link:hover {
+            background: var(--cinza-fundo);
+            color: var(--carvao);
+        }
+
+        .nav-link.active-nav {
+            background: var(--verde-claro);
+            color: var(--verde-institucional);
+        }
+
+        .nav-link i {
+            width: 18px;
+            height: 18px;
+        }
+
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 3rem;
+            position: relative;
+        }
+
+        .tab-content {
+            display: none;
+            max-width: 1100px;
+            margin: 0 auto;
+            animation: fade 0.4s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+                transform: translateY(10px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .section-header {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--carvao);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-desc {
+            font-size: 1.1rem;
+            color: var(--grafite);
+            margin-bottom: 3rem;
+            max-width: 800px;
+            line-height: 1.6;
+        }
 
         /* ABA 1 */
-        .hero-banner { background:var(--carvao); border-radius:var(--radius-xl); padding:4rem; color:white; overflow:hidden; margin-bottom:3rem; box-shadow:var(--shadow-float); position:relative; }
-        .hero-chip { display:inline-block; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.2); padding:0.4rem 1rem; border-radius:40px; font-size:0.75rem; font-weight:bold; letter-spacing:1px; margin-bottom:1.5rem; text-transform:uppercase; }
-        .hero-title { font-size:3.5rem; font-weight:900; line-height:1.1; margin-bottom:1.5rem; }
-        .hero-title span { color:var(--verde-institucional); }
-        .grid-cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:2rem; }
-        .info-card { background:white; border:1px solid var(--cinza-suave); padding:2rem; border-radius:var(--radius-xl); box-shadow:var(--shadow-card); }
-        .info-card i { width:32px; height:32px; margin-bottom:1rem; display:block; }
+        .hero-banner {
+            background: var(--carvao);
+            border-radius: var(--radius-xl);
+            padding: 4rem;
+            color: white;
+            overflow: hidden;
+            margin-bottom: 3rem;
+            box-shadow: var(--shadow-float);
+            position: relative;
+        }
+
+        .hero-chip {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title span {
+            color: var(--verde-institucional);
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .info-card {
+            background: white;
+            border: 1px solid var(--cinza-suave);
+            padding: 2rem;
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-card);
+        }
+
+        .info-card i {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 1rem;
+            display: block;
+        }
 
         /* ABA 2 */
-        .disclaimer-box { background:#FFF3E0; border:2px solid #FF9800; border-radius:var(--radius-lg); padding:2rem; color:#E65100; font-weight:bold; line-height:1.6; text-align:center; max-width:800px; margin:3rem auto; }
+        .disclaimer-box {
+            background: #FFF3E0;
+            border: 2px solid #FF9800;
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            color: #E65100;
+            font-weight: bold;
+            line-height: 1.6;
+            text-align: center;
+            max-width: 800px;
+            margin: 3rem auto;
+        }
 
         /* ABA 3 */
-        .color-palette { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:1.5rem; margin-bottom:4rem; }
-        .color-block { background:white; border-radius:var(--radius-lg); overflow:hidden; border:1px solid var(--cinza-suave); box-shadow:var(--shadow-card); display:flex; flex-direction:column; }
-        .color-show { height:120px; width:100%; display:flex; align-items:flex-end; padding:1.5rem; }
-        .color-data { padding:1.5rem; flex:1; display:flex; flex-direction:column; }
-        .color-data strong { font-size:1.2rem; margin-bottom:6px; font-family:var(--font-display); }
-        .color-data code { background:var(--cinza-fundo); padding:6px 12px; border-radius:6px; font-size:0.85rem; color:var(--carvao); font-weight:bold; align-self:flex-start; margin-bottom:1rem; }
-        .color-data p { font-size:0.85rem; color:var(--grafite); line-height:1.5; margin:0; }
-        .type-board { background:white; border-radius:var(--radius-lg); border:1px solid var(--cinza-suave); padding:2rem; box-shadow:var(--shadow-card); margin-bottom:2rem; }
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .color-block {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--cinza-suave);
+            box-shadow: var(--shadow-card);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .color-show {
+            height: 120px;
+            width: 100%;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+        }
+
+        .color-data {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .color-data strong {
+            font-size: 1.2rem;
+            margin-bottom: 6px;
+            font-family: var(--font-display);
+        }
+
+        .color-data code {
+            background: var(--cinza-fundo);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: var(--carvao);
+            font-weight: bold;
+            align-self: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .color-data p {
+            font-size: 0.85rem;
+            color: var(--grafite);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .type-board {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--cinza-suave);
+            padding: 2rem;
+            box-shadow: var(--shadow-card);
+            margin-bottom: 2rem;
+        }
 
         /* ABA 4 */
-        .ui-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(350px,1fr)); gap:2rem; }
-        .ui-panel { background:white; padding:2.5rem; border-radius:var(--radius-lg); border:1px solid var(--cinza-suave); box-shadow:var(--shadow-card); }
-        .ui-panel h4 { margin-top:0; margin-bottom:1.5rem; font-family:var(--font-display); font-size:1.1rem; border-bottom:1px solid var(--cinza-suave); padding-bottom:1rem; display:flex; align-items:center; gap:10px; color:var(--carvao); }
-        .btn { width:100%; padding:14px 20px; border-radius:12px; font-weight:800; border:none; cursor:pointer; font-family:var(--font-display); font-size:0.95rem; margin-bottom:12px; display:flex; align-items:center; justify-content:center; gap:8px; transition:var(--transition); }
-        .btn-primary { background:var(--verde-institucional); color:white; box-shadow:0 6px 16px rgba(76,175,80,0.3); }
-        .btn-warning { background:var(--laranja-acao); color:white; box-shadow:0 6px 16px rgba(255,152,0,0.3); }
-        .btn-outline { background:transparent; color:var(--carvao); border:2px solid var(--cinza-suave); }
-        .input-group { margin-bottom:1.5rem; }
-        .input-label { display:block; font-size:0.85rem; font-weight:bold; color:var(--grafite); margin-bottom:8px; }
-        .input-field { width:100%; padding:16px; border:1px solid var(--cinza-suave); border-radius:12px; background:var(--cinza-fundo); font-family:var(--font-body); font-weight:bold; color:var(--carvao); outline:none; transition:var(--transition); }
-        .input-field:focus { border-color:var(--verde-institucional); background:white; box-shadow:0 0 0 4px var(--verde-claro); }
-        .tag-pill { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:20px; font-size:0.75rem; font-weight:bold; margin-right:8px; margin-bottom:8px; }
-        .tag-success { background:var(--verde-claro); color:var(--verde-acao); }
-        .tag-alert { background:var(--laranja-suave); color:var(--laranja-acao); }
-        .tag-neutral { background:var(--cinza-suave); color:var(--carvao); }
+        .ui-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .ui-panel {
+            background: white;
+            padding: 2.5rem;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--cinza-suave);
+            box-shadow: var(--shadow-card);
+        }
+
+        .ui-panel h4 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            border-bottom: 1px solid var(--cinza-suave);
+            padding-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--carvao);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-weight: 800;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--verde-institucional);
+            color: white;
+            box-shadow: 0 6px 16px rgba(76, 175, 80, 0.3);
+        }
+
+        .btn-warning {
+            background: var(--laranja-acao);
+            color: white;
+            box-shadow: 0 6px 16px rgba(255, 152, 0, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--carvao);
+            border: 2px solid var(--cinza-suave);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: var(--grafite);
+            margin-bottom: 8px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid var(--cinza-suave);
+            border-radius: 12px;
+            background: var(--cinza-fundo);
+            font-family: var(--font-body);
+            font-weight: bold;
+            color: var(--carvao);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .input-field:focus {
+            border-color: var(--verde-institucional);
+            background: white;
+            box-shadow: 0 0 0 4px var(--verde-claro);
+        }
+
+        .tag-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .tag-success {
+            background: var(--verde-claro);
+            color: var(--verde-acao);
+        }
+
+        .tag-alert {
+            background: var(--laranja-suave);
+            color: var(--laranja-acao);
+        }
+
+        .tag-neutral {
+            background: var(--cinza-suave);
+            color: var(--carvao);
+        }
 
         /* ABA 7 */
-        .prd-table-wrapper { width:100%; border-radius:var(--radius-lg); overflow:hidden; box-shadow:var(--shadow-card); background:white; border:1px solid var(--cinza-suave); }
-        .prd-table { width:100%; border-collapse:collapse; text-align:left; }
-        .prd-table th { background:var(--carvao); color:white; padding:1.2rem 1rem; font-family:var(--font-display); font-size:0.9rem; }
-        .prd-table td { padding:1rem; border-bottom:1px solid var(--cinza-suave); font-size:0.85rem; color:var(--grafite); }
-        .prd-table tbody tr:hover { background:var(--cinza-fundo); }
+        .prd-table-wrapper {
+            width: 100%;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+            background: white;
+            border: 1px solid var(--cinza-suave);
+        }
+
+        .prd-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        .prd-table th {
+            background: var(--carvao);
+            color: white;
+            padding: 1.2rem 1rem;
+            font-family: var(--font-display);
+            font-size: 0.9rem;
+        }
+
+        .prd-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--cinza-suave);
+            font-size: 0.85rem;
+            color: var(--grafite);
+        }
+
+        .prd-table tbody tr:hover {
+            background: var(--cinza-fundo);
+        }
 
         /* ABA 8 */
-        .sg-title { background:var(--carvao); color:white; padding:1.5rem 2rem; border-radius:var(--radius-lg); margin:4rem 0 2rem 0; font-size:1.5rem; display:flex; align-items:center; gap:1rem; font-family:var(--font-display); }
-        .screen-card { background:white; border-radius:var(--radius-xl); border:1px solid var(--cinza-suave); display:grid; grid-template-columns:1fr 400px; margin-bottom:3rem; overflow:hidden; box-shadow:var(--shadow-card); }
-        .screen-data { padding:3rem; }
-        .screen-tag { display:inline-flex; align-items:center; gap:6px; padding:6px 12px; border-radius:8px; font-size:0.75rem; font-weight:bold; color:white; margin-bottom:1rem; margin-right:10px; }
-        .screen-name { font-size:1.8rem; margin:0 0 2rem 0; color:var(--carvao); font-family:var(--font-display); font-weight:900; }
-        .prompt-box { background:var(--cinza-fundo); padding:1rem 1.5rem; border-radius:16px; border:1px solid var(--cinza-suave); margin-bottom:1rem; }
-        .prompt-box strong { font-size:0.8rem; color:var(--carvao); display:block; margin-bottom:8px; }
-        .prompt-box p { font-family:monospace; font-size:0.85rem; color:var(--grafite); margin:0; line-height:1.6; }
-        .screen-render { background:var(--verde-claro); background-image:radial-gradient(var(--verde-institucional) 0.5px, transparent 0.5px); background-size:10px 10px; display:flex; justify-content:center; align-items:center; padding:3rem 2rem; border-left:1px solid var(--cinza-suave); }
-        .mock-phone { width:280px; height:580px; background:white; border-radius:40px; border:12px solid var(--carvao); position:relative; overflow:hidden; display:flex; flex-direction:column; box-shadow:var(--shadow-float); }
-        .mock-notch { position:absolute; top:0; left:50%; transform:translateX(-50%); width:120px; height:24px; background:var(--carvao); border-bottom-left-radius:12px; border-bottom-right-radius:12px; z-index:50; }
+        .sg-title {
+            background: var(--carvao);
+            color: white;
+            padding: 1.5rem 2rem;
+            border-radius: var(--radius-lg);
+            margin: 4rem 0 2rem 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-family: var(--font-display);
+        }
+
+        .screen-card {
+            background: white;
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--cinza-suave);
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            margin-bottom: 3rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-card);
+        }
+
+        .screen-data {
+            padding: 3rem;
+        }
+
+        .screen-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 1rem;
+            margin-right: 10px;
+        }
+
+        .screen-name {
+            font-size: 1.8rem;
+            margin: 0 0 2rem 0;
+            color: var(--carvao);
+            font-family: var(--font-display);
+            font-weight: 900;
+        }
+
+        .prompt-box {
+            background: var(--cinza-fundo);
+            padding: 1rem 1.5rem;
+            border-radius: 16px;
+            border: 1px solid var(--cinza-suave);
+            margin-bottom: 1rem;
+        }
+
+        .prompt-box strong {
+            font-size: 0.8rem;
+            color: var(--carvao);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .prompt-box p {
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--grafite);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .screen-render {
+            background: var(--verde-claro);
+            background-image: radial-gradient(var(--verde-institucional) 0.5px, transparent 0.5px);
+            background-size: 10px 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem 2rem;
+            border-left: 1px solid var(--cinza-suave);
+        }
+
+        .mock-phone {
+            width: 280px;
+            height: 580px;
+            background: white;
+            border-radius: 40px;
+            border: 12px solid var(--carvao);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--shadow-float);
+        }
+
+        .mock-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 24px;
+            background: var(--carvao);
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+            z-index: 50;
+        }
 
         /* BADGE FINANCEIRO */
-        .split-badge { display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg, var(--verde-claro), var(--laranja-suave)); border:1px solid var(--cinza-suave); padding:10px 16px; border-radius:12px; font-size:0.8rem; font-weight:bold; color:var(--carvao); }
+        .split-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--verde-claro), var(--laranja-suave));
+            border: 1px solid var(--cinza-suave);
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--carvao);
+        }
 
         @media (max-width:1024px) {
-            .sidebar { transform:translateX(-100%); }
-            .main-content { margin-left:0; padding:1.5rem; }
-            .screen-card { grid-template-columns:1fr; }
-            .screen-render { border-left:none; border-top:1px solid var(--cinza-suave); }
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 1.5rem;
+            }
+
+            .screen-card {
+                grid-template-columns: 1fr;
+            }
+
+            .screen-render {
+                border-left: none;
+                border-top: 1px solid var(--cinza-suave);
+            }
         }
     </style>
 </head>
 
 <body>
-<div class="bg-globs"><div class="glob g1"></div><div class="glob g2"></div></div>
-
-<!-- SIDEBAR -->
-<aside class="sidebar">
-    <div class="brand-logo">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 9h16"/><path d="M4 15h16"/><path d="M12 3v18"/></svg>
-        <div>Conecta<span>Mesa</span></div>
+    <div class="bg-globs">
+        <div class="glob g1"></div>
+        <div class="glob g2"></div>
     </div>
-    <nav>
-        <a onclick="switchTab('tab-visao',this)" class="nav-link active-nav"><i data-lucide="eye"></i> 1. Visão Geral</a>
-        <a onclick="switchTab('tab-logo',this)" class="nav-link"><i data-lucide="image"></i> 2. Logo e Aviso Oficial</a>
-        <a onclick="switchTab('tab-identidade',this)" class="nav-link"><i data-lucide="palette"></i> 3. Identidade Visual</a>
-        <a onclick="switchTab('tab-design',this)" class="nav-link"><i data-lucide="layout-template"></i> 4. Design System UI</a>
-        <a onclick="switchTab('tab-requisitos',this)" class="nav-link"><i data-lucide="layers"></i> 5. MVP Requisitos</a>
-        <a onclick="switchTab('tab-fluxos',this)" class="nav-link"><i data-lucide="git-merge"></i> 6. Fluxos Arquitetura</a>
-        <a onclick="switchTab('tab-tabela',this)" class="nav-link"><i data-lucide="table"></i> 7. Tabela Oficial (PRD)</a>
-        <a onclick="switchTab('tab-telas',this)" class="nav-link" style="color:var(--verde-institucional);"><i data-lucide="smartphone"></i> 8. As 25 Telas (Mockups)</a>
-    </nav>
-    <div style="margin-top:auto; padding-top:2rem; border-top:1px solid var(--cinza-suave);">
-        <div style="background:var(--verde-claro); border-radius:12px; padding:1rem; font-size:0.75rem; color:var(--verde-acao); font-weight:bold;">
-            <div style="margin-bottom:4px;">📄 v1.1 — Abril 2026</div>
-            <div style="opacity:0.8; font-weight:normal;">Split: 60% vendedor / 40% plataforma</div>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="brand-logo"
+            style="padding: 0; height: 100px; width: 100%; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+            <img src="logo.png" style="width: 130px; max-width: none; height: auto; margin-top: 2px;" alt="Conecta Mesa"
+                onerror="this.src='https://placehold.co/150x40?text=ConectaMesa'">
         </div>
-    </div>
-</aside>
+        <nav>
+            <a onclick="switchTab('tab-visao',this)" class="nav-link active-nav"><i data-lucide="eye"></i> 1. Visão
+                Geral</a>
+            <a onclick="switchTab('tab-logo',this)" class="nav-link"><i data-lucide="image"></i> 2. Logo e Aviso
+                Oficial</a>
+            <a onclick="switchTab('tab-identidade',this)" class="nav-link"><i data-lucide="palette"></i> 3. Identidade
+                Visual</a>
+            <a onclick="switchTab('tab-design',this)" class="nav-link"><i data-lucide="layout-template"></i> 4. Design
+                System UI</a>
+            <a onclick="switchTab('tab-requisitos',this)" class="nav-link"><i data-lucide="layers"></i> 5. MVP
+                Requisitos</a>
+            <a onclick="switchTab('tab-fluxos',this)" class="nav-link"><i data-lucide="git-merge"></i> 6. Fluxos
+                Arquitetura</a>
+            <a onclick="switchTab('tab-tabela',this)" class="nav-link"><i data-lucide="table"></i> 7. Tabela Oficial
+                (PRD)</a>
+            <a onclick="switchTab('tab-telas',this)" class="nav-link" style="color:var(--verde-institucional);"><i
+                    data-lucide="smartphone"></i> 8. As 25 Telas (Mockups)</a>
+        </nav>
+        <div style="margin-top:auto; padding-top:2rem; border-top:1px solid var(--cinza-suave);">
+            <div
+                style="background:var(--verde-claro); border-radius:12px; padding:1rem; font-size:0.75rem; color:var(--verde-acao); font-weight:bold;">
+                <div style="margin-bottom:4px;">📄 v1.1 — Abril 2026</div>
+                <div style="opacity:0.8; font-weight:normal;">Split: 60% vendedor / 40% plataforma</div>
+            </div>
+        </div>
+    </aside>
 
-<main class="main-content">
+    <main class="main-content">
 
-    <!-- ==========================================
+        <!-- ==========================================
          ABA 1: VISÃO GERAL
     ========================================== -->
-    <section id="tab-visao" class="tab-content active">
-        <div class="hero-banner">
-            <div class="hero-chip">MVP Conecta Mesa — Infraestrutura Híbrida B2G/B2C · v1.1</div>
-            <h1 class="hero-title">O software que <span>erradica o desperdício</span> na raiz.</h1>
-            <p class="section-desc" style="color:rgba(255,255,255,0.8);">Plataforma projetada para interceptar alimentos perecíveis antes do descarte, convertendo perda financeira em lucro iminente de desconto (Radar B2C) ou mitigação tributária via impacto social legítimo (Hub B2G para ONGs). O modelo financeiro é sustentado por um split automático de pagamentos via Asaas BaaS White Label.</p>
-            <div style="display:flex; flex-wrap:wrap; gap:1rem; margin-top:2rem;">
-                <div class="split-badge"><i data-lucide="wallet" style="width:16px; color:var(--verde-acao);"></i> 60% do netValue → Vendedor</div>
-                <div class="split-badge"><i data-lucide="building-2" style="width:16px; color:var(--laranja-acao);"></i> 40% do netValue → Conecta Mesa</div>
-                <div class="split-badge"><i data-lucide="heart" style="width:16px; color:var(--verde-acao);"></i> 0% de taxa → ONGs Verificadas</div>
+        <section id="tab-visao" class="tab-content active">
+            <div class="hero-banner">
+                <div class="hero-chip">MVP Conecta Mesa — Infraestrutura Híbrida B2G/B2C · v1.1</div>
+                <h1 class="hero-title">O software que <span>erradica o desperdício</span> na raiz.</h1>
+                <p class="section-desc" style="color:rgba(255,255,255,0.8);">Plataforma projetada para interceptar
+                    alimentos perecíveis antes do descarte, convertendo perda financeira em lucro iminente de desconto
+                    (Radar B2C) ou mitigação tributária via impacto social legítimo (Hub B2G para ONGs). O modelo
+                    financeiro é sustentado por um split automático de pagamentos via Asaas BaaS White Label.</p>
+                <div style="display:flex; flex-wrap:wrap; gap:1rem; margin-top:2rem;">
+                    <div class="split-badge"><i data-lucide="wallet" style="width:16px; color:var(--verde-acao);"></i>
+                        60% do netValue (valor depois das taxas do gateway) → Vendedor</div>
+                    <div class="split-badge"><i data-lucide="building-2"
+                            style="width:16px; color:var(--laranja-acao);"></i> 40% do netValue (valor depois das taxas do gateway) → Conecta Mesa</div>
+                    
+                </div>
             </div>
-        </div>
 
-        <div class="grid-cards">
-            <div class="info-card">
-                <i data-lucide="zap" style="color:var(--laranja-acao);"></i>
-                <h3 class="font-display">Radar B2C (Urgência)</h3>
-                <p style="color:var(--grafite); font-size:0.95rem;">Lotes anunciados com cortes de preço baseados no timer de vencimento. O cidadão paga via app (Pix ou cartão) e retira na loja. O split 60/40 é processado automaticamente pelo Asaas no evento PAYMENT_RECEIVED.</p>
+            <div class="grid-cards">
+                <div class="info-card">
+                    <i data-lucide="zap" style="color:var(--laranja-acao);"></i>
+                    <h3 class="font-display">Radar B2C (Urgência)</h3>
+                    <p style="color:var(--grafite); font-size:0.95rem;">Lotes anunciados com cortes de preço baseados no
+                        timer de vencimento. O cidadão paga via app (Pix ou cartão) e retira na loja. O split 60/40 é
+                        processado automaticamente pelo Asaas no evento PAYMENT_RECEIVED.</p>
+                </div>
+                <div class="info-card">
+                    <i data-lucide="shield-check" style="color:var(--verde-institucional);"></i>
+                    <h3 class="font-display">Hub B2G (Filantropia)</h3>
+                    <p style="color:var(--grafite); font-size:0.95rem;">Validade zerada iminentemente converte a cesta
+                        em modo Free. Apenas ONGs com Selo ONG Verificada (CNPJ ASSOCIATION) podem dar match. Take rate
+                        = 0% — sem split configurado na transação B2G.</p>
+                </div>
+                <div class="info-card">
+                    <i data-lucide="layers" style="color:var(--carvao);"></i>
+                    <h3 class="font-display">Stack Técnica</h3>
+                    <p style="color:var(--grafite); font-size:0.95rem; line-height:1.6;"><strong>Frontend:</strong>
+                        Flutter + Dart (iOS & Android)<br><strong>Backend:</strong> Supabase (Auth, DB, Realtime, Edge
+                        Functions)<br><strong>Pagamentos:</strong> Asaas BaaS White Label<br><strong>Mapa:</strong>
+                        Mapbox GL (50k loads/mês gratuitos)</p>
+                </div>
+                <div class="info-card">
+                    <i data-lucide="banknote" style="color:var(--verde-institucional);"></i>
+                    <h3 class="font-display">Modelo Financeiro</h3>
+                    <p style="color:var(--grafite); font-size:0.95rem; line-height:1.6;">Split calculado sobre o
+                        <strong>netValue</strong> (valor após taxas Asaas). Saldo do vendedor fica como
+                        <strong>PENDENTE</strong> até confirmação de retirada via QR Code — só então muda para
+                        <strong>DISPONÍVEL</strong> para saque. Estorno automático para pedidos PENDENTE cancelados.
+                    </p>
+                </div>
             </div>
-            <div class="info-card">
-                <i data-lucide="shield-check" style="color:var(--verde-institucional);"></i>
-                <h3 class="font-display">Hub B2G (Filantropia)</h3>
-                <p style="color:var(--grafite); font-size:0.95rem;">Validade zerada iminentemente converte a cesta em modo Free. Apenas ONGs com Selo ONG Verificada (CNPJ ASSOCIATION) podem dar match. Take rate = 0% — sem split configurado na transação B2G.</p>
-            </div>
-            <div class="info-card">
-                <i data-lucide="layers" style="color:var(--carvao);"></i>
-                <h3 class="font-display">Stack Técnica</h3>
-                <p style="color:var(--grafite); font-size:0.95rem; line-height:1.6;"><strong>Frontend:</strong> Flutter + Dart (iOS & Android)<br><strong>Backend:</strong> Supabase (Auth, DB, Realtime, Edge Functions)<br><strong>Pagamentos:</strong> Asaas BaaS White Label<br><strong>Mapa:</strong> Mapbox GL (50k loads/mês gratuitos)</p>
-            </div>
-            <div class="info-card">
-                <i data-lucide="banknote" style="color:var(--verde-institucional);"></i>
-                <h3 class="font-display">Modelo Financeiro</h3>
-                <p style="color:var(--grafite); font-size:0.95rem; line-height:1.6;">Split calculado sobre o <strong>netValue</strong> (valor após taxas Asaas). Saldo do vendedor fica como <strong>PENDENTE</strong> até confirmação de retirada via QR Code — só então muda para <strong>DISPONÍVEL</strong> para saque. Estorno automático para pedidos PENDENTE cancelados.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- ==========================================
+        <!-- ==========================================
          ABA 2: LOGO E AVISO OFICIAL
     ========================================== -->
-    <section id="tab-logo" class="tab-content">
-        <h2 class="section-header"><i data-lucide="image"></i> Logotipo e Diretriz Visual</h2>
-        <p class="section-desc" style="margin-bottom:2rem;">Duas versões oficiais da marca: <strong>Versão Completa</strong> (ícone + wordmark) e <strong>Versão Ícone</strong> (uso compacto — app icon, favicon).</p>
+        <section id="tab-logo" class="tab-content">
+            <h2 class="section-header"><i data-lucide="image"></i> Logotipo e Diretriz Visual</h2>
+            <p class="section-desc" style="margin-bottom:2rem;">Duas versões oficiais da marca: <strong>Versão
+                    Completa</strong> (ícone + wordmark) e <strong>Versão Ícone</strong> (uso compacto — app icon,
+                favicon).</p>
 
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-bottom:3rem;">
-            <div style="background:white; padding:4rem 3rem; text-align:center; border-radius:var(--radius-xl); box-shadow:var(--shadow-card); border:1px solid var(--cinza-suave);">
-                <p style="font-size:0.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--grafite); margin:0 0 2rem 0;">Versão Completa</p>
-                <div style="display:flex; justify-content:center; align-items:center; gap:1rem; font-family:var(--font-display); font-weight:900; font-size:2.8rem; line-height:1;">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--verde-institucional)" stroke-width="2.8" stroke-linecap="round"><path d="M4 9h16"/><path d="M4 15h16"/><path d="M12 3v18"/></svg>
-                    <span style="color:var(--verde-institucional);">Conecta</span><span style="color:var(--laranja-acao);">Mesa</span>
-                </div>
-                <p style="font-size:0.72rem; color:var(--grafite); margin:2rem 0 0 0; font-style:italic;">Uso principal: headers, documentos, onboarding</p>
-            </div>
-            <div style="background:white; padding:4rem 3rem; text-align:center; border-radius:var(--radius-xl); box-shadow:var(--shadow-card); border:1px solid var(--cinza-suave);">
-                <p style="font-size:0.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--grafite); margin:0 0 2rem 0;">Versão Ícone</p>
-                <div style="display:flex; justify-content:center; align-items:center;">
-                    <div style="width:96px; height:96px; border-radius:22px; border:2.5px solid var(--verde-institucional); display:flex; align-items:center; justify-content:center; box-shadow:0 4px 20px rgba(76,175,80,0.18);">
-                        <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="var(--verde-institucional)" stroke-width="2.8" stroke-linecap="round"><path d="M4 9h16"/><path d="M4 15h16"/><path d="M12 3v18"/></svg>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-bottom:3rem;">
+                <div
+                    style="background:white; padding:4rem 3rem; text-align:center; border-radius:var(--radius-xl); box-shadow:var(--shadow-card); border:1px solid var(--cinza-suave);">
+                    <p
+                        style="font-size:0.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--grafite); margin:0 0 2rem 0;">
+                        Versão Completa</p>
+                    <div style="display:flex; justify-content:center; align-items:center;">
+                        <div
+                            style="width: 100%; height: 160px; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+                            <img src="logo.png" style="width: 340px; max-width: none; height: auto; margin-top: 8px;"
+                                alt="Conecta Mesa Logo Completa"
+                                onerror="this.src='https://placehold.co/300x150?text=Logo+Completa'">
+                        </div>
                     </div>
+                    <p style="font-size:0.72rem; color:var(--grafite); margin:2rem 0 0 0; font-style:italic;">Uso
+                        principal: headers, documentos, onboarding</p>
                 </div>
-                <p style="font-size:0.72rem; color:var(--grafite); margin:2rem 0 0 0; font-style:italic;">Uso compacto: app icon, favicon, avatar, notificações</p>
-            </div>
-        </div>
-
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-bottom:3rem;">
-            <div style="background:var(--carvao); padding:4rem 3rem; text-align:center; border-radius:var(--radius-xl); box-shadow:var(--shadow-card);">
-                <p style="font-size:0.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.5); margin:0 0 2rem 0;">Versão Completa — Dark</p>
-                <div style="display:flex; justify-content:center; align-items:center; gap:1rem; font-family:var(--font-display); font-weight:900; font-size:2.8rem; line-height:1;">
-                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--verde-institucional)" stroke-width="2.8" stroke-linecap="round"><path d="M4 9h16"/><path d="M4 15h16"/><path d="M12 3v18"/></svg>
-                    <span style="color:var(--verde-institucional);">Conecta</span><span style="color:var(--laranja-acao);">Mesa</span>
-                </div>
-                <p style="font-size:0.72rem; color:rgba(255,255,255,0.4); margin:2rem 0 0 0; font-style:italic;">Uso em fundos escuros e splash screen</p>
-            </div>
-            <div style="background:var(--carvao); padding:4rem 3rem; text-align:center; border-radius:var(--radius-xl); box-shadow:var(--shadow-card);">
-                <p style="font-size:0.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.5); margin:0 0 2rem 0;">Versão Ícone — Dark</p>
-                <div style="display:flex; justify-content:center; align-items:center;">
-                    <div style="width:96px; height:96px; border-radius:22px; border:2.5px solid var(--verde-institucional); display:flex; align-items:center; justify-content:center; box-shadow:0 4px 24px rgba(76,175,80,0.25);">
-                        <svg width="54" height="54" viewBox="0 0 24 24" fill="none" stroke="var(--verde-institucional)" stroke-width="2.8" stroke-linecap="round"><path d="M4 9h16"/><path d="M4 15h16"/><path d="M12 3v18"/></svg>
+                <div
+                    style="background:white; padding:4rem 3rem; text-align:center; border-radius:var(--radius-xl); box-shadow:var(--shadow-card); border:1px solid var(--cinza-suave);">
+                    <p
+                        style="font-size:0.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--grafite); margin:0 0 2rem 0;">
+                        Versão Ícone</p>
+                    <div style="display:flex; justify-content:center; align-items:center;">
+                        <div
+                            style="width:120px; height:120px; border-radius:22px; border:2.5px solid var(--verde-institucional); overflow: hidden; background: white; display: flex; justify-content: center; align-items: center; box-shadow:0 4px 20px rgba(76,175,80,0.18);">
+                            <img src="icon.png" style="width: 400px; max-width: none; height: auto; margin-top: 35px;"
+                                alt="Conecta Mesa Icone" onerror="this.src='https://placehold.co/120x120?text=Icon'">
+                        </div>
                     </div>
+                    <p style="font-size:0.72rem; color:var(--grafite); margin:2rem 0 0 0; font-style:italic;">Uso
+                        compacto: app icon, favicon, avatar, notificações</p>
                 </div>
-                <p style="font-size:0.72rem; color:rgba(255,255,255,0.4); margin:2rem 0 0 0; font-style:italic;">Uso em splash screen e telas escuras</p>
             </div>
-        </div>
 
-        <div class="disclaimer-box">
-            <i data-lucide="alert-triangle" style="width:32px; height:32px; margin-bottom:1rem; display:inline-block;"></i><br>
-            ALERTA MÁXIMO PROJETO (NÃO NEGOCIÁVEL)<br><br>
-            A logomarca acima é IMUTÁVEL. A "engrenagem / cerquilha" nativa jamais será substituída por ilustrações clichês de comida. Além disso, os Mockups visuais Mobile listados na Aba 8 funcionam estritamente como WIREFRAMES PREMIUM (Blueprints Lógicos). Eles servem para organizar o fluxo Frontend, mas o Figma final da equipe de Interface ainda aplicará suas próprias pinceladas artísticas em cima dessas bases métricas.
-        </div>
-    </section>
 
-    <!-- ==========================================
+            <div class="disclaimer-box" style="background:#E8F5E9; border-color:#4CAF50; color:#2E7D32;">
+                <i data-lucide="check-circle"
+                    style="width:32px; height:32px; margin-bottom:1rem; display:inline-block;"></i><br>
+                NOVA IDENTIDADE APROVADA<br><br>
+                A logomarca oficial traz as cores Verde Ponte e Laranja Urgência, destacando mãos e folhas para
+                representar conexão e sustentabilidade. Esta é a identidade definitiva que substituirá todos os ícones
+                antigos. <strong>Nota:</strong> Salve a imagem da logo como <code>logo.png</code> na mesma pasta deste
+                arquivo.
+            </div>
+        </section>
+
+        <!-- ==========================================
          ABA 3: IDENTIDADE VISUAL
     ========================================== -->
-    <section id="tab-identidade" class="tab-content">
-        <h2 class="section-header"><i data-lucide="palette"></i> Identidade Visual do Projeto</h2>
-        <p class="section-desc">Paleta de Cores e Tipografia estabelecidas para o Design System <strong>Conecta Mesa</strong>, unindo confiabilidade jurídica B2G à rapidez do varejo B2C.</p>
+        <section id="tab-identidade" class="tab-content">
+            <h2 class="section-header"><i data-lucide="palette"></i> Identidade Visual do Projeto</h2>
+            <p class="section-desc">Paleta de Cores e Tipografia estabelecidas para o Design System <strong>Conecta
+                    Mesa</strong>, unindo confiabilidade jurídica B2G à rapidez do varejo B2C.</p>
 
-        <h3 class="font-display" style="font-size:1.4rem; margin-bottom:1.5rem; color:var(--text-primary);">1. Cores Institucionais e Interface</h3>
-        <div class="color-palette">
-            <div class="color-block" style="border-top:6px solid var(--green-primary);">
-                <div class="color-show" style="background:var(--green-primary);"></div>
-                <div class="color-data"><strong>Verde Ponte (Primary)</strong><code>#4CAF50</code><p><strong>Uso:</strong> Doações, ONGs, CTAs primários, estados de sucesso e fundos de cards B2G.</p></div>
+            <h3 class="font-display" style="font-size:1.4rem; margin-bottom:1.5rem; color:var(--text-primary);">1. Cores
+                Institucionais e Interface</h3>
+            <div class="color-palette">
+                <div class="color-block" style="border-top:6px solid var(--green-primary);">
+                    <div class="color-show" style="background:var(--green-primary);"></div>
+                    <div class="color-data"><strong>Verde Ponte (Primary)</strong><code>#4CAF50</code>
+                        <p><strong>Uso:</strong> Doações, ONGs, CTAs primários, estados de sucesso e fundos de cards
+                            B2G.</p>
+                    </div>
+                </div>
+                <div class="color-block" style="border-top:6px solid var(--orange-primary);">
+                    <div class="color-show" style="background:var(--orange-primary);"></div>
+                    <div class="color-data"><strong>Laranja Urgência (Secondary)</strong><code>#FF9800</code>
+                        <p><strong>Uso:</strong> Vendas, gatilhos de escassez, timers, badges de desconto e CTAs de
+                            urgência.</p>
+                    </div>
+                </div>
+                <div class="color-block" style="border-top:6px solid var(--border-soft);">
+                    <div class="color-show" style="background:var(--background);"></div>
+                    <div class="color-data"><strong>Background Scaffold</strong><code>#FFFFFF</code>
+                        <p><strong>Uso:</strong> Fundo branco raiz de todas as telas (Modo Claro absoluto), gerando
+                            altíssimo contraste.</p>
+                    </div>
+                </div>
+                <div class="color-block" style="border-top:6px solid var(--border-soft);">
+                    <div class="color-show" style="background:var(--surface-light);"></div>
+                    <div class="color-data"><strong>Surface / Cards</strong><code>#F5F5F5</code>
+                        <p><strong>Uso:</strong> Fundo para cards secundários, inputs e agrupamento de sessões.</p>
+                    </div>
+                </div>
+                <div class="color-block" style="border-top:6px solid var(--text-primary);">
+                    <div class="color-show" style="background:var(--text-primary);"></div>
+                    <div class="color-data"><strong>Texto Principal</strong><code>#333333</code>
+                        <p><strong>Uso:</strong> Corpo de texto enfatizado, títulos de cards e cabeçalhos vitais.</p>
+                    </div>
+                </div>
+                <div class="color-block" style="border-top:6px solid var(--text-muted);">
+                    <div class="color-show" style="background:var(--text-muted);"></div>
+                    <div class="color-data"><strong>Texto Secundário (Muted)</strong><code>#737373</code>
+                        <p><strong>Uso:</strong> Detalhes, metadados (distância, tempo restante), labels e corpo
+                            secundário.</p>
+                    </div>
+                </div>
             </div>
-            <div class="color-block" style="border-top:6px solid var(--orange-primary);">
-                <div class="color-show" style="background:var(--orange-primary);"></div>
-                <div class="color-data"><strong>Laranja Urgência (Secondary)</strong><code>#FF9800</code><p><strong>Uso:</strong> Vendas, gatilhos de escassez, timers, badges de desconto e CTAs de urgência.</p></div>
-            </div>
-            <div class="color-block" style="border-top:6px solid var(--border-soft);">
-                <div class="color-show" style="background:var(--background);"></div>
-                <div class="color-data"><strong>Background Scaffold</strong><code>#FFFFFF</code><p><strong>Uso:</strong> Fundo branco raiz de todas as telas (Modo Claro absoluto), gerando altíssimo contraste.</p></div>
-            </div>
-            <div class="color-block" style="border-top:6px solid var(--border-soft);">
-                <div class="color-show" style="background:var(--surface-light);"></div>
-                <div class="color-data"><strong>Surface / Cards</strong><code>#F5F5F5</code><p><strong>Uso:</strong> Fundo para cards secundários, inputs e agrupamento de sessões.</p></div>
-            </div>
-            <div class="color-block" style="border-top:6px solid var(--text-primary);">
-                <div class="color-show" style="background:var(--text-primary);"></div>
-                <div class="color-data"><strong>Texto Principal</strong><code>#333333</code><p><strong>Uso:</strong> Corpo de texto enfatizado, títulos de cards e cabeçalhos vitais.</p></div>
-            </div>
-            <div class="color-block" style="border-top:6px solid var(--text-muted);">
-                <div class="color-show" style="background:var(--text-muted);"></div>
-                <div class="color-data"><strong>Texto Secundário (Muted)</strong><code>#737373</code><p><strong>Uso:</strong> Detalhes, metadados (distância, tempo restante), labels e corpo secundário.</p></div>
-            </div>
-        </div>
 
-        <h3 class="font-display" style="font-size:1.4rem; margin-bottom:1.5rem; color:var(--text-primary); margin-top:3rem;">2. Padrões Tipográficos (Scale Base)</h3>
-        <div class="type-board" style="display:flex; flex-direction:column; gap:2rem;">
-            <div style="background:#FFFFFF; border:1px solid var(--border-soft); border-radius:16px; padding:2rem; box-shadow:var(--shadow-card);">
-                <div style="display:flex; justify-content:space-between; border-bottom:2px solid var(--surface-light); padding-bottom:1rem; margin-bottom:1.5rem;">
-                    <h4 style="margin:0; font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; color:var(--green-primary); font-size:1.2rem;">Plus Jakarta Sans</h4>
-                    <span style="color:var(--text-muted); font-size:0.85rem; font-weight:600;">Display & Títulos</span>
+            <h3 class="font-display"
+                style="font-size:1.4rem; margin-bottom:1.5rem; color:var(--text-primary); margin-top:3rem;">2. Padrões
+                Tipográficos (Scale Base)</h3>
+            <div class="type-board" style="display:flex; flex-direction:column; gap:2rem;">
+                <div
+                    style="background:#FFFFFF; border:1px solid var(--border-soft); border-radius:16px; padding:2rem; box-shadow:var(--shadow-card);">
+                    <div
+                        style="display:flex; justify-content:space-between; border-bottom:2px solid var(--surface-light); padding-bottom:1rem; margin-bottom:1.5rem;">
+                        <h4
+                            style="margin:0; font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; color:var(--green-primary); font-size:1.2rem;">
+                            Plus Jakarta Sans</h4>
+                        <span style="color:var(--text-muted); font-size:0.85rem; font-weight:600;">Display &
+                            Títulos</span>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:1.5rem;">
+                        <div>
+                            <div
+                                style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:24px; color:var(--text-primary);">
+                                Aa — ExtraBold 800 (24sp)</div>
+                            <p style="margin:4px 0 0 0; font-size:0.85rem; color:var(--text-muted);">
+                                <strong>Uso:</strong> AppBars, Hero Headings em Modais e Numerais imensos de Dashboard.
+                            </p>
+                        </div>
+                        <div>
+                            <div
+                                style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:20px; color:var(--text-primary);">
+                                Aa — Bold 700 (20sp)</div>
+                            <p style="margin:4px 0 0 0; font-size:0.85rem; color:var(--text-muted);">
+                                <strong>Uso:</strong> Subtítulos de telas e Nomes em destaque nos cards de produto.
+                            </p>
+                        </div>
+                        <div>
+                            <div
+                                style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:600; font-size:16px; color:var(--text-primary);">
+                                Aa — SemiBold 600 (16sp)</div>
+                            <p style="margin:4px 0 0 0; font-size:0.85rem; color:var(--text-muted);">
+                                <strong>Uso:</strong> Labels de botões CTA principais e Chips de filtros selecionados.
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                <div style="display:flex; flex-direction:column; gap:1.5rem;">
-                    <div><div style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:800; font-size:24px; color:var(--text-primary);">Aa — ExtraBold 800 (24sp)</div><p style="margin:4px 0 0 0; font-size:0.85rem; color:var(--text-muted);"><strong>Uso:</strong> AppBars, Hero Headings em Modais e Numerais imensos de Dashboard.</p></div>
-                    <div><div style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:700; font-size:20px; color:var(--text-primary);">Aa — Bold 700 (20sp)</div><p style="margin:4px 0 0 0; font-size:0.85rem; color:var(--text-muted);"><strong>Uso:</strong> Subtítulos de telas e Nomes em destaque nos cards de produto.</p></div>
-                    <div><div style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:600; font-size:16px; color:var(--text-primary);">Aa — SemiBold 600 (16sp)</div><p style="margin:4px 0 0 0; font-size:0.85rem; color:var(--text-muted);"><strong>Uso:</strong> Labels de botões CTA principais e Chips de filtros selecionados.</p></div>
+                <div
+                    style="background:#FFFFFF; border:1px solid var(--border-soft); border-radius:16px; padding:2rem; box-shadow:var(--shadow-card);">
+                    <div
+                        style="display:flex; justify-content:space-between; border-bottom:2px solid var(--surface-light); padding-bottom:1rem; margin-bottom:1.5rem;">
+                        <h4
+                            style="margin:0; font-family:'Inter',sans-serif; font-weight:700; color:var(--orange-primary); font-size:1.2rem;">
+                            Inter</h4>
+                        <span style="color:var(--text-muted); font-size:0.85rem; font-weight:600;">Corpo &
+                            Metadados</span>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:1.5rem;">
+                        <div>
+                            <div
+                                style="font-family:'Inter',sans-serif; font-weight:700; font-size:16px; color:var(--text-primary);">
+                                Aa — Bold 700 (16sp)</div>
+                            <p style="margin:4px 0 0 0; font-size:0.85rem; color:var(--text-muted);">
+                                <strong>Uso:</strong> Corpo enfatizado, textos críticos (CPF, e-mail) informativos.
+                            </p>
+                        </div>
+                        <div>
+                            <div
+                                style="font-family:'Inter',sans-serif; font-weight:500; font-size:14px; color:var(--text-primary);">
+                                Aa — Medium 500 (14sp)</div>
+                            <p style="margin:4px 0 0 0; font-size:0.85rem; color:var(--text-muted);">
+                                <strong>Uso:</strong> Corpo do texto padrão, descrições de tela, rótulos de guias e
+                                chats.
+                            </p>
+                        </div>
+                        <div>
+                            <div
+                                style="font-family:'Inter',sans-serif; font-weight:400; font-size:12px; color:var(--text-primary);">
+                                Aa — Regular 400 (12sp)</div>
+                            <p style="margin:4px 0 0 0; font-size:0.85rem; color:var(--text-muted);">
+                                <strong>Uso:</strong> Microcópias exclusivas: timestamps, hint texts e distância de KM
+                                em cards.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div style="background:#FFFFFF; border:1px solid var(--border-soft); border-radius:16px; padding:2rem; box-shadow:var(--shadow-card);">
-                <div style="display:flex; justify-content:space-between; border-bottom:2px solid var(--surface-light); padding-bottom:1rem; margin-bottom:1.5rem;">
-                    <h4 style="margin:0; font-family:'Inter',sans-serif; font-weight:700; color:var(--orange-primary); font-size:1.2rem;">Inter</h4>
-                    <span style="color:var(--text-muted); font-size:0.85rem; font-weight:600;">Corpo & Metadados</span>
-                </div>
-                <div style="display:flex; flex-direction:column; gap:1.5rem;">
-                    <div><div style="font-family:'Inter',sans-serif; font-weight:700; font-size:16px; color:var(--text-primary);">Aa — Bold 700 (16sp)</div><p style="margin:4px 0 0 0; font-size:0.85rem; color:var(--text-muted);"><strong>Uso:</strong> Corpo enfatizado, textos críticos (CPF, e-mail) informativos.</p></div>
-                    <div><div style="font-family:'Inter',sans-serif; font-weight:500; font-size:14px; color:var(--text-primary);">Aa — Medium 500 (14sp)</div><p style="margin:4px 0 0 0; font-size:0.85rem; color:var(--text-muted);"><strong>Uso:</strong> Corpo do texto padrão, descrições de tela, rótulos de guias e chats.</p></div>
-                    <div><div style="font-family:'Inter',sans-serif; font-weight:400; font-size:12px; color:var(--text-primary);">Aa — Regular 400 (12sp)</div><p style="margin:4px 0 0 0; font-size:0.85rem; color:var(--text-muted);"><strong>Uso:</strong> Microcópias exclusivas: timestamps, hint texts e distância de KM em cards.</p></div>
-                </div>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- ==========================================
+        <!-- ==========================================
          ABA 4: DESIGN SYSTEM COMPONENTES
     ========================================== -->
-    <section id="tab-design" class="tab-content">
-        <h2 class="section-header"><i data-lucide="layout-template"></i> Biblioteca Design System UI</h2>
-        <p class="section-desc">Conjunto arquitetônico de formas base em Material Design 3. Estes componentes são os blocos de construção reais usados em todo o aplicativo.</p>
+        <section id="tab-design" class="tab-content">
+            <h2 class="section-header"><i data-lucide="layout-template"></i> Biblioteca Design System UI</h2>
+            <p class="section-desc">Conjunto arquitetônico de formas base em Material Design 3. Estes componentes são os
+                blocos de construção reais usados em todo o aplicativo.</p>
 
-        <div class="ui-grid">
-            <!-- Botões -->
-            <div class="ui-panel">
-                <h4><i data-lucide="mouse-pointer-click"></i> Botões Base (CTA)</h4>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Elementos rechonchudos com 48px/52dp de altura para acessibilidade em touch screens.</p>
-                <button class="btn btn-primary" style="margin-bottom:8px;"><i data-lucide="check-circle" style="width:18px;"></i> Ação Principal (Doação / Confirmar)</button>
-                <p style="font-size:0.8rem; color:var(--text-primary); margin-bottom:1rem;"><strong>Uso:</strong> Caminho primário do usuário (salvar lote, enviar form, confirmar retirada).<br><strong>Comportamento:</strong> Feedback ripple verde, sobe elevation no tap.</p>
-                <button class="btn btn-warning" style="margin-bottom:8px;"><i data-lucide="alert-circle" style="width:18px;"></i> Ação de Urgência (Venda)</button>
-                <p style="font-size:0.8rem; color:var(--text-primary); margin-bottom:1rem;"><strong>Uso:</strong> Vendas de produtos perto do vencimento.<br><strong>Comportamento:</strong> Vibração opcional, pulso de urgência.</p>
-                <button class="btn btn-outline" style="margin-bottom:8px;">Ação Secundária (Passivo / Cancelar)</button>
-                <p style="font-size:0.8rem; color:var(--text-primary); margin-bottom:1rem;"><strong>Uso:</strong> Botões de Cancelar, "Ver Mais" ou filtros fechados.<br><strong>Comportamento:</strong> Background fica cinza no hover/press.</p>
-            </div>
+            <div class="ui-grid">
+                <!-- Botões -->
+                <div class="ui-panel">
+                    <h4><i data-lucide="mouse-pointer-click"></i> Botões Base (CTA)</h4>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Elementos rechonchudos
+                        com 48px/52dp de altura para acessibilidade em touch screens.</p>
+                    <button class="btn btn-primary" style="margin-bottom:8px;"><i data-lucide="check-circle"
+                            style="width:18px;"></i> Ação Principal (Doação / Confirmar)</button>
+                    <p style="font-size:0.8rem; color:var(--text-primary); margin-bottom:1rem;"><strong>Uso:</strong>
+                        Caminho primário do usuário (salvar lote, enviar form, confirmar
+                        retirada).<br><strong>Comportamento:</strong> Feedback ripple verde, sobe elevation no tap.</p>
+                    <button class="btn btn-warning" style="margin-bottom:8px;"><i data-lucide="alert-circle"
+                            style="width:18px;"></i> Ação de Urgência (Venda)</button>
+                    <p style="font-size:0.8rem; color:var(--text-primary); margin-bottom:1rem;"><strong>Uso:</strong>
+                        Vendas de produtos perto do vencimento.<br><strong>Comportamento:</strong> Vibração opcional,
+                        pulso de urgência.</p>
+                    <button class="btn btn-outline" style="margin-bottom:8px;">Ação Secundária (Passivo /
+                        Cancelar)</button>
+                    <p style="font-size:0.8rem; color:var(--text-primary); margin-bottom:1rem;"><strong>Uso:</strong>
+                        Botões de Cancelar, "Ver Mais" ou filtros fechados.<br><strong>Comportamento:</strong>
+                        Background fica cinza no hover/press.</p>
+                </div>
 
-            <!-- Inputs -->
-            <div class="ui-panel">
-                <h4><i data-lucide="text-cursor-input"></i> Formulários e Entradas (Inputs)</h4>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Campos com cantos 12px, borda sutil e hierarquia de leitura.</p>
-                <div class="input-group">
-                    <label class="input-label">Nome Completo (Estado Inativo)</label>
-                    <input type="text" class="input-field" placeholder="Digite seu nome">
-                    <p style="font-size:0.8rem; color:var(--text-primary); margin-top:8px;"><strong>Comportamento:</strong> Placeholder cinza, fundo SurfaceLight, borda transparente.</p>
+                <!-- Inputs -->
+                <div class="ui-panel">
+                    <h4><i data-lucide="text-cursor-input"></i> Formulários e Entradas (Inputs)</h4>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Campos com cantos 12px,
+                        borda sutil e hierarquia de leitura.</p>
+                    <div class="input-group">
+                        <label class="input-label">Nome Completo (Estado Inativo)</label>
+                        <input type="text" class="input-field" placeholder="Digite seu nome">
+                        <p style="font-size:0.8rem; color:var(--text-primary); margin-top:8px;">
+                            <strong>Comportamento:</strong> Placeholder cinza, fundo SurfaceLight, borda transparente.
+                        </p>
+                    </div>
+                    <div class="input-group" style="margin-bottom:0;">
+                        <label class="input-label" style="color:var(--green-primary);">CNPJ Empresarial (Foco /
+                            Ativo)</label>
+                        <input type="text" class="input-field" value="23.411.0001/90"
+                            style="border-color:var(--green-primary); background:#FFFFFF; box-shadow:0 0 0 4px rgba(76,175,80,0.15);">
+                        <p style="font-size:0.8rem; color:var(--text-primary); margin-top:8px;">
+                            <strong>Comportamento:</strong> Animação de Ring + Cor primária na Label.
+                        </p>
+                    </div>
                 </div>
-                <div class="input-group" style="margin-bottom:0;">
-                    <label class="input-label" style="color:var(--green-primary);">CNPJ Empresarial (Foco / Ativo)</label>
-                    <input type="text" class="input-field" value="23.411.0001/90" style="border-color:var(--green-primary); background:#FFFFFF; box-shadow:0 0 0 4px rgba(76,175,80,0.15);">
-                    <p style="font-size:0.8rem; color:var(--text-primary); margin-top:8px;"><strong>Comportamento:</strong> Animação de Ring + Cor primária na Label.</p>
-                </div>
-            </div>
 
-            <!-- Tags -->
-            <div class="ui-panel">
-                <h4><i data-lucide="tags"></i> Pílulas Status Logísticos (Tags)</h4>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Badges minúsculos com cantos arredondados máximos (9999px) usados em cards de feed e na Carteira Digital.</p>
-                <div style="margin-bottom:1rem;">
-                    <span class="tag-pill tag-success"><i data-lucide="check" style="width:12px;"></i> Doação Verificada</span><br>
-                    <span class="tag-pill tag-alert"><i data-lucide="clock" style="width:12px;"></i> Venda Urgente (Vence Hoje)</span><br>
-                    <span class="tag-pill" style="background:#E3F2FD; color:#1565C0;"><i data-lucide="hourglass" style="width:12px;"></i> Saldo Pendente</span><br>
-                    <span class="tag-pill tag-success"><i data-lucide="check-circle" style="width:12px;"></i> Saldo Disponível</span>
+                <!-- Tags -->
+                <div class="ui-panel">
+                    <h4><i data-lucide="tags"></i> Pílulas Status Logísticos (Tags)</h4>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Badges minúsculos com
+                        cantos arredondados máximos (9999px) usados em cards de feed e na Carteira Digital.</p>
+                    <div style="margin-bottom:1rem;">
+                        <span class="tag-pill tag-success"><i data-lucide="check" style="width:12px;"></i> Doação
+                            Verificada</span><br>
+                        <span class="tag-pill tag-alert"><i data-lucide="clock" style="width:12px;"></i> Venda Urgente
+                            (Vence Hoje)</span><br>
+                        <span class="tag-pill" style="background:#E3F2FD; color:#1565C0;"><i data-lucide="hourglass"
+                                style="width:12px;"></i> Saldo Pendente</span><br>
+                        <span class="tag-pill tag-success"><i data-lucide="check-circle" style="width:12px;"></i> Saldo
+                            Disponível</span>
+                    </div>
+                    <p style="font-size:0.8rem; color:var(--text-primary);">
+                        <strong>Pendente:</strong> Pagamento confirmado, aguardando QR Code de retirada.<br>
+                        <strong>Disponível:</strong> Retirada confirmada, saldo liberado para saque Pix.
+                    </p>
                 </div>
-                <p style="font-size:0.8rem; color:var(--text-primary);">
-                    <strong>Pendente:</strong> Pagamento confirmado, aguardando QR Code de retirada.<br>
-                    <strong>Disponível:</strong> Retirada confirmada, saldo liberado para saque Pix.
-                </p>
-            </div>
 
-            <!-- Toasts -->
-            <div class="ui-panel">
-                <h4><i data-lucide="message-square"></i> Feedbacks Sistêmicos (Toasts)</h4>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Confirmações transitórias não obstrutivas baseadas em SnackBars.</p>
-                <div style="background:var(--green-primary); color:#FFFFFF; padding:12px 16px; border-radius:8px; display:flex; align-items:center; gap:8px; box-shadow:0 4px 6px rgba(0,0,0,0.1); margin-bottom:8px;">
-                    <i data-lucide="check-circle" style="width:18px;"></i> <span style="font-size:0.85rem; font-weight:700;">Lote resgatado com sucesso!</span>
+                <!-- Toasts -->
+                <div class="ui-panel">
+                    <h4><i data-lucide="message-square"></i> Feedbacks Sistêmicos (Toasts)</h4>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">Confirmações transitórias
+                        não obstrutivas baseadas em SnackBars.</p>
+                    <div
+                        style="background:var(--green-primary); color:#FFFFFF; padding:12px 16px; border-radius:8px; display:flex; align-items:center; gap:8px; box-shadow:0 4px 6px rgba(0,0,0,0.1); margin-bottom:8px;">
+                        <i data-lucide="check-circle" style="width:18px;"></i> <span
+                            style="font-size:0.85rem; font-weight:700;">Lote resgatado com sucesso!</span>
+                    </div>
+                    <div
+                        style="background:#1565C0; color:#FFFFFF; padding:12px 16px; border-radius:8px; display:flex; align-items:center; gap:8px; box-shadow:0 4px 6px rgba(0,0,0,0.1); margin-bottom:8px;">
+                        <i data-lucide="wallet" style="width:18px;"></i> <span
+                            style="font-size:0.85rem; font-weight:700;">Saldo liberado para saque!</span>
+                    </div>
+                    <div
+                        style="background:var(--color-error); color:#FFFFFF; padding:12px 16px; border-radius:8px; display:flex; align-items:center; gap:8px; box-shadow:0 4px 6px rgba(0,0,0,0.1); margin-bottom:8px;">
+                        <i data-lucide="x-circle" style="width:18px;"></i> <span
+                            style="font-size:0.85rem; font-weight:700;">Erro: Alimento Vencido. Bloqueado.</span>
+                    </div>
+                    <p style="font-size:0.8rem; color:var(--text-primary);"><strong>Comportamento:</strong> Desaparece
+                        em 3 segundos. Flutua 20px da borda inferior.</p>
                 </div>
-                <div style="background:#1565C0; color:#FFFFFF; padding:12px 16px; border-radius:8px; display:flex; align-items:center; gap:8px; box-shadow:0 4px 6px rgba(0,0,0,0.1); margin-bottom:8px;">
-                    <i data-lucide="wallet" style="width:18px;"></i> <span style="font-size:0.85rem; font-weight:700;">Saldo liberado para saque!</span>
-                </div>
-                <div style="background:var(--color-error); color:#FFFFFF; padding:12px 16px; border-radius:8px; display:flex; align-items:center; gap:8px; box-shadow:0 4px 6px rgba(0,0,0,0.1); margin-bottom:8px;">
-                    <i data-lucide="x-circle" style="width:18px;"></i> <span style="font-size:0.85rem; font-weight:700;">Erro: Alimento Vencido. Bloqueado.</span>
-                </div>
-                <p style="font-size:0.8rem; color:var(--text-primary);"><strong>Comportamento:</strong> Desaparece em 3 segundos. Flutua 20px da borda inferior.</p>
-            </div>
 
-            <!-- Navbars -->
-            <div class="ui-panel" style="grid-column:1 / -1;">
-                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem;">
-                    <h4 style="margin:0;"><i data-lucide="navigation"></i> Menus Mobile por Perfil (Dinâmico)</h4>
-                    <span class="tag-pill tag-success">Bottom Navbar Material 3</span>
-                </div>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.5rem;">Navegação global fixa na parte inferior. O app assume Bottom Navbars diferentes baseado na sessão (user_role) autenticada. <strong>PF: 6 abas | PJ: 7 abas | ONG: 7 abas.</strong></p>
+                <!-- Navbars -->
+                <div class="ui-panel" style="grid-column:1 / -1;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem;">
+                        <h4 style="margin:0;"><i data-lucide="navigation"></i> Menu Universal Bottom Navbar (6 Abas)
+                        </h4>
+                        <span class="tag-pill tag-success">Bottom Navbar Material 3</span>
+                    </div>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.5rem;">Navegação global fixa
+                        na parte inferior, unificada para todas as personas (PF, PJ e ONG). O comportamento interno das
+                        abas se adapta inteligentemente ao <strong>user_role</strong>, mas a interface física permanece
+                        consistente e elegante.</p>
 
-                <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:2rem;">
-                    <!-- Navbar PF -->
-                    <div>
-                        <strong style="display:block; font-family:var(--font-display); font-size:1rem; color:var(--text-primary); margin-bottom:4px;">Usuário Comum (PF) — 6 abas</strong>
-                        <span style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:8px;">Início • Mapa • Anunciar • Carteira • Histórico • Perfil</span>
-                        <div style="background:#FFFFFF; border:1px solid var(--border-soft); border-radius:24px; padding:12px 10px; display:flex; justify-content:space-between; box-shadow:0 10px 15px rgba(0,0,0,0.05); overflow-x:auto; gap:8px;">
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--green-primary); min-width:48px;"><i data-lucide="home" style="width:20px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:800;">Início</span></div>
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:48px;"><i data-lucide="map" style="width:20px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:700;">Mapa</span></div>
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:48px;"><i data-lucide="plus-circle" style="width:20px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:700;">Anunciar</span></div>
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:48px;"><i data-lucide="wallet" style="width:20px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:700;">Carteira</span></div>
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:48px;"><i data-lucide="clipboard-list" style="width:20px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:700;">Histórico</span></div>
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:48px;"><i data-lucide="user" style="width:20px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:700;">Perfil</span></div>
+                    <div style="display:grid; grid-template-columns:1fr; gap:2rem;">
+                        <!-- Navbar Universal -->
+                        <div>
+                            <strong
+                                style="display:block; font-family:var(--font-display); font-size:1.1rem; color:var(--text-primary); margin-bottom:4px;">Universal
+                                — 6 abas</strong>
+                            <span
+                                style="display:block; font-size:0.85rem; color:var(--text-muted); margin-bottom:12px;">Início
+                                • Carteira • Anunciar • Histórico • Impacto • Perfil</span>
+                            <div
+                                style="background:#FFFFFF; border:1px solid var(--border-soft); border-radius:24px; padding:16px 20px; display:flex; justify-content:space-between; box-shadow:0 10px 15px rgba(0,0,0,0.05); overflow-x:auto; gap:16px;">
+                                <div
+                                    style="display:flex; flex-direction:column; align-items:center; color:var(--green-primary); min-width:50px;">
+                                    <i data-lucide="home" style="width:24px; margin-bottom:6px;"></i><span
+                                        style="font-size:0.7rem; font-weight:800;">Início</span>
+                                </div>
+                                <div
+                                    style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:50px;">
+                                    <i data-lucide="wallet" style="width:24px; margin-bottom:6px;"></i><span
+                                        style="font-size:0.7rem; font-weight:700;">Carteira</span>
+                                </div>
+                                <div
+                                    style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:50px; position:relative;">
+                                    <div
+                                        style="background:var(--verde-institucional); color:white; border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; position:absolute; top:-24px; box-shadow:0 4px 10px rgba(76,175,80,0.3);">
+                                        <i data-lucide="plus" style="width:24px;"></i>
+                                    </div><span
+                                        style="font-size:0.7rem; font-weight:700; margin-top:26px;">Anunciar</span>
+                                </div>
+                                <div
+                                    style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:50px;">
+                                    <i data-lucide="clipboard-list" style="width:24px; margin-bottom:6px;"></i><span
+                                        style="font-size:0.7rem; font-weight:700;">Histórico</span>
+                                </div>
+                                <div
+                                    style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:50px;">
+                                    <i data-lucide="leaf" style="width:24px; margin-bottom:6px;"></i><span
+                                        style="font-size:0.7rem; font-weight:700;">Impacto</span>
+                                </div>
+                                <div
+                                    style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:50px;">
+                                    <i data-lucide="user" style="width:24px; margin-bottom:6px;"></i><span
+                                        style="font-size:0.7rem; font-weight:700;">Perfil</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <!-- Navbar PJ -->
-                    <div>
-                        <strong style="display:block; font-family:var(--font-display); font-size:1rem; color:var(--orange-primary); margin-bottom:4px;">Empresa Lojista (PJ) — 7 abas</strong>
-                        <span style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:8px;">Início • Mapa • Anunciar • Carteira • Histórico • Impacto • Perfil</span>
-                        <div style="background:#FFFFFF; border:1px solid var(--border-soft); border-radius:24px; padding:12px 10px; display:flex; justify-content:space-between; box-shadow:0 10px 15px rgba(0,0,0,0.05); overflow-x:auto; gap:8px;">
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--orange-primary); min-width:45px;"><i data-lucide="home" style="width:18px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:800;">Início</span></div>
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:45px;"><i data-lucide="map" style="width:18px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:700;">Mapa</span></div>
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:45px;"><i data-lucide="plus-circle" style="width:18px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:700;">Anunciar</span></div>
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:45px;"><i data-lucide="wallet" style="width:18px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:700;">Carteira</span></div>
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:45px;"><i data-lucide="clipboard-list" style="width:18px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:700;">Histórico</span></div>
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--green-primary); min-width:45px;"><i data-lucide="leaf" style="width:18px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:700;">Impacto</span></div>
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:45px;"><i data-lucide="user" style="width:18px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:700;">Perfil</span></div>
+                </div>
+
+                <!-- Card de Lote -->
+                <div class="ui-panel" style="grid-column:1 / -1; max-width:400px; justify-self:center;">
+                    <h4><i data-lucide="box"></i> Componente Core: Cartão de Lote</h4>
+                    <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.5rem;">Cesta padrão usada no
+                        Feed e MapBox. Raio 16px e Sombra de elevação 2.</p>
+                    <div
+                        style="background:#FFFFFF; border-radius:16px; border:1px solid var(--border-soft); box-shadow:var(--shadow-card); overflow:hidden;">
+                        <div
+                            style="height:120px; background:radial-gradient(circle,#e0e0e0,#c0c0c0); display:flex; padding:10px; align-items:flex-start; position:relative;">
+                            <span class="tag-pill tag-alert" style="box-shadow:0 4px 6px rgba(0,0,0,0.2);">50%
+                                OFF</span>
+                            <span class="tag-pill"
+                                style="background:#C62828; color:#FFFFFF; margin-left:auto; box-shadow:0 4px 6px rgba(0,0,0,0.2);">⏰
+                                Urgente</span>
                         </div>
-                    </div>
-                    <!-- Navbar ONG -->
-                    <div>
-                        <strong style="display:block; font-family:var(--font-display); font-size:1rem; color:var(--green-primary); margin-bottom:4px;">ONG Solidária — 7 abas</strong>
-                        <span style="display:block; font-size:0.75rem; color:var(--text-muted); margin-bottom:8px;">Início • Mapa • Anunciar • Carteira • Histórico • Impacto • Perfil</span>
-                        <div style="background:#FFFFFF; border:1px solid var(--border-soft); border-radius:24px; padding:12px 10px; display:flex; justify-content:space-between; box-shadow:0 10px 15px rgba(0,0,0,0.05); overflow-x:auto; gap:8px;">
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--green-primary); min-width:45px;"><i data-lucide="home" style="width:18px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:800;">Início</span></div>
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:45px;"><i data-lucide="map" style="width:18px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:700;">Mapa</span></div>
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:45px;"><i data-lucide="plus-circle" style="width:18px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:700;">Anunciar</span></div>
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:45px;"><i data-lucide="wallet" style="width:18px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:700;">Carteira</span></div>
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:45px;"><i data-lucide="clipboard-list" style="width:18px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:700;">Histórico</span></div>
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--green-primary); min-width:45px;"><i data-lucide="leaf" style="width:18px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:700;">Impacto</span></div>
-                            <div style="display:flex; flex-direction:column; align-items:center; color:var(--text-muted); min-width:45px;"><i data-lucide="user" style="width:18px; margin-bottom:4px;"></i><span style="font-size:0.6rem; font-weight:700;">Perfil</span></div>
+                        <div style="padding:1.2rem;">
+                            <h5
+                                style="margin:0 0 4px 0; font-family:'Plus Jakarta Sans',sans-serif; font-size:1.1rem; font-weight:800; color:var(--text-primary);">
+                                Lote de Frios Premium</h5>
+                            <div
+                                style="font-size:0.8rem; color:var(--text-muted); display:flex; align-items:center; gap:4px;">
+                                <i data-lucide="map-pin" style="width:12px;"></i> Padaria Esquina • 0.5km
+                            </div>
+                            <div style="margin-top:1rem; display:flex; align-items:baseline; gap:8px;">
+                                <div
+                                    style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:900; font-size:1.5rem; color:var(--orange-primary);">
+                                    R$ 15,00</div>
+                                <div style="color:var(--text-muted); text-decoration:line-through; font-size:0.9rem;">R$
+                                    30,00</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </section>
 
-            <!-- Card de Lote -->
-            <div class="ui-panel" style="grid-column:1 / -1; max-width:400px; justify-self:center;">
-                <h4><i data-lucide="box"></i> Componente Core: Cartão de Lote</h4>
-                <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1.5rem;">Cesta padrão usada no Feed e MapBox. Raio 16px e Sombra de elevação 2.</p>
-                <div style="background:#FFFFFF; border-radius:16px; border:1px solid var(--border-soft); box-shadow:var(--shadow-card); overflow:hidden;">
-                    <div style="height:120px; background:radial-gradient(circle,#e0e0e0,#c0c0c0); display:flex; padding:10px; align-items:flex-start; position:relative;">
-                        <span class="tag-pill tag-alert" style="box-shadow:0 4px 6px rgba(0,0,0,0.2);">50% OFF</span>
-                        <span class="tag-pill" style="background:#C62828; color:#FFFFFF; margin-left:auto; box-shadow:0 4px 6px rgba(0,0,0,0.2);">⏰ Urgente</span>
-                    </div>
-                    <div style="padding:1.2rem;">
-                        <h5 style="margin:0 0 4px 0; font-family:'Plus Jakarta Sans',sans-serif; font-size:1.1rem; font-weight:800; color:var(--text-primary);">Lote de Frios Premium</h5>
-                        <div style="font-size:0.8rem; color:var(--text-muted); display:flex; align-items:center; gap:4px;"><i data-lucide="map-pin" style="width:12px;"></i> Padaria Esquina • 0.5km</div>
-                        <div style="margin-top:1rem; display:flex; align-items:baseline; gap:8px;">
-                            <div style="font-family:'Plus Jakarta Sans',sans-serif; font-weight:900; font-size:1.5rem; color:var(--orange-primary);">R$ 15,00</div>
-                            <div style="color:var(--text-muted); text-decoration:line-through; font-size:0.9rem;">R$ 30,00</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==========================================
+        <!-- ==========================================
          ABA 5: REQUISITOS MVP
     ========================================== -->
-    <section id="tab-requisitos" class="tab-content">
-        <h2 class="section-header"><i data-lucide="layers"></i> Épicos e Tecnologias B2B / B2C</h2>
-        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem;">
-            <div class="ui-panel" style="border-left:6px solid var(--carvao);">
-                <h4>Autenticação Bi-Direcional</h4>
-                <p style="font-size:0.9rem; color:var(--grafite); line-height:1.5;">Login feito por Supabase Auth via <strong>e-mail e senha</strong>. Sem Google OAuth, sem OTP SMS — reduz dependências externas e mantém controle total. O sistema divide automaticamente a tela inicial em 2 visões: Consumidor PF versus Organização PJ.</p>
+        <section id="tab-requisitos" class="tab-content">
+            <h2 class="section-header"><i data-lucide="layers"></i> Épicos e Tecnologias B2B / B2C</h2>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem;">
+                <div class="ui-panel" style="border-left:6px solid var(--carvao);">
+                    <h4>Autenticação Bi-Direcional</h4>
+                    <p style="font-size:0.9rem; color:var(--grafite); line-height:1.5;">Login feito por Supabase Auth
+                        via <strong>e-mail e senha</strong>. Sem Google OAuth, sem OTP SMS — reduz dependências externas
+                        e mantém controle total. O sistema divide automaticamente a tela inicial em 2 visões: Consumidor
+                        PF versus Organização PJ.</p>
+                </div>
+                <div class="ui-panel" style="border-left:6px solid var(--verde-institucional);">
+                    <h4>Radar de Vitrine & MapBox</h4>
+                    <p style="font-size:0.9rem; color:var(--grafite); line-height:1.5;">O consumidor acessa o Feed ou o
+                        Mapa (Mapbox GL — 50k loads/mês gratuitos). Ali, ele enxerga pontinhos coloridos de proximidade
+                        com lotes ativos. Pins Verdes = Doação. Pins Laranjas = Venda. Só alimentos dentro do limite
+                        higiênico aparecem vivos no radar.</p>
+                </div>
+                <div class="ui-panel" style="border-left:6px solid var(--laranja-acao);">
+                    <h4>Inteligência OCR (Optical Character)</h4>
+                    <p style="font-size:0.9rem; color:var(--grafite); line-height:1.5;">O app Lojista exige que a câmera
+                        leia os numerais de vencimento. Google ML Kit / Edge AI escaneia a tampa e trava a publicação se
+                        passar da linha de segurança sanitária. Processamento 100% on-device, sem servidor.</p>
+                </div>
+                <div class="ui-panel" style="border-left:6px solid #2196F3;">
+                    <h4>Banking Total — Asaas BaaS White Label</h4>
+                    <p style="font-size:0.9rem; color:var(--grafite); line-height:1.5;">B2C compra via PIX Hash ou
+                        Cartão Tokenizado. O split automático Asaas repassa:<br><strong
+                            style="color:var(--verde-acao);">60% netValue → subconta do vendedor</strong><br><strong
+                            style="color:var(--laranja-acao);">40% netValue → conta-pai Conecta Mesa</strong><br>Saldo
+                        fica <strong>PENDENTE</strong> até QR Code de retirada confirmado. ONGs: take rate = 0%.</p>
+                </div>
+                <div class="ui-panel" style="border-left:6px solid #9C27B0;">
+                    <h4>Estorno Automático</h4>
+                    <p style="font-size:0.9rem; color:var(--grafite); line-height:1.5;">Pedidos com status
+                        <strong>PENDENTE</strong> cancelados acionam <code>POST /v3/payments/{id}/refund</code>
+                        automaticamente. O estorno retorna à origem do pagamento (Pix instantâneo, cartão em até 2
+                        faturas). Split desfeito automaticamente pelo Asaas. Disputas com status
+                        <strong>DISPONÍVEL</strong> abrem ticket interno com 48h de análise.
+                    </p>
+                </div>
+                <div class="ui-panel" style="border-left:6px solid var(--verde-acao);">
+                    <h4>Conversão Temporal B2C → B2G</h4>
+                    <p style="font-size:0.9rem; color:var(--grafite); line-height:1.5;">Edge Function Supabase verifica
+                        produtos a cada hora. 4h antes do prazo de retirada, produto não vendido é convertido
+                        automaticamente para Doação (comissao = 0). Vendedor notificado via push. Feed das ONGs
+                        atualizado via Realtime.</p>
+                </div>
             </div>
-            <div class="ui-panel" style="border-left:6px solid var(--verde-institucional);">
-                <h4>Radar de Vitrine & MapBox</h4>
-                <p style="font-size:0.9rem; color:var(--grafite); line-height:1.5;">O consumidor acessa o Feed ou o Mapa (Mapbox GL — 50k loads/mês gratuitos). Ali, ele enxerga pontinhos coloridos de proximidade com lotes ativos. Pins Verdes = Doação. Pins Laranjas = Venda. Só alimentos dentro do limite higiênico aparecem vivos no radar.</p>
-            </div>
-            <div class="ui-panel" style="border-left:6px solid var(--laranja-acao);">
-                <h4>Inteligência OCR (Optical Character)</h4>
-                <p style="font-size:0.9rem; color:var(--grafite); line-height:1.5;">O app Lojista exige que a câmera leia os numerais de vencimento. Google ML Kit / Edge AI escaneia a tampa e trava a publicação se passar da linha de segurança sanitária. Processamento 100% on-device, sem servidor.</p>
-            </div>
-            <div class="ui-panel" style="border-left:6px solid #2196F3;">
-                <h4>Banking Total — Asaas BaaS White Label</h4>
-                <p style="font-size:0.9rem; color:var(--grafite); line-height:1.5;">B2C compra via PIX Hash ou Cartão Tokenizado. O split automático Asaas repassa:<br><strong style="color:var(--verde-acao);">60% netValue → subconta do vendedor</strong><br><strong style="color:var(--laranja-acao);">40% netValue → conta-pai Conecta Mesa</strong><br>Saldo fica <strong>PENDENTE</strong> até QR Code de retirada confirmado. ONGs: take rate = 0%.</p>
-            </div>
-            <div class="ui-panel" style="border-left:6px solid #9C27B0;">
-                <h4>Estorno Automático</h4>
-                <p style="font-size:0.9rem; color:var(--grafite); line-height:1.5;">Pedidos com status <strong>PENDENTE</strong> cancelados acionam <code>POST /v3/payments/{id}/refund</code> automaticamente. O estorno retorna à origem do pagamento (Pix instantâneo, cartão em até 2 faturas). Split desfeito automaticamente pelo Asaas. Disputas com status <strong>DISPONÍVEL</strong> abrem ticket interno com 48h de análise.</p>
-            </div>
-            <div class="ui-panel" style="border-left:6px solid var(--verde-acao);">
-                <h4>Conversão Temporal B2C → B2G</h4>
-                <p style="font-size:0.9rem; color:var(--grafite); line-height:1.5;">Edge Function Supabase verifica produtos a cada hora. 4h antes do prazo de retirada, produto não vendido é convertido automaticamente para Doação (comissao = 0). Vendedor notificado via push. Feed das ONGs atualizado via Realtime.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- ==========================================
+        <!-- ==========================================
          ABA 6: FLUXOS ARQUITETURA
     ========================================== -->
-    <section id="tab-fluxos" class="tab-content">
-        <h2 class="section-header"><i data-lucide="smartphone"></i> UI/UX e Padrões de Navegação</h2>
-        <p class="section-desc">Diretrizes obrigatórias de comportamento das telas, estados de interação e fluxos de navegação segundo a Especificação oficial do Conecta Mesa.</p>
+        <section id="tab-fluxos" class="tab-content">
+            <h2 class="section-header"><i data-lucide="smartphone"></i> UI/UX e Padrões de Navegação</h2>
+            <p class="section-desc">Diretrizes obrigatórias de comportamento das telas, estados de interação e fluxos de
+                navegação segundo a Especificação oficial do Conecta Mesa.</p>
 
-        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem;">
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:1.5rem;">
 
-            <div class="ui-panel" style="border-top:6px solid var(--green-primary);">
-                <h4><i data-lucide="loader" style="width:20px;"></i> Estados Globais de Tela</h4>
-                <ul style="padding-left:1rem; margin:0; font-size:0.9rem; color:var(--text-primary); line-height:1.6;">
-                    <li style="margin-bottom:8px;"><strong>Loading State:</strong> <code>CircularProgressIndicator</code> na cor Verde Ponte centralizado. No Feed inicial, 6 Cards Shimmer (Skeleton).</li>
-                    <li style="margin-bottom:8px;"><strong>Empty State:</strong> Ilustração flat local, texto explicativo (Inter 16sp Muted) e CTA de Ação de Retorno obrigatório.</li>
-                    <li><strong>Error State:</strong> Campos em Vermelho #C62828. Erros de sistema disparam Snackbar vermelhos no rodapé, nunca modais obstrutivos.</li>
-                </ul>
-            </div>
+                <div class="ui-panel" style="border-top:6px solid var(--green-primary);">
+                    <h4><i data-lucide="loader" style="width:20px;"></i> Estados Globais de Tela</h4>
+                    <ul
+                        style="padding-left:1rem; margin:0; font-size:0.9rem; color:var(--text-primary); line-height:1.6;">
+                        <li style="margin-bottom:8px;"><strong>Loading State:</strong>
+                            <code>CircularProgressIndicator</code> na cor Verde Ponte centralizado. No Feed inicial, 6
+                            Cards Shimmer (Skeleton).
+                        </li>
+                        <li style="margin-bottom:8px;"><strong>Empty State:</strong> Ilustração flat local, texto
+                            explicativo (Inter 16sp Muted) e CTA de Ação de Retorno obrigatório.</li>
+                        <li><strong>Error State:</strong> Campos em Vermelho #C62828. Erros de sistema disparam Snackbar
+                            vermelhos no rodapé, nunca modais obstrutivos.</li>
+                    </ul>
+                </div>
 
-            <div class="ui-panel" style="border-top:6px solid var(--orange-primary);">
-                <h4><i data-lucide="layers" style="width:20px;"></i> Navegação e Transições</h4>
-                <ul style="padding-left:1rem; margin:0; font-size:0.9rem; color:var(--text-primary); line-height:1.6;">
-                    <li style="margin-bottom:8px;"><strong>Bottom Sheets:</strong> Detalhes dinâmicos do mapa sobem em <code>DraggableScrollableSheet</code> com cantos arredondados (20px topo). Interação primária: Swipe-to-Dismiss.</li>
-                    <li style="margin-bottom:8px;"><strong>Full Modals:</strong> Fechamento com ← Esquerda para Direita ou X no canto superior direito.</li>
-                    <li><strong>Bottom Navbar:</strong> Fixa globalmente — <strong>6 abas para PF, 7 abas para PJ e ONG</strong>. Transição de tab NÃO reconstrói a camada base (preserva sessão).</li>
-                </ul>
-            </div>
+                <div class="ui-panel" style="border-top:6px solid var(--orange-primary);">
+                    <h4><i data-lucide="layers" style="width:20px;"></i> Navegação e Transições</h4>
+                    <ul
+                        style="padding-left:1rem; margin:0; font-size:0.9rem; color:var(--text-primary); line-height:1.6;">
+                        <li style="margin-bottom:8px;"><strong>Bottom Sheets:</strong> Detalhes dinâmicos do mapa sobem
+                            em <code>DraggableScrollableSheet</code> com cantos arredondados (20px topo). Interação
+                            primária: Swipe-to-Dismiss.</li>
+                        <li style="margin-bottom:8px;"><strong>Full Modals:</strong> Fechamento com ← Esquerda para
+                            Direita ou X no canto superior direito.</li>
+                        <li><strong>Bottom Navbar:</strong> Fixa globalmente — <strong>6 abas universais para todas as
+                                personas</strong>. Transição de tab NÃO reconstrói a camada base (preserva sessão).</li>
+                    </ul>
+                </div>
 
-            <div class="ui-panel" style="border-top:6px solid #2196F3;">
-                <h4><i data-lucide="banknote" style="width:20px;"></i> Fluxo Financeiro — Split e Saldo</h4>
-                <div style="font-size:0.85rem; color:var(--text-primary); line-height:1.6; display:flex; flex-direction:column; gap:8px;">
-                    <div style="background:var(--cinza-fundo); border-radius:8px; padding:10px 14px; border-left:3px solid #2196F3;"><strong>1. PAGAMENTO:</strong> Split automático Asaas. 60% → subconta vendedor. 40% → conta-pai. Saldo marcado como <strong>PENDENTE</strong> no banco de dados.</div>
-                    <div style="background:var(--cinza-fundo); border-radius:8px; padding:10px 14px; border-left:3px solid var(--laranja-acao);"><strong>2. RETIRADA:</strong> Comprador exibe QR Code → Vendedor escaneia → Sistema atualiza para <strong>DISPONÍVEL</strong>.</div>
-                    <div style="background:var(--verde-claro); border-radius:8px; padding:10px 14px; border-left:3px solid var(--verde-institucional);"><strong>3. SAQUE:</strong> Vendedor saca via Pix (PF: gratuito ilimitado. PJ/ONG: 30 grátis/mês, depois R$ 2,00).</div>
-                    <div style="background:#FFEBEE; border-radius:8px; padding:10px 14px; border-left:3px solid var(--color-error);"><strong>4. ESTORNO:</strong> Status PENDENTE → automático via API. Status DISPONÍVEL → ticket de 48h.</div>
+                <div class="ui-panel" style="border-top:6px solid #2196F3;">
+                    <h4><i data-lucide="banknote" style="width:20px;"></i> Fluxo Financeiro — Split e Saldo</h4>
+                    <div
+                        style="font-size:0.85rem; color:var(--text-primary); line-height:1.6; display:flex; flex-direction:column; gap:8px;">
+                        <div
+                            style="background:var(--cinza-fundo); border-radius:8px; padding:10px 14px; border-left:3px solid #2196F3;">
+                            <strong>1. PAGAMENTO:</strong> Split automático Asaas. 60% → subconta vendedor. 40% →
+                            conta-pai. Saldo marcado como <strong>PENDENTE</strong> no banco de dados.
+                        </div>
+                        <div
+                            style="background:var(--cinza-fundo); border-radius:8px; padding:10px 14px; border-left:3px solid var(--laranja-acao);">
+                            <strong>2. RETIRADA:</strong> Comprador exibe QR Code → Vendedor escaneia → Sistema atualiza
+                            para <strong>DISPONÍVEL</strong>.
+                        </div>
+                        <div
+                            style="background:var(--verde-claro); border-radius:8px; padding:10px 14px; border-left:3px solid var(--verde-institucional);">
+                            <strong>3. SAQUE:</strong> Vendedor saca via Pix (PF: gratuito ilimitado. PJ/ONG: 30
+                            grátis/mês, depois R$ 2,00).
+                        </div>
+                        <div
+                            style="background:#FFEBEE; border-radius:8px; padding:10px 14px; border-left:3px solid var(--color-error);">
+                            <strong>4. ESTORNO:</strong> Status PENDENTE → automático via API. Status DISPONÍVEL →
+                            ticket de 48h.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ui-panel" style="grid-column:1 / -1; border-top:6px solid var(--text-primary);">
+                    <h4><i data-lucide="map" style="width:20px;"></i> Comportamentos MapBox GL e Supabase Realtime</h4>
+                    <div style="display:flex; flex-wrap:wrap; gap:1.5rem; margin-top:1rem;">
+                        <div style="flex:1; min-width:260px; font-size:0.9rem; color:var(--text-primary);">
+                            <strong
+                                style="display:block; margin-bottom:4px; font-family:'Plus Jakarta Sans',sans-serif;">Atualizações
+                                Instantâneas (UX)</strong>
+                            Se um produto for comprado no Raio de Busca do usuário, o Supabase Realtime esconde o Card
+                            do Feed aplicando animação <code>Fade-Out</code> suave de 2.0s. O Pin no mapa exibe animação
+                            <code>Scale-Out</code> (1.0 → 0.0) simultaneamente.
+                        </div>
+                        <div style="flex:1; min-width:260px; font-size:0.9rem; color:var(--text-primary);">
+                            <strong
+                                style="display:block; margin-bottom:4px; font-family:'Plus Jakarta Sans',sans-serif;">Gestão
+                                de Pins e Clusters</strong>
+                            Pins <span style="font-weight:bold; color:var(--green-primary);">Verdes</span> (Doação) e
+                            <span style="font-weight:bold; color:var(--orange-primary);">Laranjas</span> (Venda) com
+                            shadow 3D. Em zoom inferior a 12, itens próximos clusterizam em bolha circular numerada.
+                            Alerta interno ao atingir 80% dos 50k loads/mês gratuitos.
+                        </div>
+                    </div>
                 </div>
             </div>
+        </section>
 
-            <div class="ui-panel" style="grid-column:1 / -1; border-top:6px solid var(--text-primary);">
-                <h4><i data-lucide="map" style="width:20px;"></i> Comportamentos MapBox GL e Supabase Realtime</h4>
-                <div style="display:flex; flex-wrap:wrap; gap:1.5rem; margin-top:1rem;">
-                    <div style="flex:1; min-width:260px; font-size:0.9rem; color:var(--text-primary);">
-                        <strong style="display:block; margin-bottom:4px; font-family:'Plus Jakarta Sans',sans-serif;">Atualizações Instantâneas (UX)</strong>
-                        Se um produto for comprado no Raio de Busca do usuário, o Supabase Realtime esconde o Card do Feed aplicando animação <code>Fade-Out</code> suave de 2.0s. O Pin no mapa exibe animação <code>Scale-Out</code> (1.0 → 0.0) simultaneamente.
-                    </div>
-                    <div style="flex:1; min-width:260px; font-size:0.9rem; color:var(--text-primary);">
-                        <strong style="display:block; margin-bottom:4px; font-family:'Plus Jakarta Sans',sans-serif;">Gestão de Pins e Clusters</strong>
-                        Pins <span style="font-weight:bold; color:var(--green-primary);">Verdes</span> (Doação) e <span style="font-weight:bold; color:var(--orange-primary);">Laranjas</span> (Venda) com shadow 3D. Em zoom inferior a 12, itens próximos clusterizam em bolha circular numerada. Alerta interno ao atingir 80% dos 50k loads/mês gratuitos.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ==========================================
+        <!-- ==========================================
          ABA 7: TABELA OFICIAL PRD
     ========================================== -->
-    <section id="tab-tabela" class="tab-content">
-        <h2 class="section-header"><i data-lucide="table"></i> Tabela Oficial Módulos (25 Telas)</h2>
-        <p class="section-desc">Representação em tabela do mapeamento lógico oficial do MVP.</p>
+        <section id="tab-tabela" class="tab-content">
+            <h2 class="section-header"><i data-lucide="table"></i> Tabela Oficial Módulos (25 Telas)</h2>
+            <p class="section-desc">Representação em tabela do mapeamento lógico oficial do MVP.</p>
 
-        <div style="margin-bottom:2rem; background:var(--surface-light); padding:1.5rem; border-radius:16px; border:1px solid var(--border-soft);">
-            <h3 style="margin-top:0; font-family:var(--font-display); font-weight:800; color:var(--text-primary); font-size:1.5rem;">Fluxo Oficial do Produto</h3>
+            <div
+                style="margin-bottom:2rem; background:var(--surface-light); padding:1.5rem; border-radius:16px; border:1px solid var(--border-soft);">
+                <h3
+                    style="margin-top:0; font-family:var(--font-display); font-weight:800; color:var(--text-primary); font-size:1.5rem;">
+                    Fluxo Oficial do Produto</h3>
 
-            <h4 style="margin-top:1.5rem; font-family:var(--font-display); font-weight:700; color:var(--green-primary);">👥 Personas e Acessos</h4>
-            <div class="prd-table-wrapper" style="margin-bottom:1.5rem;">
+                <h4
+                    style="margin-top:1.5rem; font-family:var(--font-display); font-weight:700; color:var(--green-primary);">
+                    👥 Personas e Acessos</h4>
+                <div class="prd-table-wrapper" style="margin-bottom:1.5rem;">
+                    <table class="prd-table">
+                        <thead>
+                            <tr>
+                                <th>Persona</th>
+                                <th>Pode Comprar</th>
+                                <th>Pode Vender</th>
+                                <th>Pode Doar</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>PF</strong> (Pessoa Física)</td>
+                                <td>✅</td>
+                                <td>✅</td>
+                                <td>✅</td>
+                            </tr>
+                            <tr>
+                                <td><strong>PJ</strong> (Pessoa Jurídica)</td>
+                                <td>✅</td>
+                                <td>✅</td>
+                                <td>✅</td>
+                            </tr>
+                            <tr>
+                                <td><strong>ONG</strong></td>
+                                <td>✅</td>
+                                <td>✅</td>
+                                <td>✅</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h4
+                    style="margin-top:1.5rem; font-family:var(--font-display); font-weight:700; color:var(--green-primary);">
+                    📋 Cadastro</h4>
+                <ul style="font-size:0.9rem; color:var(--text-muted); line-height:1.6; margin-bottom:1.5rem;">
+                    <li><strong>Pessoa Física:</strong> Fluxo de cadastro padrão. Login exclusivo por e-mail e senha
+                        (sem Google OAuth, sem OTP SMS).</li>
+                    <li><strong>Pessoa Jurídica:</strong> Fluxo padrão + campo <em>segmento de atuação</em></li>
+                    <li><strong>ONG:</strong> Mesmo do PJ, diferenciada por "Sou uma ONG"
+                        (<code>companyType: "ASSOCIATION"</code>). <em>Exige Ata de Eleição no Asaas além de selfie +
+                            documento.</em></li>
+                </ul>
+
+                <h4
+                    style="margin-top:1.5rem; font-family:var(--font-display); font-weight:700; color:var(--green-primary);">
+                    💳 Fluxo de Compra, Pagamento e Split</h4>
+                <ol style="font-size:0.9rem; color:var(--text-muted); line-height:1.6; margin-bottom:1rem;">
+                    <li>Encontra anúncio no feed/mapa → Reserva e Paga (Pix ou Cartão)</li>
+                    <li>Asaas processa: split automático <strong style="color:var(--verde-acao);">60% netValue →
+                            subconta do vendedor</strong> / <strong style="color:var(--laranja-acao);">40% netValue →
+                            conta-pai Conecta Mesa</strong></li>
+                    <li>Saldo marcado como <strong>PENDENTE</strong> no banco de dados — vendedor NÃO pode sacar ainda
+                    </li>
+                    <li>Comprador acessa chat para combinar retirada</li>
+                    <li>Na retirada: Comprador apresenta QR Code → Vendedor escaneia → Status atualiza para
+                        <strong>DISPONÍVEL</strong>
+                    </li>
+                    <li>Vendedor pode sacar via Pix (PF: gratuito ilimitado | PJ/ONG: 30 grátis/mês)</li>
+                    <li>Comprador avalia vendedor e alimento</li>
+                </ol>
+
+                <div
+                    style="background:#FFF3E0; border-left:4px solid var(--orange-primary); padding:1rem; border-radius:8px; margin-bottom:1rem; font-size:0.85rem; color:#E65100;">
+                    <strong>⚠️ Fluxo de Estorno:</strong><br>
+                    • <strong>PENDENTE</strong> (antes da retirada): Cancelamento automático 100% via Asaas Refund API.
+                    Estorno volta para a origem do pagamento. Split desfeito automaticamente.<br>
+                    • <strong>DISPONÍVEL</strong> (após retirada confirmada): Abertura de ticket de suporte interno com
+                    análise humana em até 48h.
+                </div>
+
+                <div
+                    style="background:var(--verde-claro); border-left:4px solid var(--verde-institucional); padding:1rem; border-radius:8px; margin-bottom:1.5rem; font-size:0.85rem; color:var(--verde-acao);">
+                    <strong>🤝 ONGs Verificadas (B2G):</strong> Take rate = 0%. Sem split configurado. Produto
+                    transferido diretamente sem comissão. ONGs com Selo ONG Verificada acessam o pool de doações
+                    automaticamente.
+                </div>
+
+                <h4
+                    style="margin-top:1.5rem; font-family:var(--font-display); font-weight:700; color:var(--green-primary);">
+                    🗂️ Universal Bottom Navbar (Todas Personas)</h4>
+                <div
+                    style="background:#FFFFFF; padding:1rem; border-radius:8px; border:1px solid var(--border-soft); margin-bottom:1rem;">
+                    <strong
+                        style="color:var(--text-primary); font-size:1rem; display:block; margin-bottom:0.5rem;">Padrão
+                        Único (6 Abas)</strong>
+                    <ul style="font-size:0.85rem; color:var(--text-muted); padding-left:16px; line-height:1.6;">
+                        <li>🏠 <strong>Início:</strong> Feed principal ordenado por proximidade. O Mapa pode ser
+                            acessado no topo do feed.</li>
+                        <li>👛 <strong>Carteira:</strong> Saldo disponível/pendente e saque.</li>
+                        <li>➕ <strong>Anunciar:</strong> Formulário de anúncio (Bloqueado se KYC pendente).</li>
+                        <li>📋 <strong>Histórico:</strong> Compras/Resgates e Meus Anúncios.</li>
+                        <li>🌱 <strong style="color:var(--green-primary);">Impacto:</strong> Dashboard de métricas e
+                            gamificação (Heróis da Ponte).</li>
+                        <li>👤 <strong>Perfil:</strong> KYC, reputação, notificações e ajustes gerais.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="prd-table-wrapper">
                 <table class="prd-table">
-                    <thead><tr><th>Persona</th><th>Pode Comprar</th><th>Pode Vender</th><th>Pode Doar</th></tr></thead>
+                    <thead>
+                        <tr>
+                            <th width="8%">Nº</th>
+                            <th width="40%">Nome da Tela</th>
+                            <th width="22%">Módulo</th>
+                            <th width="30%">Usuário(s)</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr><td><strong>PF</strong> (Pessoa Física)</td><td>✅</td><td>✅</td><td>✅</td></tr>
-                        <tr><td><strong>PJ</strong> (Pessoa Jurídica)</td><td>✅</td><td>✅</td><td>✅</td></tr>
-                        <tr><td><strong>ONG</strong></td><td>✅</td><td>✅</td><td>✅</td></tr>
+                        <tr>
+                            <td><strong>01</strong></td>
+                            <td>Splash Screen / Onboarding</td>
+                            <td>Autenticação</td>
+                            <td>Todos</td>
+                        </tr>
+                        <tr>
+                            <td><strong>02</strong></td>
+                            <td>Escolha de Perfil (PF vs PJ)</td>
+                            <td>Autenticação</td>
+                            <td>Todos</td>
+                        </tr>
+                        <tr>
+                            <td><strong>03</strong></td>
+                            <td>Cadastro Pessoa Física (PF)</td>
+                            <td>Autenticação</td>
+                            <td>PF Doador / B2C</td>
+                        </tr>
+                        <tr>
+                            <td><strong>04</strong></td>
+                            <td>Cadastro Pessoa Jurídica (PJ)</td>
+                            <td>Autenticação</td>
+                            <td>B2B / ONG</td>
+                        </tr>
+                        <tr>
+                            <td><strong>05</strong></td>
+                            <td>Login (e-mail + senha — sem OAuth)</td>
+                            <td>Autenticação</td>
+                            <td>Todos</td>
+                        </tr>
+                        <tr>
+                            <td><strong>06</strong></td>
+                            <td>Recuperação de Senha</td>
+                            <td>Autenticação</td>
+                            <td>Todos</td>
+                        </tr>
+                        <tr>
+                            <td><strong>07</strong></td>
+                            <td>Feed de Anúncios (Lista)</td>
+                            <td>Marketplace</td>
+                            <td>B2C / ONG</td>
+                        </tr>
+                        <tr>
+                            <td><strong>08</strong></td>
+                            <td>Mapa Interativo (Mapbox GL)</td>
+                            <td>Marketplace</td>
+                            <td>B2C / ONG</td>
+                        </tr>
+                        <tr>
+                            <td><strong>09</strong></td>
+                            <td>Detalhe do Anúncio</td>
+                            <td>Marketplace</td>
+                            <td>B2C / ONG</td>
+                        </tr>
+                        <tr>
+                            <td><strong>10</strong></td>
+                            <td>Publicar Anúncio (Passo 1 — Foto + OCR)</td>
+                            <td>Marketplace</td>
+                            <td>B2B / PF Doador</td>
+                        </tr>
+                        <tr>
+                            <td><strong>11</strong></td>
+                            <td>Publicar Anúncio (Passo 2 — Dados + Checklist Sanitário)</td>
+                            <td>Marketplace</td>
+                            <td>B2B / PF Doador</td>
+                        </tr>
+                        <tr>
+                            <td><strong>12</strong></td>
+                            <td>Publicar Anúncio (Passo 3 — Revisão e Publicação)</td>
+                            <td>Marketplace</td>
+                            <td>B2B / PF Doador</td>
+                        </tr>
+                        <tr>
+                            <td><strong>13</strong></td>
+                            <td>Checkout — Seleção de Pagamento (Pix ou Cartão)</td>
+                            <td>Pagamento</td>
+                            <td>B2C</td>
+                        </tr>
+                        <tr>
+                            <td><strong>14</strong></td>
+                            <td>Pagamento PIX (QR Code Dinâmico)</td>
+                            <td>Pagamento</td>
+                            <td>B2C</td>
+                        </tr>
+                        <tr>
+                            <td><strong>15</strong></td>
+                            <td>Pagamento Cartão (3-DS 2.0 obrigatório acima de R$ 200)</td>
+                            <td>Pagamento</td>
+                            <td>B2C</td>
+                        </tr>
+                        <tr>
+                            <td><strong>16</strong></td>
+                            <td>Confirmação de Pagamento (saldo PENDENTE — aguarda retirada)</td>
+                            <td>Pagamento</td>
+                            <td>B2C / B2B</td>
+                        </tr>
+                        <tr>
+                            <td><strong>17</strong></td>
+                            <td>QR Code de Entrega (Consumidor exibe)</td>
+                            <td>Pagamento</td>
+                            <td>B2C</td>
+                        </tr>
+                        <tr>
+                            <td><strong>18</strong></td>
+                            <td>Scanner QR Code (Lojista confirma retirada → saldo DISPONÍVEL)</td>
+                            <td>Pagamento</td>
+                            <td>B2B</td>
+                        </tr>
+                        <tr>
+                            <td><strong>19</strong></td>
+                            <td>Chat Assíncrono</td>
+                            <td>Comunicação</td>
+                            <td>Todos</td>
+                        </tr>
+                        <tr>
+                            <td><strong>20</strong></td>
+                            <td>Dashboard de Impacto e Gamificação</td>
+                            <td>Impacto</td>
+                            <td>Todos</td>
+                        </tr>
+                        <tr>
+                            <td><strong>21</strong></td>
+                            <td>Perfil do Usuário</td>
+                            <td>Conta</td>
+                            <td>Todos</td>
+                        </tr>
+                        <tr>
+                            <td><strong>22</strong></td>
+                            <td>Histórico de Transações</td>
+                            <td>Conta</td>
+                            <td>Todos</td>
+                        </tr>
+                        <tr>
+                            <td><strong>23</strong></td>
+                            <td>Carteira Digital (saldo pendente / disponível / saque Pix)</td>
+                            <td>Conta</td>
+                            <td>Vendedores (PF/PJ/ONG)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>24</strong></td>
+                            <td>Solicitação de Verificação Institucional</td>
+                            <td>Selos</td>
+                            <td>B2B / ONG</td>
+                        </tr>
+                        <tr>
+                            <td><strong>25</strong></td>
+                            <td>Notificações Push (Central)</td>
+                            <td>Comunicação</td>
+                            <td>Todos</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
+        </section>
 
-            <h4 style="margin-top:1.5rem; font-family:var(--font-display); font-weight:700; color:var(--green-primary);">📋 Cadastro</h4>
-            <ul style="font-size:0.9rem; color:var(--text-muted); line-height:1.6; margin-bottom:1.5rem;">
-                <li><strong>Pessoa Física:</strong> Fluxo de cadastro padrão. Login exclusivo por e-mail e senha (sem Google OAuth, sem OTP SMS).</li>
-                <li><strong>Pessoa Jurídica:</strong> Fluxo padrão + campo <em>segmento de atuação</em></li>
-                <li><strong>ONG:</strong> Mesmo do PJ, diferenciada por "Sou uma ONG" (<code>companyType: "ASSOCIATION"</code>). <em>Exige Ata de Eleição no Asaas além de selfie + documento.</em></li>
-            </ul>
-
-            <h4 style="margin-top:1.5rem; font-family:var(--font-display); font-weight:700; color:var(--green-primary);">💳 Fluxo de Compra, Pagamento e Split</h4>
-            <ol style="font-size:0.9rem; color:var(--text-muted); line-height:1.6; margin-bottom:1rem;">
-                <li>Encontra anúncio no feed/mapa → Reserva e Paga (Pix ou Cartão)</li>
-                <li>Asaas processa: split automático <strong style="color:var(--verde-acao);">60% netValue → subconta do vendedor</strong> / <strong style="color:var(--laranja-acao);">40% netValue → conta-pai Conecta Mesa</strong></li>
-                <li>Saldo marcado como <strong>PENDENTE</strong> no banco de dados — vendedor NÃO pode sacar ainda</li>
-                <li>Comprador acessa chat para combinar retirada</li>
-                <li>Na retirada: Comprador apresenta QR Code → Vendedor escaneia → Status atualiza para <strong>DISPONÍVEL</strong></li>
-                <li>Vendedor pode sacar via Pix (PF: gratuito ilimitado | PJ/ONG: 30 grátis/mês)</li>
-                <li>Comprador avalia vendedor e alimento</li>
-            </ol>
-
-            <div style="background:#FFF3E0; border-left:4px solid var(--orange-primary); padding:1rem; border-radius:8px; margin-bottom:1rem; font-size:0.85rem; color:#E65100;">
-                <strong>⚠️ Fluxo de Estorno:</strong><br>
-                • <strong>PENDENTE</strong> (antes da retirada): Cancelamento automático 100% via Asaas Refund API. Estorno volta para a origem do pagamento. Split desfeito automaticamente.<br>
-                • <strong>DISPONÍVEL</strong> (após retirada confirmada): Abertura de ticket de suporte interno com análise humana em até 48h.
-            </div>
-
-            <div style="background:var(--verde-claro); border-left:4px solid var(--verde-institucional); padding:1rem; border-radius:8px; margin-bottom:1.5rem; font-size:0.85rem; color:var(--verde-acao);">
-                <strong>🤝 ONGs Verificadas (B2G):</strong> Take rate = 0%. Sem split configurado. Produto transferido diretamente sem comissão. ONGs com Selo ONG Verificada acessam o pool de doações automaticamente.
-            </div>
-
-            <h4 style="margin-top:1.5rem; font-family:var(--font-display); font-weight:700; color:var(--green-primary);">🗂️ Navbars por Persona</h4>
-            <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; margin-bottom:1rem;">
-                <div style="background:#FFFFFF; padding:1rem; border-radius:8px; border:1px solid var(--border-soft);">
-                    <strong style="color:var(--text-primary); font-size:1rem; display:block; margin-bottom:0.5rem;">PF — 6 abas</strong>
-                    <ul style="font-size:0.8rem; color:var(--text-muted); padding-left:16px;">
-                        <li>🏠 Início</li><li>🗺️ Mapa</li><li>➕ Anunciar</li><li>👛 Carteira</li><li>📋 Histórico</li><li>👤 Perfil</li>
-                    </ul>
-                </div>
-                <div style="background:#FFFFFF; padding:1rem; border-radius:8px; border:1px solid var(--border-soft);">
-                    <strong style="color:var(--text-primary); font-size:1rem; display:block; margin-bottom:0.5rem;">PJ — 7 abas</strong>
-                    <ul style="font-size:0.8rem; color:var(--text-muted); padding-left:16px;">
-                        <li>🏠 Início</li><li>🗺️ Mapa</li><li>➕ Anunciar</li><li>👛 Carteira</li><li>📋 Histórico</li><li style="color:var(--green-primary); font-weight:bold;">🌱 Impacto</li><li>👤 Perfil</li>
-                    </ul>
-                </div>
-                <div style="background:#FFFFFF; padding:1rem; border-radius:8px; border:1px solid var(--border-soft);">
-                    <strong style="color:var(--text-primary); font-size:1rem; display:block; margin-bottom:0.5rem;">ONG — 7 abas</strong>
-                    <ul style="font-size:0.8rem; color:var(--text-muted); padding-left:16px;">
-                        <li>🏠 Início (Destaque Doação)</li><li>🗺️ Mapa + Heatmap</li><li>➕ Anunciar</li><li>👛 Carteira</li><li>📋 Histórico</li><li style="color:var(--green-primary); font-weight:bold;">🌱 Impacto</li><li>👤 Perfil</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="prd-table-wrapper">
-            <table class="prd-table">
-                <thead>
-                    <tr><th width="8%">Nº</th><th width="40%">Nome da Tela</th><th width="22%">Módulo</th><th width="30%">Usuário(s)</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><strong>01</strong></td><td>Splash Screen / Onboarding</td><td>Autenticação</td><td>Todos</td></tr>
-                    <tr><td><strong>02</strong></td><td>Escolha de Perfil (PF vs PJ)</td><td>Autenticação</td><td>Todos</td></tr>
-                    <tr><td><strong>03</strong></td><td>Cadastro Pessoa Física (PF)</td><td>Autenticação</td><td>PF Doador / B2C</td></tr>
-                    <tr><td><strong>04</strong></td><td>Cadastro Pessoa Jurídica (PJ)</td><td>Autenticação</td><td>B2B / ONG</td></tr>
-                    <tr><td><strong>05</strong></td><td>Login (e-mail + senha — sem OAuth)</td><td>Autenticação</td><td>Todos</td></tr>
-                    <tr><td><strong>06</strong></td><td>Recuperação de Senha</td><td>Autenticação</td><td>Todos</td></tr>
-                    <tr><td><strong>07</strong></td><td>Feed de Anúncios (Lista)</td><td>Marketplace</td><td>B2C / ONG</td></tr>
-                    <tr><td><strong>08</strong></td><td>Mapa Interativo (Mapbox GL)</td><td>Marketplace</td><td>B2C / ONG</td></tr>
-                    <tr><td><strong>09</strong></td><td>Detalhe do Anúncio</td><td>Marketplace</td><td>B2C / ONG</td></tr>
-                    <tr><td><strong>10</strong></td><td>Publicar Anúncio (Passo 1 — Foto + OCR)</td><td>Marketplace</td><td>B2B / PF Doador</td></tr>
-                    <tr><td><strong>11</strong></td><td>Publicar Anúncio (Passo 2 — Dados do Produto)</td><td>Marketplace</td><td>B2B / PF Doador</td></tr>
-                    <tr><td><strong>12</strong></td><td>Publicar Anúncio (Passo 3 — Revisão e Publicação)</td><td>Marketplace</td><td>B2B / PF Doador</td></tr>
-                    <tr><td><strong>13</strong></td><td>Checkout — Seleção de Pagamento (Pix ou Cartão)</td><td>Pagamento</td><td>B2C</td></tr>
-                    <tr><td><strong>14</strong></td><td>Pagamento PIX (QR Code Dinâmico)</td><td>Pagamento</td><td>B2C</td></tr>
-                    <tr><td><strong>15</strong></td><td>Pagamento Cartão (3-DS 2.0 obrigatório acima de R$ 200)</td><td>Pagamento</td><td>B2C</td></tr>
-                    <tr><td><strong>16</strong></td><td>Confirmação de Pagamento (saldo PENDENTE — aguarda retirada)</td><td>Pagamento</td><td>B2C / B2B</td></tr>
-                    <tr><td><strong>17</strong></td><td>QR Code de Entrega (Consumidor exibe)</td><td>Pagamento</td><td>B2C</td></tr>
-                    <tr><td><strong>18</strong></td><td>Scanner QR Code (Lojista confirma retirada → saldo DISPONÍVEL)</td><td>Pagamento</td><td>B2B</td></tr>
-                    <tr><td><strong>19</strong></td><td>Chat Assíncrono</td><td>Comunicação</td><td>Todos</td></tr>
-                    <tr><td><strong>20</strong></td><td>Dashboard de Impacto</td><td>Impacto</td><td>Todos</td></tr>
-                    <tr><td><strong>21</strong></td><td>Perfil do Usuário</td><td>Conta</td><td>Todos</td></tr>
-                    <tr><td><strong>22</strong></td><td>Histórico de Transações</td><td>Conta</td><td>Todos</td></tr>
-                    <tr><td><strong>23</strong></td><td>Carteira Digital (saldo pendente / disponível / saque Pix)</td><td>Conta</td><td>Vendedores (PF/PJ/ONG)</td></tr>
-                    <tr><td><strong>24</strong></td><td>Solicitação de Verificação Institucional</td><td>Selos</td><td>B2B / ONG</td></tr>
-                    <tr><td><strong>25</strong></td><td>Notificações Push (Central)</td><td>Comunicação</td><td>Todos</td></tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <!-- ==========================================
+        <!-- ==========================================
          ABA 8: AS 25 TELAS MOCKUPS
     ========================================== -->
-    <section id="tab-telas" class="tab-content">
-        <h2 class="section-header"><i data-lucide="smartphone"></i> Visual Blueprint das 25 Telas (Premium)</h2>
-        <p class="section-desc">Visão fidedigna do layout, restaurando meticulosamente a alta-fidelidade dos mockups estruturais acoplados lado-a-lado com seus Prompts de geração para IA. Ordem oficial do PRD respeitada.</p>
-        <div id="dynamic-screens-inject"></div>
-    </section>
+        <section id="tab-telas" class="tab-content">
+            <h2 class="section-header"><i data-lucide="smartphone"></i> Visual Blueprint das 25 Telas (Premium)</h2>
+            <p class="section-desc">Visão fidedigna do layout, restaurando meticulosamente a alta-fidelidade dos mockups
+                estruturais acoplados lado-a-lado com seus Prompts de geração para IA. Ordem oficial do PRD respeitada.
+            </p>
+            <div id="dynamic-screens-inject"></div>
+        </section>
 
-</main>
+    </main>
 
-<script>
-function switchTab(tabId, el) {
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    document.getElementById(tabId).classList.add('active');
-    document.querySelectorAll('.nav-link').forEach(c => c.classList.remove('active-nav'));
-    if (el) el.classList.add('active-nav');
-    window.scrollTo({top:0, behavior:'smooth'});
-}
+    <script>
+        function switchTab(tabId, el) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            document.querySelectorAll('.nav-link').forEach(c => c.classList.remove('active-nav'));
+            if (el) el.classList.add('active-nav');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-const screensDb = [
-    {
-        group:"Autenticação e Perfis", num:"01", name:"Splash Screen / Onboarding", user:"Todos",
-        pt:"Crie uma splash screen premium fundo branco limpo com a logomarca da engrenagem conectamesa em tons de verde.",
-        en:"Create a premium clean white background splash screen showing the green connected gear logo clearly.",
-        html:`<div style="background:linear-gradient(135deg,white,var(--cinza-fundo));flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="var(--verde-institucional)" stroke-width="2.5"><path d="M4 9h16"/><path d="M4 15h16"/><path d="M12 3v18"/></svg>
-            <h1 style="color:var(--carvao);font-family:var(--font-display);font-size:1.8rem;margin-top:1rem;font-weight:900;">Conecta<span style="color:var(--laranja-acao);">Mesa</span></h1>
+        const screensDb = [
+            {
+                group: "Autenticação e Perfis", num: "01", name: "Splash Screen / Onboarding", user: "Todos",
+                pt: "Crie uma splash screen premium fundo branco limpo com a nova logomarca oficial conectamesa.",
+                en: "Create a premium clean white background splash screen showing the new official Conecta Mesa logo.",
+                html: `<div style="background:linear-gradient(135deg,white,var(--cinza-fundo));flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;">
+            <div style="width: 100%; height: 180px; overflow: hidden; display: flex; justify-content: center; align-items: center; margin-bottom: 0.5rem;">
+                <img src="logo.png" style="width: 400px; max-width: none; height: auto; margin-top: 8px;" alt="Conecta Mesa" onerror="this.src='https://placehold.co/180x180?text=Logo'">
+            </div>
             <p style="color:var(--cinza-medio);font-size:0.7rem;margin-top:0.5rem;font-weight:600;">Redistribuição alimentar inteligente</p>
             <div style="position:absolute;bottom:50px;width:24px;height:24px;border:3px solid rgba(76,175,80,0.2);border-top-color:var(--verde-institucional);border-radius:50%;animation:spin 1s linear infinite;"></div>
         </div>`
-    },
-    {
-        group:"Autenticação e Perfis", num:"02", name:"Escolha de Perfil (PF vs PJ)", user:"Todos",
-        pt:"Cards super limpos para seleção cidadão civil ou comerciante doador b2b. Design com leve sombra e icones.",
-        en:"Super clean card selection between civic individual citizen or b2b merchant. Light shadow design with icons.",
-        html:`<div style="background:white;flex:1;padding:3rem 1.5rem;display:flex;flex-direction:column;justify-content:center;gap:1.5rem;">
+            },
+            {
+                group: "Autenticação e Perfis", num: "02", name: "Escolha de Perfil (PF vs PJ)", user: "Todos",
+                pt: "Cards super limpos para seleção cidadão civil ou comerciante doador b2b. Design com leve sombra e icones.",
+                en: "Super clean card selection between civic individual citizen or b2b merchant. Light shadow design with icons.",
+                html: `<div style="background:white;flex:1;padding:3rem 1.5rem;display:flex;flex-direction:column;justify-content:center;gap:1.5rem;">
             <h2 style="font-family:var(--font-display);font-size:1.5rem;font-weight:900;color:var(--carvao);text-align:center;margin-bottom:1rem;">Como deseja atuar?</h2>
             <div style="background:var(--verde-institucional);border-radius:16px;padding:1.5rem;display:flex;flex-direction:column;align-items:center;gap:0.5rem;box-shadow:0 10px 20px rgba(76,175,80,0.3);color:white;cursor:pointer;">
                 <i data-lucide="user" style="width:32px;height:32px;margin-bottom:0.5rem;"></i>
@@ -715,12 +1637,12 @@ const screensDb = [
                 <span style="font-size:0.8rem;color:var(--cinza-medio);">Quero disponibilizar lotes.</span>
             </div>
         </div>`
-    },
-    {
-        group:"Autenticação e Perfis", num:"03", name:"Cadastro Pessoa Física (PF)", user:"PF Doador / B2C",
-        pt:"Formulario luxuoso e fluido de registro. Inputs contornados e barra de avanço topo. Botão verde sólido CTA.",
-        en:"Luxurious fluid registration form. Outlined material inputs and top progress bar. Solid green CTA button.",
-        html:`<div style="background:white;flex:1;display:flex;flex-direction:column;">
+            },
+            {
+                group: "Autenticação e Perfis", num: "03", name: "Cadastro Pessoa Física (PF)", user: "PF Doador / B2C",
+                pt: "Formulario luxuoso e fluido de registro. Inputs contornados e barra de avanço topo. Botão verde sólido CTA.",
+                en: "Luxurious fluid registration form. Outlined material inputs and top progress bar. Solid green CTA button.",
+                html: `<div style="background:white;flex:1;display:flex;flex-direction:column;">
             <div style="height:60px;display:flex;align-items:center;padding:0 1.5rem;border-bottom:1px solid var(--cinza-suave);">
                 <i data-lucide="arrow-left" style="color:var(--carvao);"></i><span style="flex:1;text-align:center;font-weight:bold;font-size:0.9rem;">Criar Conta PF</span>
             </div>
@@ -735,12 +1657,12 @@ const screensDb = [
                 <div style="margin-top:auto;background:var(--verde-institucional);color:white;font-weight:bold;padding:16px;border-radius:12px;text-align:center;font-family:var(--font-display);">Prosseguir Seguro</div>
             </div>
         </div>`
-    },
-    {
-        group:"Autenticação e Perfis", num:"04", name:"Cadastro Pessoa Jurídica (PJ)", user:"B2B / ONG",
-        pt:"Formulario PJ robusto. Indicativo de busca de CNPJ nativa. Estilo premium SaaS empresarial. Toggle ONG.",
-        en:"Robust corporate PJ form. Native CNPJ lookup. Premium SaaS styling. ONG toggle option.",
-        html:`<div style="background:var(--cinza-fundo);flex:1;display:flex;flex-direction:column;">
+            },
+            {
+                group: "Autenticação e Perfis", num: "04", name: "Cadastro Pessoa Jurídica (PJ)", user: "B2B / ONG",
+                pt: "Formulario PJ robusto. Indicativo de busca de CNPJ nativa. Estilo premium SaaS empresarial. Toggle ONG.",
+                en: "Robust corporate PJ form. Native CNPJ lookup. Premium SaaS styling. ONG toggle option.",
+                html: `<div style="background:var(--cinza-fundo);flex:1;display:flex;flex-direction:column;">
             <div style="height:60px;display:flex;align-items:center;padding:0 1.5rem;background:white;box-shadow:0 1px 3px rgba(0,0,0,0.05);">
                 <i data-lucide="arrow-left" style="color:var(--carvao);"></i><span style="flex:1;text-align:center;font-weight:bold;font-size:0.9rem;">Empresas e ONG</span>
             </div>
@@ -757,12 +1679,12 @@ const screensDb = [
                 <div style="margin-top:auto;background:var(--carvao);color:white;font-weight:bold;padding:16px;border-radius:12px;text-align:center;font-family:var(--font-display);">Avançar Contrato Social</div>
             </div>
         </div>`
-    },
-    {
-        group:"Autenticação e Perfis", num:"05", name:"Login (e-mail + senha)", user:"Todos",
-        pt:"Login principal liso com icones lucide nos textfields. Autenticação exclusiva por e-mail e senha, sem OAuth Google ou Apple. Botão verde CTA.",
-        en:"Smooth main login with lucide icons in textfields. Exclusive email and password authentication — no Google or Apple OAuth. Green CTA button.",
-        html:`<div style="background:white;flex:1;padding:4rem 1.5rem;display:flex;flex-direction:column;">
+            },
+            {
+                group: "Autenticação e Perfis", num: "05", name: "Login (e-mail + senha)", user: "Todos",
+                pt: "Login principal liso com icones lucide nos textfields. Autenticação exclusiva por e-mail e senha, sem OAuth Google ou Apple. Botão verde CTA.",
+                en: "Smooth main login with lucide icons in textfields. Exclusive email and password authentication — no Google or Apple OAuth. Green CTA button.",
+                html: `<div style="background:white;flex:1;padding:4rem 1.5rem;display:flex;flex-direction:column;">
             <h2 style="font-family:var(--font-display);font-size:2rem;font-weight:900;color:var(--carvao);margin-bottom:0.5rem;">Entrar</h2>
             <p style="color:var(--cinza-medio);margin-bottom:2rem;font-size:0.9rem;">Acesse sua jornada de impacto.</p>
             <div style="display:flex;flex-direction:column;gap:1rem;margin-bottom:1.5rem;">
@@ -777,12 +1699,12 @@ const screensDb = [
             <div style="background:var(--verde-institucional);color:white;font-weight:bold;padding:16px;border-radius:12px;text-align:center;font-family:var(--font-display);font-size:1.1rem;box-shadow:0 8px 16px rgba(76,175,80,0.3);margin-bottom:1.5rem;">Acessar</div>
             <div style="background:var(--cinza-fundo);border:1px solid var(--cinza-suave);padding:14px;border-radius:12px;text-align:center;font-size:0.8rem;color:var(--cinza-medio);">Não tem conta? <strong style="color:var(--verde-institucional);">Cadastre-se</strong></div>
         </div>`
-    },
-    {
-        group:"Autenticação e Perfis", num:"06", name:"Recuperação de Senha", user:"Todos",
-        pt:"Layout de tela envio magic link, ilustrativo padrao material 3 de recuperacao.",
-        en:"Standard material 3 recovery setup magic link transmission layout visualization.",
-        html:`<div style="background:var(--cinza-fundo);flex:1;display:flex;flex-direction:column;padding:2rem 1.5rem;">
+            },
+            {
+                group: "Autenticação e Perfis", num: "06", name: "Recuperação de Senha", user: "Todos",
+                pt: "Layout de tela envio magic link, ilustrativo padrao material 3 de recuperacao.",
+                en: "Standard material 3 recovery setup magic link transmission layout visualization.",
+                html: `<div style="background:var(--cinza-fundo);flex:1;display:flex;flex-direction:column;padding:2rem 1.5rem;">
             <i data-lucide="arrow-left" style="color:var(--carvao);margin-bottom:2rem;"></i>
             <div style="background:var(--laranja-suave);width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
                 <i data-lucide="key" style="color:var(--laranja-acao);width:30px;height:30px;"></i>
@@ -795,12 +1717,12 @@ const screensDb = [
             </div>
             <div style="background:var(--carvao);color:white;font-weight:bold;padding:16px;border-radius:12px;text-align:center;margin-top:auto;box-shadow:0 8px 16px rgba(0,0,0,0.2);">Enviar Link de Redefinição</div>
         </div>`
-    },
-    {
-        group:"Marketplace Orgânico", num:"07", name:"Feed de Anúncios (Lista)", user:"B2C / ONG",
-        pt:"Feed realistico imitando IFood mas verde. Bottom bar com lucide icons. Foto de lote grande cobrindo card e tag vermelha vencimento.",
-        en:"Realistic feed mimicking IFood but green toned. Bottom bar with lucide icons. Giant image covered cards alerting red expiring tag.",
-        html:`<div style="background:var(--cinza-fundo);flex:1;display:flex;flex-direction:column;position:relative;overflow:hidden;">
+            },
+            {
+                group: "Marketplace Orgânico", num: "07", name: "Feed de Anúncios (Lista)", user: "B2C / ONG",
+                pt: "Feed realistico imitando IFood mas verde. Bottom bar com lucide icons. Foto de lote grande cobrindo card e tag vermelha vencimento.",
+                en: "Realistic feed mimicking IFood but green toned. Bottom bar with lucide icons. Giant image covered cards alerting red expiring tag.",
+                html: `<div style="background:var(--cinza-fundo);flex:1;display:flex;flex-direction:column;position:relative;overflow:hidden;">
             <div style="background:white;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;z-index:10;box-shadow:0 4px 10px rgba(0,0,0,0.03);">
                 <div>
                     <div style="font-size:0.6rem;color:var(--cinza-medio);font-weight:bold;">AGORA EM</div>
@@ -828,17 +1750,19 @@ const screensDb = [
             </div>
             <div style="background:white;height:60px;display:flex;justify-content:space-around;align-items:center;border-top:1px solid var(--cinza-suave);padding:0 1rem;z-index:10;flex-shrink:0;">
                 <div style="display:flex;flex-direction:column;align-items:center;color:var(--verde-institucional);gap:2px;"><i data-lucide="home" style="fill:rgba(76,175,80,0.2);"></i></div>
-                <div style="display:flex;flex-direction:column;align-items:center;color:var(--cinza-medio);gap:2px;"><i data-lucide="map"></i></div>
+                <div style="display:flex;flex-direction:column;align-items:center;color:var(--cinza-medio);gap:2px;"><i data-lucide="wallet"></i></div>
+                <div style="display:flex;flex-direction:column;align-items:center;color:white;background:var(--verde-institucional);border-radius:50%;width:36px;height:36px;justify-content:center;box-shadow:0 4px 10px rgba(76,175,80,0.3);margin-top:-10px;"><i data-lucide="plus"></i></div>
                 <div style="display:flex;flex-direction:column;align-items:center;color:var(--cinza-medio);gap:2px;"><i data-lucide="clipboard-list"></i></div>
+                <div style="display:flex;flex-direction:column;align-items:center;color:var(--cinza-medio);gap:2px;"><i data-lucide="leaf"></i></div>
                 <div style="display:flex;flex-direction:column;align-items:center;color:var(--cinza-medio);gap:2px;"><i data-lucide="user"></i></div>
             </div>
         </div>`
-    },
-    {
-        group:"Marketplace Orgânico", num:"08", name:"Mapa Interativo (Mapbox GL)", user:"B2C / ONG",
-        pt:"Renderizacao visual mapeada imitando apple maps. Caixa de busca flutuante no topo. Pins verdes (doação) e laranjas (venda). Bottom bar intacta.",
-        en:"Visual map render mocking apple maps. Floating search input atop. Green pins (donation) and orange pins (sale). Bottom nav bar persists.",
-        html:`<div style="background:#DEE4E7;flex:1;position:relative;display:flex;flex-direction:column;">
+            },
+            {
+                group: "Marketplace Orgânico", num: "08", name: "Mapa Interativo (Mapbox GL)", user: "B2C / ONG",
+                pt: "Renderizacao visual mapeada imitando apple maps. Caixa de busca flutuante no topo. Pins verdes (doação) e laranjas (venda). Bottom bar intacta.",
+                en: "Visual map render mocking apple maps. Floating search input atop. Green pins (donation) and orange pins (sale). Bottom nav bar persists.",
+                html: `<div style="background:#DEE4E7;flex:1;position:relative;display:flex;flex-direction:column;">
             <div style="position:absolute;top:35%;left:20%;width:80px;height:80px;background:radial-gradient(circle,rgba(255,152,0,0.6) 0%,rgba(255,152,0,0) 70%);border-radius:50%;display:flex;justify-content:center;align-items:center;"><div style="width:20px;height:20px;background:var(--laranja-acao);border:3px solid white;border-radius:50%;box-shadow:var(--shadow-card);"></div></div>
             <div style="position:absolute;top:55%;right:30%;width:20px;height:20px;background:var(--verde-institucional);border:3px solid white;border-radius:50%;box-shadow:var(--shadow-card);"></div>
             <div style="position:absolute;top:45%;left:50%;width:20px;height:20px;background:var(--verde-institucional);border:3px solid white;border-radius:50%;box-shadow:var(--shadow-card);"></div>
@@ -852,17 +1776,19 @@ const screensDb = [
             </div>
             <div style="margin-top:auto;background:white;height:60px;display:flex;justify-content:space-around;align-items:center;border-top:1px solid var(--cinza-suave);padding:0 1rem;z-index:10;">
                 <div style="display:flex;flex-direction:column;align-items:center;color:var(--cinza-medio);gap:2px;"><i data-lucide="home"></i></div>
-                <div style="display:flex;flex-direction:column;align-items:center;color:var(--verde-institucional);gap:2px;"><i data-lucide="map" style="fill:rgba(76,175,80,0.2);"></i></div>
+                <div style="display:flex;flex-direction:column;align-items:center;color:var(--cinza-medio);gap:2px;"><i data-lucide="wallet"></i></div>
+                <div style="display:flex;flex-direction:column;align-items:center;color:white;background:var(--verde-institucional);border-radius:50%;width:36px;height:36px;justify-content:center;box-shadow:0 4px 10px rgba(76,175,80,0.3);margin-top:-10px;"><i data-lucide="plus"></i></div>
                 <div style="display:flex;flex-direction:column;align-items:center;color:var(--cinza-medio);gap:2px;"><i data-lucide="clipboard-list"></i></div>
+                <div style="display:flex;flex-direction:column;align-items:center;color:var(--cinza-medio);gap:2px;"><i data-lucide="leaf"></i></div>
                 <div style="display:flex;flex-direction:column;align-items:center;color:var(--cinza-medio);gap:2px;"><i data-lucide="user"></i></div>
             </div>
         </div>`
-    },
-    {
-        group:"Marketplace Orgânico", num:"09", name:"Detalhe do Anúncio", user:"B2C / ONG",
-        pt:"Página imersiva tela foco produto. Capa fotográfica expansiva no topo. Caixa validadora Edge AI verde indicando segurança. CTA sticky de reserva no rodapé.",
-        en:"Immersive single item focus detail screen. Top expanded cover photography. Trust safety edge OCR green validation box. Sticky reservation CTA footer.",
-        html:`<div style="background:var(--cinza-fundo);flex:1;display:flex;flex-direction:column;position:relative;">
+            },
+            {
+                group: "Marketplace Orgânico", num: "09", name: "Detalhe do Anúncio", user: "B2C / ONG",
+                pt: "Página imersiva tela foco produto. Capa fotográfica expansiva no topo. Caixa validadora Edge AI verde indicando segurança. CTA sticky de reserva no rodapé.",
+                en: "Immersive single item focus detail screen. Top expanded cover photography. Trust safety edge OCR green validation box. Sticky reservation CTA footer.",
+                html: `<div style="background:var(--cinza-fundo);flex:1;display:flex;flex-direction:column;position:relative;">
             <div style="height:220px;background:radial-gradient(circle,#E0E0E0,#9E9E9E);position:relative;">
                 <div style="position:absolute;top:20px;left:20px;width:40px;height:40px;background:rgba(255,255,255,0.8);backdrop-filter:blur(10px);border-radius:50%;display:flex;justify-content:center;align-items:center;"><i data-lucide="arrow-left" style="width:20px;color:var(--carvao);"></i></div>
             </div>
@@ -888,12 +1814,12 @@ const screensDb = [
                 </div>
             </div>
         </div>`
-    },
-    {
-        group:"Módulos Lojista B2B (Publish)", num:"10", name:"Publicar Anúncio (Passo 1 — Foto + OCR)", user:"B2B / PF Doador",
-        pt:"Wizard publicação visual B2B limpo premium. Câmera destaque tracejada gigante e estágio topo mostrando círculos de passos form step 1.",
-        en:"Premium clean B2B publishing wizard. Highlighted giant dashed camera bounding frame and top step 1 circular stage progress UI.",
-        html:`<div style="background:var(--cinza-fundo);flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;align-items:center;">
+            },
+            {
+                group: "Módulos Lojista B2B (Publish)", num: "10", name: "Publicar Anúncio (Passo 1 — Foto + OCR)", user: "B2B / PF Doador",
+                pt: "Wizard publicação visual B2B limpo premium. Câmera destaque tracejada gigante e estágio topo mostrando círculos de passos form step 1.",
+                en: "Premium clean B2B publishing wizard. Highlighted giant dashed camera bounding frame and top step 1 circular stage progress UI.",
+                html: `<div style="background:var(--cinza-fundo);flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;align-items:center;">
             <div style="display:flex;justify-content:center;gap:1rem;margin-bottom:2rem;width:100%;">
                 <div style="width:24px;height:24px;border-radius:50%;background:var(--verde-institucional);color:white;display:flex;justify-content:center;align-items:center;font-size:0.7rem;font-weight:bold;">1</div>
                 <div style="width:40px;height:2px;background:var(--cinza-suave);align-self:center;"></div>
@@ -909,12 +1835,12 @@ const screensDb = [
             </div>
             <div style="width:100%;background:var(--carvao);color:white;font-weight:bold;padding:16px;border-radius:12px;text-align:center;font-size:1rem;">Próxima Etapa →</div>
         </div>`
-    },
-    {
-        group:"Módulos Lojista B2B (Publish)", num:"11", name:"Publicar Anúncio (Passo 2 — Dados do Produto)", user:"B2B / PF Doador",
-        pt:"Wizard publicação B2B Step 2. Formularios de preços. Uso de tags semanticas para categorizar o pacote. Stepper numero 2 ativado.",
-        en:"B2B publish wizard Step 2. Pricing input forms. Semantic tag usage categorizing packet. Number 2 stepper actively lit.",
-        html:`<div style="background:var(--cinza-fundo);flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;">
+            },
+            {
+                group: "Módulos Lojista B2B (Publish)", num: "11", name: "Publicar Anúncio (Passo 2 — Dados + Checklist Sanitário)", user: "B2B / PF Doador",
+                pt: "Wizard publicação B2B Step 2. Formularios de preços e Termo de Sanitização. Uso de tags semanticas. Stepper numero 2 ativado.",
+                en: "B2B publish wizard Step 2. Pricing input forms and Sanitation Checklist. Semantic tag usage. Number 2 stepper actively lit.",
+                html: `<div style="background:var(--cinza-fundo);flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;">
             <div style="display:flex;justify-content:center;gap:1rem;margin-bottom:2rem;width:100%;">
                 <div style="width:24px;height:24px;border-radius:50%;background:var(--verde-institucional);color:white;display:flex;justify-content:center;align-items:center;font-size:0.7rem;font-weight:bold;"><i data-lucide="check" style="width:14px;"></i></div>
                 <div style="width:40px;height:2px;background:var(--verde-institucional);align-self:center;"></div>
@@ -939,14 +1865,18 @@ const screensDb = [
                     </div>
                 </div>
             </div>
+            <div style="background:var(--laranja-suave);padding:12px;border-radius:12px;border:1px solid var(--laranja-acao);display:flex;align-items:flex-start;gap:10px;margin-bottom:1.5rem;">
+                <div style="width:20px;height:20px;border-radius:4px;border:2px solid var(--laranja-acao);background:white;flex-shrink:0;margin-top:2px;display:flex;justify-content:center;align-items:center;"><i data-lucide="check" style="width:14px;color:var(--laranja-acao);"></i></div>
+                <div style="font-size:0.75rem;color:var(--carvao);line-height:1.4;">Confirmo que o alimento cumpre as <strong>Normas Sanitárias (ANVISA)</strong> e está em condições adequadas de consumo.</div>
+            </div>
             <div style="width:100%;background:var(--carvao);color:white;font-weight:bold;padding:16px;border-radius:12px;text-align:center;font-size:1rem;margin-top:auto;">Ir para Revisão Final →</div>
         </div>`
-    },
-    {
-        group:"Módulos Lojista B2B (Publish)", num:"12", name:"Publicar Anúncio (Passo 3 — Revisão e Publicação)", user:"B2B / PF Doador",
-        pt:"Wizard publicação B2B Step 3 revisão final. Cartao resumo visual exibindo como cliente b2c enxergará vitrine e botão confirmar grande.",
-        en:"B2B wizard publish Step 3 final review. Summarized visual card rendering how b2c client views storefront. Huge confirming primary deploy CTA.",
-        html:`<div style="background:var(--cinza-fundo);flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;">
+            },
+            {
+                group: "Módulos Lojista B2B (Publish)", num: "12", name: "Publicar Anúncio (Passo 3 — Revisão e Publicação)", user: "B2B / PF Doador",
+                pt: "Wizard publicação B2B Step 3 revisão final. Cartao resumo visual exibindo como cliente b2c enxergará vitrine e botão confirmar grande.",
+                en: "B2B wizard publish Step 3 final review. Summarized visual card rendering how b2c client views storefront. Huge confirming primary deploy CTA.",
+                html: `<div style="background:var(--cinza-fundo);flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;">
             <h4 style="font-family:var(--font-display);font-size:1.4rem;font-weight:900;color:var(--verde-institucional);margin-bottom:0.5rem;text-align:center;">Tudo Pronto!</h4>
             <p style="font-size:0.8rem;color:var(--grafite);text-align:center;margin-bottom:2rem;">Veja como o cliente do radar receberá.</p>
             <div style="background:white;border-radius:20px;overflow:hidden;box-shadow:var(--shadow-float);border:1px solid var(--cinza-suave);">
@@ -959,12 +1889,12 @@ const screensDb = [
             </div>
             <div style="width:100%;background:var(--carvao);color:white;font-weight:bold;padding:16px;border-radius:12px;text-align:center;font-size:1rem;margin-top:auto;box-shadow:0 8px 16px rgba(0,0,0,0.2);">Publicar Oferta Online</div>
         </div>`
-    },
-    {
-        group:"Pagamentos e Coleta Asaas", num:"13", name:"Checkout — Seleção de Pagamento", user:"B2C",
-        pt:"Carrinho de pagamentos limpo. Colunas mostrando total, taxa zero e escolhas pix ou cartão. Split 60/40 visível ao vendedor.",
-        en:"Super clean payment checkout cart. Columns showing totals, zero fee and PIX vs CreditCard choices.",
-        html:`<div style="background:var(--cinza-fundo);flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;">
+            },
+            {
+                group: "Pagamentos e Coleta Asaas", num: "13", name: "Checkout — Seleção de Pagamento", user: "B2C",
+                pt: "Carrinho de pagamentos limpo. Colunas mostrando total, taxa zero e escolhas pix ou cartão. Split 60/40 visível ao vendedor.",
+                en: "Super clean payment checkout cart. Columns showing totals, zero fee and PIX vs CreditCard choices.",
+                html: `<div style="background:var(--cinza-fundo);flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;">
             <h4 style="font-family:var(--font-display);font-size:1.4rem;font-weight:900;color:var(--carvao);margin-bottom:1.5rem;">Cesta de Resgate</h4>
             <div style="background:white;padding:1.5rem;border-radius:16px;box-shadow:var(--shadow-card);border:1px solid var(--cinza-suave);margin-bottom:2rem;">
                 <div style="display:flex;justify-content:space-between;margin-bottom:12px;font-size:0.9rem;color:var(--grafite);border-bottom:1px solid #FAFAFA;padding-bottom:8px;"><span>Bolo Inteiro</span><span>R$ 20,00</span></div>
@@ -981,12 +1911,12 @@ const screensDb = [
             </div>
             <div style="background:var(--carvao);color:white;font-weight:bold;padding:16px;border-radius:12px;text-align:center;font-size:1rem;margin-top:auto;">Confirmar Reserva</div>
         </div>`
-    },
-    {
-        group:"Pagamentos e Coleta Asaas", num:"14", name:"Pagamento PIX (QR Code Dinâmico)", user:"B2C",
-        pt:"Pagina escura PIX copia e cola. Timer laranja crítico rodando avisando perda estoque. QR Code dinâmico único por transação.",
-        en:"Dark mode PIX copy paste page. Critical orange countdown timer clock. Unique dynamic QR Code per transaction.",
-        html:`<div style="background:var(--carvao);flex:1;padding:3rem 1.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+            },
+            {
+                group: "Pagamentos e Coleta Asaas", num: "14", name: "Pagamento PIX (QR Code Dinâmico)", user: "B2C",
+                pt: "Pagina escura PIX copia e cola. Timer laranja crítico rodando avisando perda estoque. QR Code dinâmico único por transação.",
+                en: "Dark mode PIX copy paste page. Critical orange countdown timer clock. Unique dynamic QR Code per transaction.",
+                html: `<div style="background:var(--carvao);flex:1;padding:3rem 1.5rem;display:flex;flex-direction:column;align-items:center;justify-content:center;">
             <div style="background:rgba(255,152,0,0.15);border:1px solid var(--laranja-acao);color:var(--laranja-acao);padding:8px 20px;border-radius:30px;display:flex;gap:8px;align-items:center;font-weight:bold;margin-bottom:2rem;box-shadow:0 4px 15px rgba(255,152,0,0.2);">
                 <i data-lucide="clock" style="width:16px;"></i><span style="font-size:0.9rem;">Expira em 14:59</span>
             </div>
@@ -998,12 +1928,12 @@ const screensDb = [
             <p style="color:var(--cinza-suave);font-size:0.8rem;text-align:center;margin-bottom:1.5rem;max-width:80%;">QR Code dinâmico único para esta transação. Leia no seu banco.</p>
             <div style="width:100%;background:var(--verde-institucional);color:white;font-weight:bold;padding:16px;border-radius:12px;text-align:center;display:flex;justify-content:center;align-items:center;gap:8px;font-size:1rem;box-shadow:0 8px 20px rgba(76,175,80,0.3);"><i data-lucide="copy" style="width:18px;"></i> Copiar Código Pix</div>
         </div>`
-    },
-    {
-        group:"Pagamentos e Coleta Asaas", num:"15", name:"Pagamento Cartão (3-DS 2.0)", user:"B2C",
-        pt:"Interface luxuosa branca form credit card. 3-DS 2.0 obrigatório acima de R$ 200. Dados do cartão nunca trafegam pelo servidor do Conecta Mesa.",
-        en:"Pure white luxurious credit card form. 3-DS 2.0 required above R$ 200. Card data never reaches Conecta Mesa servers.",
-        html:`<div style="background:white;flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;">
+            },
+            {
+                group: "Pagamentos e Coleta Asaas", num: "15", name: "Pagamento Cartão (3-DS 2.0)", user: "B2C",
+                pt: "Interface luxuosa branca form credit card. 3-DS 2.0 obrigatório acima de R$ 200. Dados do cartão nunca trafegam pelo servidor do Conecta Mesa.",
+                en: "Pure white luxurious credit card form. 3-DS 2.0 required above R$ 200. Card data never reaches Conecta Mesa servers.",
+                html: `<div style="background:white;flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem;">
                 <i data-lucide="arrow-left" style="color:var(--carvao);"></i>
                 <div style="font-family:var(--font-display);font-weight:900;font-size:1.2rem;color:var(--carvao);">R$ 20,00</div>
@@ -1031,12 +1961,12 @@ const screensDb = [
             </div>
             <div style="margin-top:auto;background:var(--carvao);color:white;font-weight:bold;padding:16px;border-radius:12px;text-align:center;font-size:1rem;display:flex;justify-content:center;align-items:center;gap:8px;box-shadow:var(--shadow-float);"><i data-lucide="lock" style="width:16px;"></i> Confirmar Pagamento Seguro</div>
         </div>`
-    },
-    {
-        group:"Pagamentos e Coleta Asaas", num:"16", name:"Confirmação de Pagamento (Saldo PENDENTE)", user:"B2C / B2B",
-        pt:"Tela sucesso ecologica verde imersiva. Informa que saldo está PENDENTE até confirmação de retirada via QR Code. Botão para gerar ticket.",
-        en:"Immersive green success screen. Informs that balance is PENDING until pickup confirmation via QR Code. Button to generate delivery ticket.",
-        html:`<div style="background:var(--verde-institucional);flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;padding:2rem;">
+            },
+            {
+                group: "Pagamentos e Coleta Asaas", num: "16", name: "Confirmação de Pagamento (Saldo PENDENTE)", user: "B2C / B2B",
+                pt: "Tela sucesso ecologica verde imersiva. Informa que saldo está PENDENTE até confirmação de retirada via QR Code. Botão para gerar ticket.",
+                en: "Immersive green success screen. Informs that balance is PENDING until pickup confirmation via QR Code. Button to generate delivery ticket.",
+                html: `<div style="background:var(--verde-institucional);flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;padding:2rem;">
             <div style="width:100px;height:100px;background:white;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:2rem;box-shadow:0 0 30px rgba(255,255,255,0.4);">
                 <i data-lucide="check" style="width:50px;height:50px;color:var(--verde-institucional);"></i>
             </div>
@@ -1050,12 +1980,12 @@ const screensDb = [
             </div>
             <div style="border:2px solid white;padding:14px 24px;border-radius:12px;font-size:0.9rem;font-weight:bold;cursor:pointer;">Gerar QR Code de Retirada</div>
         </div>`
-    },
-    {
-        group:"Pagamentos e Coleta Asaas", num:"17", name:"QR Code de Entrega (Consumidor)", user:"B2C",
-        pt:"Voucher ticket wallet estilo iOS flutuante apresentando QR code de confirmação de retirada. PIN emergencial alfanumérico.",
-        en:"Floating iOS wallet ticket voucher presenting delivery confirmation QR Code. Emergency alphanumeric PIN.",
-        html:`<div style="background:linear-gradient(to bottom,var(--carvao),var(--cinza-fundo) 30%);flex:1;padding:3rem 1.5rem;display:flex;flex-direction:column;align-items:center;">
+            },
+            {
+                group: "Pagamentos e Coleta Asaas", num: "17", name: "QR Code de Entrega (Consumidor)", user: "B2C",
+                pt: "Voucher ticket wallet estilo iOS flutuante apresentando QR code de confirmação de retirada. PIN emergencial alfanumérico.",
+                en: "Floating iOS wallet ticket voucher presenting delivery confirmation QR Code. Emergency alphanumeric PIN.",
+                html: `<div style="background:linear-gradient(to bottom,var(--carvao),var(--cinza-fundo) 30%);flex:1;padding:3rem 1.5rem;display:flex;flex-direction:column;align-items:center;">
             <h4 style="font-family:var(--font-display);font-size:1.2rem;color:white;font-weight:800;margin-bottom:2rem;">Ticket de Retirada</h4>
             <div style="background:white;border-radius:24px;width:100%;padding:2.5rem 1.5rem;display:flex;flex-direction:column;align-items:center;box-shadow:var(--shadow-float);position:relative;overflow:hidden;">
                 <div style="position:absolute;top:25px;left:-10px;width:20px;height:20px;background:var(--carvao);border-radius:50%;"></div>
@@ -1068,12 +1998,12 @@ const screensDb = [
                 <div style="font-family:var(--font-display);font-size:1.8rem;font-weight:900;color:var(--verde-institucional);letter-spacing:4px;">Z8-KT</div>
             </div>
         </div>`
-    },
-    {
-        group:"Pagamentos e Coleta Asaas", num:"18", name:"Scanner QR Code (Lojista → saldo DISPONÍVEL)", user:"B2B",
-        pt:"Interface camera escuro operador scanear cliente ticket. Ao confirmar, saldo muda de PENDENTE para DISPONÍVEL na carteira.",
-        en:"Dark camera scanner operator interface. Upon confirmation, balance changes from PENDING to AVAILABLE in the wallet.",
-        html:`<div style="background:var(--carvao);flex:1;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;">
+            },
+            {
+                group: "Pagamentos e Coleta Asaas", num: "18", name: "Scanner QR Code (Lojista → saldo DISPONÍVEL)", user: "B2B",
+                pt: "Interface camera escuro operador scanear cliente ticket. Ao confirmar, saldo muda de PENDENTE para DISPONÍVEL na carteira.",
+                en: "Dark camera scanner operator interface. Upon confirmation, balance changes from PENDING to AVAILABLE in the wallet.",
+                html: `<div style="background:var(--carvao);flex:1;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;">
             <div style="position:absolute;top:0;left:0;width:100%;height:100px;background:linear-gradient(to bottom,rgba(0,0,0,0.8),transparent);display:flex;padding:20px;">
                 <i data-lucide="x" style="color:white;width:24px;"></i>
             </div>
@@ -1090,12 +2020,12 @@ const screensDb = [
                 ✓ Ao confirmar → saldo DISPONÍVEL para saque
             </div>
         </div>`
-    },
-    {
-        group:"Comunicação e Impacto", num:"19", name:"Chat Assíncrono", user:"Todos",
-        pt:"WhatsApp like interface. Header sticky nome loja avatar. Bubbles verde e cinza cantos modificados. Usado para combinar retirada.",
-        en:"WhatsApp standard imitation interface. Sticky header with merchant identity. Green and gray bubbles. Used to arrange pickup.",
-        html:`<div style="background:var(--cinza-fundo);flex:1;display:flex;flex-direction:column;">
+            },
+            {
+                group: "Comunicação e Impacto", num: "19", name: "Chat Assíncrono", user: "Todos",
+                pt: "WhatsApp like interface. Header sticky nome loja avatar. Bubbles verde e cinza cantos modificados. Usado para combinar retirada.",
+                en: "WhatsApp standard imitation interface. Sticky header with merchant identity. Green and gray bubbles. Used to arrange pickup.",
+                html: `<div style="background:var(--cinza-fundo);flex:1;display:flex;flex-direction:column;">
             <div style="background:white;padding:1rem 1.5rem;border-bottom:1px solid var(--cinza-suave);display:flex;align-items:center;gap:12px;box-shadow:0 2px 5px rgba(0,0,0,0.02);z-index:10;">
                 <i data-lucide="arrow-left" style="color:var(--carvao);width:20px;"></i>
                 <div style="width:36px;height:36px;background:var(--laranja-suave);border-radius:50%;display:flex;align-items:center;justify-content:center;"><i data-lucide="store" style="width:18px;color:var(--laranja-acao);"></i></div>
@@ -1113,12 +2043,12 @@ const screensDb = [
                 <div style="width:40px;height:40px;background:var(--verde-institucional);border-radius:50%;display:flex;justify-content:center;align-items:center;color:white;box-shadow:0 4px 10px rgba(76,175,80,0.3);"><i data-lucide="send" style="width:18px;"></i></div>
             </div>
         </div>`
-    },
-    {
-        group:"Comunicação e Impacto", num:"20", name:"Dashboard de Impacto", user:"Todos",
-        pt:"Visor ESG macro relatórios estatísticas global verdes. Gases evitados, famílias beneficiadas, lixo zerado. Gráfico semanal.",
-        en:"ESG global ecological big picture displays. CO2 avoided, families benefited, zero waste. Weekly chart.",
-        html:`<div style="background:var(--cinza-fundo);flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;overflow:hidden;">
+            },
+            {
+                group: "Comunicação e Impacto", num: "20", name: "Dashboard de Impacto e Gamificação", user: "Todos",
+                pt: "Visor ESG macro relatórios estatísticas global verdes e ranking de Heróis da Ponte (Gamificação). Gases evitados, famílias beneficiadas.",
+                en: "ESG global ecological big picture displays and Bridge Heroes ranking (Gamification). CO2 avoided, families benefited.",
+                html: `<div style="background:var(--cinza-fundo);flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;overflow:hidden;">
             <h4 style="font-family:var(--font-display);font-size:1.4rem;font-weight:900;color:var(--carvao);margin-bottom:1.5rem;">Cadeia de Impacto Hub</h4>
             <div style="background:linear-gradient(135deg,var(--verde-institucional),var(--verde-acao));padding:2rem 1.5rem;border-radius:24px;color:white;margin-bottom:1.5rem;box-shadow:var(--shadow-float);position:relative;overflow:hidden;">
                 <i data-lucide="leaf" style="position:absolute;right:-10px;top:-10px;width:100px;height:100px;opacity:0.1;"></i>
@@ -1136,14 +2066,31 @@ const screensDb = [
                     <div style="font-size:0.65rem;color:var(--cinza-medio);font-weight:bold;margin-bottom:4px;">Lixo Zerado</div>
                     <div style="font-size:1.4rem;font-family:var(--font-display);font-weight:900;color:var(--carvao);">9k kgs</div>
                 </div>
+            <div style="background:white;border:1px solid var(--cinza-suave);padding:1.5rem;border-radius:20px;box-shadow:var(--shadow-card);margin-bottom:1.5rem;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                    <h5 style="margin:0;font-size:0.9rem;font-weight:900;color:var(--carvao);font-family:var(--font-display);">Heróis da Ponte</h5>
+                    <div style="background:var(--laranja-suave);color:var(--laranja-acao);font-size:0.7rem;font-weight:bold;padding:4px 8px;border-radius:6px;">Sua Posição: 14º</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--cinza-suave);padding-bottom:10px;margin-bottom:10px;">
+                    <div style="font-weight:900;color:var(--laranja-acao);">1º</div>
+                    <div style="width:30px;height:30px;background:var(--cinza-fundo);border-radius:50%;display:flex;align-items:center;justify-content:center;"><i data-lucide="user" style="width:14px;color:var(--cinza-medio);"></i></div>
+                    <div style="font-size:0.8rem;font-weight:bold;color:var(--carvao);flex:1;">Padaria Central</div>
+                    <div style="font-size:0.8rem;color:var(--verde-institucional);font-weight:bold;">1.2k pts</div>
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <div style="font-weight:900;color:var(--grafite);">2º</div>
+                    <div style="width:30px;height:30px;background:var(--cinza-fundo);border-radius:50%;display:flex;align-items:center;justify-content:center;"><i data-lucide="user" style="width:14px;color:var(--cinza-medio);"></i></div>
+                    <div style="font-size:0.8rem;font-weight:bold;color:var(--carvao);flex:1;">Mercado São Jorge</div>
+                    <div style="font-size:0.8rem;color:var(--verde-institucional);font-weight:bold;">950 pts</div>
+                </div>
             </div>
         </div>`
-    },
-    {
-        group:"Contas e Documentos Gov", num:"21", name:"Perfil do Usuário", user:"Todos",
-        pt:"Settings página iOS style. Avatar circular, blocos agrupados botões chevron navegação, botão logout vermelho.",
-        en:"iOS style settings page. Circular avatar, grouped blocks with chevron buttons, red logout button.",
-        html:`<div style="background:var(--cinza-fundo);flex:1;padding:3rem 1.5rem;display:flex;flex-direction:column;align-items:center;">
+            },
+            {
+                group: "Contas e Documentos Gov", num: "21", name: "Perfil do Usuário", user: "Todos",
+                pt: "Settings página iOS style. Avatar circular, blocos agrupados botões chevron navegação, botão logout vermelho.",
+                en: "iOS style settings page. Circular avatar, grouped blocks with chevron buttons, red logout button.",
+                html: `<div style="background:var(--cinza-fundo);flex:1;padding:3rem 1.5rem;display:flex;flex-direction:column;align-items:center;">
             <div style="position:relative;margin-bottom:1rem;">
                 <div style="width:80px;height:80px;background:white;border-radius:50%;box-shadow:var(--shadow-card);border:3px solid white;display:flex;align-items:center;justify-content:center;"><i data-lucide="user" style="width:30px;color:var(--cinza-medio);"></i></div>
                 <div style="position:absolute;bottom:0;right:0;width:24px;height:24px;background:var(--verde-institucional);border-radius:50%;border:2px solid white;display:flex;justify-content:center;align-items:center;"><i data-lucide="shield-check" style="width:12px;color:white;"></i></div>
@@ -1159,12 +2106,12 @@ const screensDb = [
                 <div style="padding:16px 20px;font-size:0.85rem;font-weight:bold;display:flex;align-items:center;gap:10px;color:#D32F2F;"><i data-lucide="log-out" style="width:18px;"></i>Sair do Aplicativo</div>
             </div>
         </div>`
-    },
-    {
-        group:"Contas e Documentos Gov", num:"22", name:"Histórico de Transações", user:"Todos",
-        pt:"Extrato focado em lucro positivo e sustentabilidade. Card verde topo com total economizado. Lista de transações passadas.",
-        en:"Statement focused on positive savings and sustainability. Green top card with total saved. Past transactions list.",
-        html:`<div style="background:var(--cinza-fundo);flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;">
+            },
+            {
+                group: "Contas e Documentos Gov", num: "22", name: "Histórico de Transações", user: "Todos",
+                pt: "Extrato focado em lucro positivo e sustentabilidade. Card verde topo com total economizado. Lista de transações passadas.",
+                en: "Statement focused on positive savings and sustainability. Green top card with total saved. Past transactions list.",
+                html: `<div style="background:var(--cinza-fundo);flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;">
             <h4 style="font-family:var(--font-display);font-size:1.2rem;font-weight:900;color:var(--carvao);margin-bottom:1.5rem;">Extrato</h4>
             <div style="background:var(--carvao);padding:2rem;border-radius:24px;text-align:center;color:white;margin-bottom:2rem;box-shadow:var(--shadow-float);">
                 <div style="font-size:0.65rem;font-weight:bold;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;color:var(--verde-institucional);">Total Retido no Seu Bolso</div>
@@ -1192,12 +2139,12 @@ const screensDb = [
                 <div style="font-size:0.9rem;font-family:var(--font-display);font-weight:900;color:var(--carvao);">- R$ 8,00</div>
             </div>
         </div>`
-    },
-    {
-        group:"Contas e Documentos Gov", num:"23", name:"Carteira Digital (Saldo + Saque Pix)", user:"Vendedores (PF/PJ/ONG)",
-        pt:"Carteira digital com saldo DISPONÍVEL (liberado após QR Code confirmado) e saldo PENDENTE (aguardando retirada). Botão sacar via Pix. Histórico de vendas com status.",
-        en:"Digital wallet showing AVAILABLE balance (released after QR Code confirmed) and PENDING balance (awaiting pickup). Withdraw via Pix button. Sales history with status.",
-        html:`<div style="background:var(--cinza-fundo);flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;">
+            },
+            {
+                group: "Contas e Documentos Gov", num: "23", name: "Carteira Digital (Saldo + Saque Pix)", user: "Vendedores (PF/PJ/ONG)",
+                pt: "Carteira digital com saldo DISPONÍVEL (liberado após QR Code confirmado) e saldo PENDENTE (aguardando retirada). Botão sacar via Pix. Histórico de vendas com status.",
+                en: "Digital wallet showing AVAILABLE balance (released after QR Code confirmed) and PENDING balance (awaiting pickup). Withdraw via Pix button. Sales history with status.",
+                html: `<div style="background:var(--cinza-fundo);flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
                 <h4 style="font-family:var(--font-display);font-size:1.4rem;font-weight:900;color:var(--carvao);margin:0;">Carteira Digital</h4>
                 <i data-lucide="wallet" style="color:var(--verde-institucional);"></i>
@@ -1231,12 +2178,12 @@ const screensDb = [
                 <strong>60% do netValue</strong> é seu. 40% é da Conecta Mesa. Saque grátis via Pix (PF/MEI ilimitado, PJ 30x/mês).
             </div>
         </div>`
-    },
-    {
-        group:"Contas e Documentos Gov", num:"24", name:"Solicitação de Verificação Institucional", user:"B2B / ONG",
-        pt:"Design limpo governamental PDF upload certificadores. Toggle ONG para isenção de taxa. Botão solicitar auditoria.",
-        en:"Clean government PDF upload verification. ONG toggle for fee exemption. Request audit button.",
-        html:`<div style="background:var(--cinza-fundo);flex:1;padding:3rem 1.5rem;display:flex;flex-direction:column;">
+            },
+            {
+                group: "Contas e Documentos Gov", num: "24", name: "Solicitação de Verificação Institucional", user: "B2B / ONG",
+                pt: "Design limpo governamental PDF upload certificadores. Toggle ONG para isenção de taxa. Botão solicitar auditoria.",
+                en: "Clean government PDF upload verification. ONG toggle for fee exemption. Request audit button.",
+                html: `<div style="background:var(--cinza-fundo);flex:1;padding:3rem 1.5rem;display:flex;flex-direction:column;">
             <h4 style="font-family:var(--font-display);font-size:1.2rem;font-weight:900;margin-bottom:0.5rem;color:var(--carvao);">Verificação Institucional</h4>
             <p style="font-size:0.8rem;color:var(--grafite);margin-bottom:2rem;line-height:1.5;">Envie documentos para obter o Selo Parceiro Ponte. ONGs verificadas têm take rate = 0%.</p>
             <div style="background:white;border:2px dashed var(--cinza-medio);padding:2rem;text-align:center;border-radius:24px;font-size:0.8rem;color:var(--cinza-medio);font-weight:bold;margin-bottom:1.5rem;cursor:pointer;">
@@ -1252,12 +2199,12 @@ const screensDb = [
             </div>
             <div style="margin-top:auto;border:2px solid var(--verde-institucional);background:transparent;color:var(--verde-institucional);font-family:var(--font-display);padding:16px;border-radius:16px;text-align:center;font-weight:900;font-size:1rem;display:flex;justify-content:center;align-items:center;gap:8px;"><i data-lucide="shield-check" style="width:18px;"></i> Solicitar Verificação</div>
         </div>`
-    },
-    {
-        group:"Contas e Documentos Gov", num:"25", name:"Notificações Push (Central)", user:"Todos",
-        pt:"Central de notificações com alertas de radar geo, confirmação de saldo DISPONÍVEL, pagamento recebido e conversões B2G.",
-        en:"Notification center with geo radar alerts, AVAILABLE balance confirmation, payment received and B2G conversions.",
-        html:`<div style="background:var(--cinza-fundo);flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;">
+            },
+            {
+                group: "Contas e Documentos Gov", num: "25", name: "Notificações Push (Central)", user: "Todos",
+                pt: "Central de notificações com alertas de radar geo, confirmação de saldo DISPONÍVEL, pagamento recebido e conversões B2G.",
+                en: "Notification center with geo radar alerts, AVAILABLE balance confirmation, payment received and B2G conversions.",
+                html: `<div style="background:var(--cinza-fundo);flex:1;padding:2rem 1.5rem;display:flex;flex-direction:column;">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
                 <h4 style="font-family:var(--font-display);font-size:1.4rem;font-weight:900;color:var(--carvao);">Notificações</h4>
                 <div style="font-size:0.75rem;font-weight:bold;color:var(--verde-institucional);">Marcar lidas</div>
@@ -1284,22 +2231,22 @@ const screensDb = [
                 </div>
             </div>
         </div>`
-    }
-];
+            }
+        ];
 
-function renderScreens() {
-    const container = document.getElementById('dynamic-screens-inject');
-    const grouped = screensDb.reduce((acc, curr) => {
-        if (!acc[curr.group]) acc[curr.group] = [];
-        acc[curr.group].push(curr);
-        return acc;
-    }, {});
+        function renderScreens() {
+            const container = document.getElementById('dynamic-screens-inject');
+            const grouped = screensDb.reduce((acc, curr) => {
+                if (!acc[curr.group]) acc[curr.group] = [];
+                acc[curr.group].push(curr);
+                return acc;
+            }, {});
 
-    let fullHtml = '';
-    for (let groupName in grouped) {
-        fullHtml += `<div class="screens-group"><div class="sg-title"><i data-lucide="layers"></i> ${groupName}</div>`;
-        grouped[groupName].forEach(s => {
-            fullHtml += `
+            let fullHtml = '';
+            for (let groupName in grouped) {
+                fullHtml += `<div class="screens-group"><div class="sg-title"><i data-lucide="layers"></i> ${groupName}</div>`;
+                grouped[groupName].forEach(s => {
+                    fullHtml += `
                 <div class="screen-card">
                     <div class="screen-data">
                         <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:1.5rem;">
@@ -1323,16 +2270,17 @@ function renderScreens() {
                     </div>
                 </div>
             `;
-        });
-        fullHtml += `</div>`;
-    }
-    container.innerHTML = fullHtml;
-    if (window.lucide) { lucide.createIcons(); }
-}
+                });
+                fullHtml += `</div>`;
+            }
+            container.innerHTML = fullHtml;
+            if (window.lucide) { lucide.createIcons(); }
+        }
 
-window.addEventListener('DOMContentLoaded', () => {
-    renderScreens();
-});
-</script>
+        window.addEventListener('DOMContentLoaded', () => {
+            renderScreens();
+        });
+    </script>
 </body>
+
 </html>

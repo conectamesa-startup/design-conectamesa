@@ -1,8 +1,8 @@
-# CONECTA MESA — Documento Institucional (Institucional v1.1)
+# CONECTA MESA — Documento Institucional (Institucional v1.2)
 
 **Infraestrutura Digital de Redistribuição Alimentar**
 Recife, Pernambuco — Brasil
-Versão 1.1 | 2026
+Versão 1.2 | 2026
 
 ⚠️ **CONFIDENCIAL — Uso Interno Exclusivo**
 
@@ -35,9 +35,9 @@ Confidencial – Uso Interno Exclusivo. Este documento contém informações est
 
 | Campo | Informação |
 |-------|------------|
-| Versão | 1.1 |
+| Versão | 1.2 |
 | Data de Criação | 19/04/2026 |
-| Última Atualização | 20/04/2026 |
+| Última Atualização | 22/04/2026 |
 | Responsável pelo Documento | Matheus Alves |
 | Classificação | Confidencial — Uso Interno |
 
@@ -47,6 +47,7 @@ Confidencial – Uso Interno Exclusivo. Este documento contém informações est
 |--------|------|------------------------|-------------|
 | 1.0 | 19/04/2026 | Criação inicial do documento institucional | Matheus Alves |
 | 1.1 | 20/04/2026 | Incorporação de identidade visual (Paleta Ponte), persona Doadora PF, sistema de selos Parceiro Ponte, dashboard de impacto com coeficientes FAO e roadmap detalhado. Stack Flutter+Supabase mantida; equivalentes Flutter adicionados para câmera e QR Code. | Matheus Alves |
+| 1.2 | 22/04/2026 | Correção do take rate (40/60), tipografia (Plus Jakarta Sans + Inter), push notifications (flutter_local_notifications), custo de subcontas Asaas e instrução de configuração White Label no Sandbox. | Matheus Alves |
 
 ---
 
@@ -85,7 +86,7 @@ A insegurança alimentar contemporânea no Brasil não deriva da ausência físi
 ### 2.3 A Solução Proposta
 O Conecta Mesa é uma plataforma digital multiplataforma (iOS e Android) que conecta comerciantes locais com excedente alimentar a consumidores finais e organizações sociais em tempo real, por meio de um marketplace geolocalizado, transparente e inteligente — onde o usuário sabe exatamente o que está adquirindo, ao contrário dos modelos opacos de 'sacola surpresa' existentes no mercado.
 
-A plataforma opera uma mecânica de conversão temporal automatizada: o produto inicia sua jornada disponível para venda B2C (com desconto substancial), e ao cruzar uma linha de tempo crítica próxima ao vencimento, converte-se automaticamente em doação para o braço B2G/ONG — maximizando o ciclo de vida do ativo alimentar em 100% de aproveitamento.
+A plataforma opera uma mecânica de conversão temporal automatizada: a **"Mágica B2C → B2G"**. O produto inicia sua jornada disponível para venda B2C. O campo `pickup_deadline` (prazo limite) atua como motor logístico: se o produto não for comprado até 4 horas antes deste prazo, uma Edge Function o converte automaticamente em doação, acionando a flag `pool_ong` para dar prioridade às ONGs. Faltando 2 horas, são disparadas Notificações Push Agressivas para os usuários próximos ("Salve esta refeição antes que acabe!"), gamificando o resgate e maximizando o ciclo de vida do ativo em 100%.
 
 ### 2.4 Diferencial Estratégico
 O Conecta Mesa não é um aplicativo de delivery reverso nem uma plataforma de cupons. É uma Infraestrutura Digital de Redistribuição Alimentar (Digital Public Infrastructure) que atua na interseção entre o atrito econômico do varejo, a demanda reprimida por alimentos acessíveis e as obrigações legais e ESG das empresas — criando valor simultâneo para três atores que, hoje, operam desconectados.
@@ -113,7 +114,7 @@ Para o comerciante local, o Conecta Mesa transforma o descarte — contabilizado
 
 Para o ecossistema regional, a redistribuição de excedentes alimentares via tecnologia representa uma correção de falha de mercado com impacto macroeconômico: redução de perdas na cadeia de abastecimento, geração de fluxo adicional para o pequeno varejo e diminuição da pressão inflacionária sobre a cesta básica das famílias vulneráveis.
 
-O modelo de monetização sustentável — take rate de 20% a 30% sobre transações B2C e assinaturas SaaS de dashboards ESG — garante que o crescimento da plataforma não dependa de subsídios públicos permanentes, diferentemente das soluções puramente filantrópicas existentes.
+O modelo de monetização sustentável — take rate de 40% sobre o netValue (valor líquido após taxas Asaas), sendo 60% repassado ao vendedor, sobre transações B2C e assinaturas SaaS de dashboards ESG — garante que o crescimento da plataforma não dependa de subsídios públicos permanentes, diferentemente das soluções puramente filantrópicas existentes.
 
 ### 3.3 Impacto Ambiental
 A destruição de matéria orgânica em aterros sanitários responde por 8% a 10% das emissões globais de metano — um gás de efeito estufa com potencial de aquecimento 25 vezes superior ao CO₂ no horizonte de um século. Cada quilograma de alimento resgatado e consumido representa uma emissão evitada contabilizável, mensurada pelo coeficiente de referência FAO de 2,5 kg de CO₂-equivalente por kg de alimento.
@@ -179,19 +180,20 @@ O MVP do Conecta Mesa deve ser estruturado para validar empiricamente as seguint
 
 ---
 
-## 📋 Cadastro
+## 📋 Cadastro (KYC e Compliance)
 
 **Pessoa Física**
-- Fluxo de cadastro padrão
+- [CORRIGIDO v2.0] Fluxo de cadastro padrão, com KYC progressivo (`kyc_level INT` em `personal`: 1=Compra, 2=Vende, Doa e Saca). Documentos armazenados na tabela `kyc_documents` com `reviewed_by`, `reviewed_at` e `asaas_feedback` — fonte da verdade do KYC. Campo `kyc_reminder_sent_at` em `personal` evita spam de notificação de KYC incompleto.
 
-**Pessoa Jurídica**
-- Fluxo de cadastro padrão
-- Campo adicional: **segmento de atuação**
+**Pessoa Jurídica (B2B)**
+- Fluxo de cadastro padrão integrado à Brasil API para **inferência automática de segmento e CNAE** (barreira contra cadastros falsos).
+- [CORRIGIDO v2.0] Exige aceite e assinatura digital do **Termo de Responsabilidade Sanitária**, registrado na tabela `sanitary_terms` como registro auditável (`term_version`, `agreed_at`, `ip_address`, `device_info`) — não como booleano em `business`. Subconta Asaas rastreada via `asaas_account_status` enum (NOT_CREATED \| PENDING \| APPROVED \| REJECTED) e `asaas_regulatory_until TIMESTAMP` (período regulatório Bacen de 60 dias).
 
 **ONG**
-- Mesmo fluxo do PJ
-- Diferenciada por uma opção: *"Sou uma ONG"*
-- Internamente cadastrada como `companyType: "ASSOCIATION"` na API do Asaas
+- Mesmo fluxo do PJ, com validação de CNAE correspondente a organizações da sociedade civil.
+- Diferenciada por uma opção: *"Sou uma ONG"*.
+- Internamente cadastrada como `companyType: "ASSOCIATION"` na API do Asaas.
+- [CORRIGIDO v2.0] Também exige assinatura do **Termo de Responsabilidade Sanitária**, registrado na tabela `sanitary_terms`.
 
 > ⚠️ **Atenção técnica:** ONGs exigem documentação adicional no onboarding da subconta Asaas (Ata de Eleição), além dos documentos padrão (selfie + documento de identidade).
 
@@ -205,7 +207,7 @@ O MVP do Conecta Mesa deve ser estruturado para validar empiricamente as seguint
 4. No momento da retirada, o comprador apresenta um **QR Code ou código da reserva**
 5. O vendedor **escaneia o QR Code** ou **digita o código** na plataforma
 6. Confirmada a retirada → o valor muda de **"pendente"** para **"disponível"** na carteira do vendedor
-7. O comprador pode **avaliar** o vendedor e o alimento
+7. O comprador pode **avaliar** o vendedor e o alimento — [CORRIGIDO v2.0] avaliação registrada na tabela `reviews` (rating 1-5 estrelas + comentário opcional, `payment_id UNIQUE` — uma avaliação por pedido)
 
 ---
 
@@ -234,6 +236,8 @@ Vendedor consegue sacar via Pix
 | `PENDENTE` | Pagamento confirmado, aguardando confirmação da retirada |
 | `DISPONIVEL` | Retirada confirmada, saldo liberado para saque |
 | `CANCELADO` | Compra cancelada, estorno processado automaticamente |
+| `REFUNDED` | [CORRIGIDO v2.0] Estorno concluído via Asaas Refund API |
+| `EXPIRADO` | [CORRIGIDO v2.0] `pickup_deadline` venceu sem ação — Edge Function marca o anúncio como EXPIRADO automaticamente |
 
 ---
 
@@ -277,14 +281,22 @@ Casos onde o comprador reporta problema **após** confirmar a retirada são raro
 ```
 Comprador acessa "Reportar problema" na compra finalizada
         ↓
-Sistema abre ticket interno com prazo de 48h
+[CORRIGIDO v2.0] Sistema cria registro na tabela `disputes` com `deadline_at = created_at + 48h`, `evidence_urls TEXT[]`, `resolved_by` e `asaas_refund_id`
         ↓
 Equipe Conecta Mesa analisa (chat, fotos, avaliações)
         ↓
 Disputa procedente?
-  SIM → Estorno via painel ou API
-  NÃO → Ticket encerrado com justificativa enviada ao comprador
+  SIM → Estorno via painel ou API (com `asaas_refund_id` preenchido)
+  NÃO → Registro encerrado com justificativa enviada ao comprador
 ```
+
+### Regras de No-Show e Gamificação Inversa
+
+Para garantir o compromisso de resgate:
+- Existe uma janela de **2 horas** após o `pickup_deadline`.
+- Se a retirada não for confirmada, o pedido é estornado integralmente de forma automática.
+- Para desincentivar o mau uso, a conta que causou o "No-Show" recebe penalidade: [CORRIGIDO v2.0] incremento em `no_show_count` (ou `abusive_cancel_count` se cancelamento abusivo) na tabela `reputation_scores`, com registro auditável em `reputation_events` (`points_delta`, `reason` enum: `no_show` | `abusive_cancellation` | `other`). Além dos contadores, `reputation_scores` mantém `points INTEGER` (lifetime, default 100) e `points_this_month INTEGER` (base do ranking mensal “Heróis da Ponte”, resetado no 1º dia do mês via Edge Function). Snapshots mensais gravados em `reputation_monthly_snapshots` (`year_month`, `points`, `rank`) antes do reset.
+- **3 ocorrências** em um período de 30 dias resultam em [CORRIGIDO v2.0] bloqueio via `blocked_until = NOW() + INTERVAL '7 days'` na tabela `reputation_scores`. `last_strike_at` rastreia a data da última penalidade.
 
 ---
 
@@ -319,61 +331,18 @@ Disputa procedente?
 
 ---
 
-## 🗂️ Navbars
+## 🗂️ Universal Bottom Navbar (Todas as Personas)
 
-### PF — Navbar
-
-| Ícone | Aba | Comportamento |
-|---|---|---|
-| 🏠 | **Início** | Feed de anúncios de vendas e doações |
-| 🗺️ | **Mapa** | Mapa com localização dos anúncios |
-| ➕ | **Anunciar** | Se não verificado → redireciona para verificação de identidade. Se verificado → abre formulário de anúncio |
-| 👛 | **Carteira** | Se não verificado → redireciona para verificação. Se verificado → saldo disponível, saldo pendente, histórico de vendas e opção de saque via Pix |
-| 📋 | **Histórico** | Cards de compras com status: *A pagar / A retirar / Finalizado*. Se em aberto → botão de chat com o vendedor |
-| 👤 | **Perfil** | Configurações gerais e logout |
-
----
-
-### PJ — Navbar
+O Conecta Mesa adota um padrão de **Bottom Navbar Universal de 6 abas**, nivelando a experiência entre PF, PJ (B2B) e ONG. Isso simplifica a navegação e a documentação.
 
 | Ícone | Aba | Comportamento |
 |---|---|---|
-| 🏠 | **Início** | Feed de anúncios de vendas e doações |
-| 🗺️ | **Mapa** | Mapa com localização dos anúncios |
-| ➕ | **Anunciar** | Mesmo comportamento do PF |
-| 👛 | **Carteira** | Mesmo comportamento do PF, com destaque para saldo pendente x disponível |
-| 📋 | **Histórico** | Mesmo comportamento do PF |
-| 🌱 | **Impacto** | Tela exclusiva PJ com métricas da cadeia de impacto (ver abaixo) |
-| 👤 | **Perfil** | Configurações gerais e logout |
-
-**Tela de Impacto (exclusiva PJ):**
-
-```
-🌍 Cadeia de Impacto Hub
-
-Gases Evitados Totais (Brasil)
-... ton
-
-Famílias Beneficiadas
-... k
-
-Lixo Zerado
-... k kgs
-```
-
----
-
-### ONG — Navbar
-
-| Ícone | Aba | Comportamento |
-|---|---|---|
-| 🏠 | **Início** | Feed de anúncios + destaque para doações disponíveis |
-| 🗺️ | **Mapa** | Mapa com localização dos anúncios |
-| ➕ | **Anunciar** | Mesmo comportamento do PF, adaptado para contexto de ONG |
-| 👛 | **Carteira** | Mesmo comportamento do PF, com histórico de doações recebidas |
-| 📋 | **Histórico** | Cards de compras, retiradas e doações com status |
-| 🌱 | **Impacto** | Mesma tela de impacto do PJ, com foco em doações e famílias atendidas |
-| 👤 | **Perfil** | Configurações gerais e logout |
+| 🏠 | **Início** | [CORRIGIDO v2.0] Feed principal cronológico. Distância nos cards calculada no cliente via Mapbox SDK + GPS. O Mapa pode ser acessado no topo do feed. |
+| 👛 | **Carteira** | Saldo disponível/pendente, histórico de repasses financeiros e opção de saque. |
+| ➕ | **Anunciar** | Formulário de criação de anúncio. Bloqueado se pendente de Verificação KYC ou Sanitária. |
+| 📋 | **Histórico** | Controla as reservas/pedidos. Possui um *toggle superior* para alternar entre **"Compras/Resgates"** e **"Meus Anúncios"**. |
+| 🌱 | **Impacto** | Dashboard de métricas (CO₂, refeições) e o ranking "Heróis da Ponte". Exibe o impacto coletivo e individual. |
+| 👤 | **Perfil** | Status KYC, Reputação, Selos, Configurações de notificações push agressivas, Suporte e Logout. |
 
 ---
 
@@ -394,7 +363,7 @@ O ecossistema de redistribuição alimentar é composto por players com focos di
 O fosso competitivo (moat) do Conecta Mesa é construído sobre parcerias B2G e B2B locais profundas — não sobre volume de capital ou escala de marketing. A integração como operador tecnológico oficial das 225 Cozinhas Comunitárias do Estado de Pernambuco e do Banco de Alimentos do Recife garante uma barreira de entrada legal e relacional quase intransponível para entrantes puramente comerciais.
 
 - **Modelo Híbrido Único:** Redistribuição comercial e doação assistencial dentro do mesmo fluxo unificado de software — solucionando simultaneamente a dor do comerciante e a exigência de responsabilidade social corporativa.
-- **Marketplace Transparente:** Ficha técnica completa com macronutrientes, alérgenos e data de validade atestada por IA — eliminando a principal objeção emocional do consumidor e o principal gargalo operacional das ONGs.
+- **Marketplace Transparente:** Ficha técnica completa com macronutrientes, alérgenos e data de validade — eliminando a principal objeção emocional do consumidor e o principal gargalo operacional das ONGs.
 - **Integração ESG Self-Service:** Qualquer pequeno empório de bairro acessa os mesmos relatórios de impacto ambiental que um hipermercado — sem necessidade de consultoria presencial.
 - **Network Effect Hiperlocal:** A estratégia de crescimento por densidade geográfica em bairros selecionados da RMR cria barreiras de entrada relacionais densas antes que players globais decidam alocar capital no Nordeste.
 - **Sistema de Reputação Institucional:** Sistema de selos em três níveis (Empresa Verificada, ONG Verificada, Parceiro Ponte) gera confiança institucional e incentiva recorrência, com impacto esperado de +30% na taxa de conversão.
@@ -404,9 +373,9 @@ O fosso competitivo (moat) do Conecta Mesa é construído sobre parcerias B2G e 
 ## 8. Estratégias de Negócio
 
 ### 8.1 Modelo de Receita
-- **Pilar Principal — Take Rate Transacional B2C:** Comissão por venda (take rate) calculada no espectro competitivo de 20% a 30% sobre o total pago pelo consumidor por cada reserva de produto no aplicativo. A plataforma não imputa taxas de mensalidade às pequenas padarias e hortifrutis na fase de adesão, dissolvendo o atrito primordial de entrada no B2B. O mecanismo de Split de Pagamentos da API Asaas aparta automaticamente o percentual da plataforma e direciona o restante à carteira digital do estabelecimento, eliminando reconciliação manual de caixa.
+- **Pilar Principal — Take Rate Transacional B2C (Regra Universal e Inegociável):** O split de pagamentos é aplicado a **todas as transações financeiras de venda** processadas via Asaas, sem exceção de persona. A divisão é sempre **40% para a Conecta Mesa / 60% para o vendedor**, calculada sobre o **netValue** (valor bruto após desconto das taxas do Asaas). Uma padaria, uma ONG arrecadando fundos ou uma Pessoa Física anunciando excedente doméstico — qualquer ator que realizar uma **venda** paga exatamente os mesmos 40%. Não existe isenção de take rate para vendas, independentemente da persona ou da finalidade social declarada. A plataforma não imputa mensalidade ao vendedor; o mecanismo de Split da API Asaas aparta o percentual da plataforma automaticamente na confirmação do pagamento, eliminando reconciliação manual de caixa.
 - **Pilar Secundário — SaaS Analytics e Dashboard ESG B2B:** Pacotes corporativos de acesso a Dashboards de Impacto Premium para redes atacadistas e corporações pressionadas por metas ESG. O software gera automaticamente a matriz técnica de emissão de CO₂ equivalente mitigado — viabilizando relatórios para investidores em fundos sustentáveis e obtenção do Selo Doador de Alimentos e de isenções tributárias estaduais (ICMS) em Pernambuco.
-- **Pilar Social — Módulo B2G Subsidiado:** ONGs e cozinhas solidárias operam sem comissionamento na plataforma. Esta vertente é isenta por design estratégico: os resresgates assistenciais na base B2G são as engrenagens silenciosas que impulsionam o volume da mitigação ambiental nos painéis ESG — que, por sua vez, alavancam a receita auferida na cobrança do acesso analítico dos atacadistas B2B.
+- **Pilar Social — Módulo de Resgate B2G Subsidiado:** ONGs e cozinhas solidárias não pagam take rate exclusivamente quando **resgatam doações gratuitas** — alimentos que não foram vendidos no canal B2C e foram automaticamente redirecionados ao pool B2G. A isenção existe porque não há transação financeira no resgate da doação: o campo `comissao` é zero e nenhum split é configurado no Asaas. **Se uma ONG utilizar a plataforma para vender um produto** (arrecadação de fundos, por exemplo), ela pagará os 40% da plataforma exatamente como uma padaria pagaria. A flag `is_ong` nunca altera as regras financeiras de vendas — apenas qualifica a instituição para o Selo ONG Verificada, isenção de CNPJ comercial (exigindo Ata de Eleição para o Asaas) e acesso ao mapa de doações gratuitas. A vertente B2G é isenta por design estratégico: os resgates assistenciais geram volume de mitigação ambiental mensurável que retroalimenta comercialmente o pilar SaaS ESG B2B.
 
 ### 8.2 Estratégia Go-to-Market: Crescimento Hiperlocal
 A implantação de um marketplace multilateral sofre endemicamente da fricção clássica do 'Ovo e da Galinha': sem oferta de comerciantes, consumidores abandonam; sem consumidores, comerciantes não publicam. A solução é o crescimento por densidade geográfica — não por expansão territorial ampla.
@@ -429,11 +398,12 @@ Após validação dos unit economics na RMR, a escalabilidade da arquitetura tec
 - **Narrativas Sociais — Fome vs. Desperdício:** O paradoxo entre insegurança alimentar e descarte massivo é intrinsecamente mobilizador. Campanhas que evidenciam dados concretos combinadas com histórias pessoais reais dos usuários criam vínculo emocional duradouro e impulsionam o crescimento viral orgânico.
 
 ### 9.2 Retenção e Engajamento — Gamificação com Impacto
-O sistema de gamificação do Conecta Mesa transcende recompensas virtuais: cada transação gera métricas tangíveis de impacto ('Você evitou a emissão de 2,3 kg de CO₂ e salvou 800g de comida!'), convertíveis em cupons substanciais e prêmios nos fornecedores parceiros.
+O sistema de gamificação do Conecta Mesa transcende recompensas virtuais: cada transação gera métricas tangíveis de impacto ('Você evitou a emissão de 2,3 kg de CO₂ e salvou 800g de comida!'), convertíveis em cupons substanciais e prêmios nos fornecedores parceiros. Além disso, a reputação centralizada afeta o status de todos na rede.
+- **Ranking Heróis da Ponte:** [CORRIGIDO v2.0] Competição mensal de resgatadores (gamificação) baseada em `points_this_month` na tabela `reputation_scores`. Snapshots mensais gravados em `reputation_monthly_snapshots` para ranking histórico. 1º Ouro, 2º Prata, 3º Bronze no painel de Impacto.
+- **Selo "Resgatador Veloz":** Concedido a usuários que respondem aos alertas de Push Agressivos nos minutos finais antes da perda do produto, salvando refeições na "Mágica B2C → B2G".
 - **Desafio 'Cidadão Zero Desperdício':** Acúmulo de selos ambientais por ciclos de compra, convertíveis em benefícios tangíveis — fidelizando o consumo circular.
-- **Leaderboard Comunitário:** Rankings de estabelecimentos e bairros por volume de alimentos salvos — criando competição saudável e visibilidade para os melhores parceiros B2B.
 - **Notificações Push por Urgência Geolocalizada:** Alertas contextuais baseados em proximidade e escassez ('Restam apenas 3 unidades de pão artesanal a 400m de você!') com alta taxa de conversão.
-- **Dashboard B2B de Impacto Mensal:** O estabelecimento enxerga sua volumetria de ativos recuperados (CMV salvo), emissões mitigadas e rastreabilidade digital completa.
+- **Pontuação de Reputação (Tabela `reputation_scores`):** Penalidades por atraso (No-Show) reduzem o ranking da conta. Comportamentos proativos aumentam o status.
 
 ---
 
@@ -445,27 +415,25 @@ Os valores do Conecta Mesa não são declarações decorativas — são princíp
 | Sustentabilidade | Cada transação é uma emissão de CO₂ evitada. Os relatórios de impacto ambiental automatizados não são opcionais — são funcionalidade core do produto. |
 | Impacto Social | O módulo B2G não é acessório — é a razão de existir da plataforma. ONGs e cozinhas solidárias são tratadas como parceiros estratégicos, não como receptores passivos. |
 | Eficiência Econômica | O Conecta Mesa recusa o modelo puramente filantrópico dependente de doadores. A sustentabilidade financeira da plataforma é condição para a sustentabilidade do impacto. |
-| Transparência | A opacidade da 'sacola surpresa' foi conscientemente rejeitada. O usuário sabe exatamente o que compra, com ficha técnica completa, macronutrientes e data de validade atestada por IA. |
+| Transparência | A opacidade da 'sacola surpresa' foi conscientemente rejeitada. O usuário sabe exatamente o que compra, com ficha técnica completa, macronutrientes e data de validade informada pelo vendedor. |
 | Inclusão Alimentar | A interface foi desenhada para populações com baixa renda e maturidade digital variável. Acessibilidade não é conformidade regulatória — é valor fundamental. |
 | Confiança Institucional | O sistema de selos de verificação (Empresa Verificada, ONG Verificada, Parceiro Ponte) materializa o compromisso com integridade, priorizando parceiros com histórico comprovado de impacto recorrente. |
 
 ---
 
 ## 11. Uso de Inteligência Artificial no Produto
-A Inteligência Artificial no Conecta Mesa não é um diferencial de marketing — é infraestrutura de confiança e eficiência operacional. Os três eixos de aplicação são interdependentes e críticos para a viabilidade do modelo de negócio.
+A Inteligência Artificial no Conecta Mesa é aplicada de forma estratégica em matchmaking e otimização logística. ~~A validação de validade por OCR/Edge AI foi descartada no MVP~~ — a data de validade é inserida manualmente pelo vendedor via DatePicker e validada por comparação com `DateTime.now()`.
 
-### 11.1 Validação de Alimentos por OCR + Machine Learning (Edge AI)
-O fluxo de cadastro de produtos não permite inserção manual cega de datas de validade para itens industrializados. O comerciante é forçado pela UX a capturar, via câmera nativa do dispositivo, o carimbo oficial de lote e validade na embalagem. A captura é realizada pelo plugin image_picker (Flutter), que acessa a câmera nativa em iOS e Android sem dependências externas ao ecossistema Flutter.
-
-O sistema utiliza a biblioteca Google ML Kit (google_mlkit_text_recognition) — embarcada diretamente no aplicativo Flutter — para processar a extração de texto no próprio dispositivo (Edge Computing), sem necessidade de envio ao servidor. Se o algoritmo identificar uma data pretérita, o envio ao banco de dados é instantaneamente bloqueado, alertando o vendedor sobre a irregularidade sanitária. Esta camada é o principal mecanismo de prevenção de fraudes e passivos legais da plataforma.
+### ~~11.1 Validação de Alimentos por OCR + Machine Learning (Edge AI)~~
+[CORRIGIDO v2.0] **Descartado do MVP.** O fluxo de cadastro de produtos utiliza inserção manual da data de validade via DatePicker nativo do Flutter. Se a data inserida for pretérita (`DateTime.now()` vs data do campo), a publicação é bloqueada com alerta visual vermelho: "Produto vencido — publicação bloqueada." A foto do produto continua obrigatória (via `image_picker`), mas não é mais processada por IA para leitura de datas. A dependência `google_mlkit_text_recognition` e a tabela `ocr_validation_logs` foram removidas do escopo.
 
 ### 11.2 Matchmaking de Oferta e Demanda
-O algoritmo de matchmaking conecta, em tempo real, o excedente disponível ao perfil de demanda mais próximo — considerando geolocalização (via plugin geolocator com alta precisão), histórico de consumo, restrições alimentares e urgência temporal do produto. Para ONGs, o sistema identifica automaticamente hotspots de doações massivas centralizadas em estabelecimentos próximos, otimizando a rota de resgate.
+[CORRIGIDO v2.0] O algoritmo de matchmaking conecta, em tempo real, o excedente disponível ao perfil de demanda mais adequado — considerando histórico de consumo, restrições alimentares e urgência temporal do produto. A geolocalização é capturada via plugin geolocator e a distância entre usuário e anúncio é calculada no cliente via Mapbox SDK + GPS do celular (não no backend). Para ONGs, o sistema identifica automaticamente hotspots de doações massivas centralizadas em estabelecimentos próximos, otimizando a rota de resgate.
 
 A conversão temporal automatizada é uma aplicação específica de matchmaking: ao cruzar uma linha de tempo crítica de proximidade ao vencimento, o produto é automaticamente redirecionado do canal de venda B2C para o pool de doações B2G — sem intervenção humana.
 
 ### 11.3 Otimização Logística
-O sistema de geolocalização em tempo real (via plugin geolocator no Flutter) ranqueia estabelecimentos por proximidade ao usuário, garantindo que, a qualquer momento, haja oferta disponível num raio caminhável de até 2 quilômetros. Isso mitiga tanto o risco logístico (custo de deslocamento) quanto o risco de retenção (abandono por baixa densidade de ofertas).
+[CORRIGIDO v2.0] O sistema de geolocalização em tempo real (via plugin geolocator no Flutter) captura as coordenadas `lat`/`lng` de cada anúncio para plotagem de pins no Mapbox. A distância entre usuário e estabelecimento é calculada no cliente via Mapbox SDK + GPS do celular (não no backend), garantindo que, a qualquer momento, o usuário visualize ofertas disponíveis num raio caminhavel. Isso mitiga tanto o risco logístico (custo de deslocamento) quanto o risco de retenção (abandono por baixa densidade de ofertas).
 
 ---
 
@@ -501,7 +469,7 @@ A identidade visual da plataforma é definida pela Paleta Ponte, implementada vi
 | Foreground | #333333 | Texto principal (TextTheme bodyLarge) |
 | Muted | #737373 | Texto secundário (TextTheme bodySmall) |
 
-A tipografia adota Montserrat (500 – 800) para títulos e botões e Nunito (400 – 700) para corpo de texto, ambas disponíveis via pacote google_fonts do Flutter. Border-radius de 16px em cards e inputs; formato pill (BorderRadius.circular(9999)) em badges e chips. Alvos de toque mínimos de 48px em conformidade com as diretrizes de acessibilidade do Material Design.
+A tipografia adota Plus Jakarta Sans (500 – 800) para títulos e botões e Inter (400 – 700) para corpo de texto, ambas disponíveis via pacote google_fonts do Flutter. Border-radius de 16px em cards e inputs; formato pill (BorderRadius.circular(9999)) em badges e chips. Alvos de toque mínimos de 48px em conformidade com as diretrizes de acessibilidade do Material Design.
 
 ### 12.5 Backend — Supabase + PostgreSQL
 PostgreSQL é o banco de dados principal do Conecta Mesa. Gerencia entidades estritamente relacionais: Lojas, Usuários, Produtos, Transações, Repasses e Entidades Assistenciais. As restrições de integridade do PostgreSQL asseguram que saldos não sejam corrompidos em alta concorrência. O Row Level Security (RLS) — regras configuradas nativamente no banco — impede que qualquer cliente force acesso aos dados transacionais de concorrentes. A tabela user_roles é mantida separada de profiles, com enum (admin / pf / empresa / ong), para evitar privilege escalation.
@@ -515,10 +483,10 @@ O Supabase Realtime, via PostgreSQL Changes acoplado a conexões WebSocket persi
 | PIX (via Asaas Gateway) | Pagamento instantâneo com QR Code dinâmico e copia-e-cola. Split automático entre plataforma e estabelecimento. Antifraude Asaas Score + 3-DS 2.0 obrigatório acima de R$ 200. Webhook HMAC para confirmação. |
 | qr_flutter (QR Code nativo) | Geração e exibição de QR Code dinâmico no app Flutter para handshake de entrega. O consumidor exibe o código, o lojista escaneia via mobile_scanner, a transação muda para 'Entregue' e o repasse é liquidado — eliminando chargebacks. |
 | geolocator (GPS) | Captura de latitude/longitude com alta precisão. Permissões nativas: NSLocationWhenInUseUsageDescription (iOS) e ACCESS_FINE_LOCATION (Android). Ranqueamento de estabelecimentos por proximidade e base para notificações push contextuais. |
-| image_picker (Câmera) | Acesso à câmera nativa iOS e Android para captura da embalagem do produto. Retorno de imagem para processamento OCR on-device. Permissões: NSCameraUsageDescription (iOS) e CAMERA (Android). |
-| google_mlkit_text_recognition (OCR) | Reconhecimento óptico de caracteres nas embalagens para validação de datas de validade no próprio dispositivo (Edge AI), antes da publicação no servidor. |
+| image_picker (Câmera) | Acesso à câmera nativa iOS e Android para captura da foto do produto. Permissões: NSCameraUsageDescription (iOS) e CAMERA (Android). |
+| ~~google_mlkit_text_recognition (OCR)~~ | [CORRIGIDO v2.0] **Descartado do MVP.** Validação de data de validade agora é manual via DatePicker. |
 | supabase_flutter (BaaS) | Cliente oficial Flutter para autenticação, banco de dados (PostgreSQL), Realtime, Storage e Edge Functions do Supabase. |
-| google_fonts | Tipografia Montserrat e Nunito carregadas via pacote oficial Flutter, sem dependência de CDN externo. |
+| google_fonts | Tipografia Plus Jakarta Sans e Inter carregadas via pacote oficial Flutter, sem dependência de CDN externo. |
 | flutter_local_notifications + supabase | Push notifications nativas para alertas de urgência geolocalizada, confirmações de pagamento e atualizações de chat. Substitui OneSignal via Capacitor, incompatível com Flutter. |
 
 ### 12.7 Custos de Infraestrutura (MVP — 5.000 MAU)
@@ -529,13 +497,14 @@ O custo de sustentação de cloud e infraestrutura para tracionar até 5.000 usu
 | Backend & BaaS | Supabase Pro Plan | ~R$ 135,00 (~USD 25) |
 | Edge Functions / Serverless | Supabase Edge Functions | Incluso no Pro (2M invocações/mês) |
 | Gateway de Pagamentos PIX | Asaas (custo variável por transação) | R$ 0,99 – R$ 1,99 por PIX (absorvido no take rate) |
+| Criação de Subcontas | Asaas (R$ 12,90 por subconta aprovada) | Variável — coberto pela Conecta Mesa |
 | Publicação nas Lojas | Google Play + Apple Developer | USD 25 (único) + USD 99/ano |
 | APIs de Mapas / GPS | Google Maps API (GCP) | Coberto pelo crédito gratuito de USD 200/mês |
 
 ---
 
 ## 13. Sistema de Reputação Institucional — Selo Parceiro Ponte
-O Selo Parceiro Ponte é o sistema de reputação do Conecta Mesa para empresas e ONGs, exibido em cards do feed, no detalhe do anúncio e no perfil do parceiro. Implementado como widget reutilizável no Flutter (VerifiedBadge), opera em três níveis progressivos que incentivam tanto a adesão inicial quanto a recorrência de impacto.
+[CORRIGIDO v2.0] O Selo Parceiro Ponte é o sistema de reputação do Conecta Mesa para empresas e ONGs, exibido em cards do feed, no detalhe do anúncio e no perfil do parceiro. Implementado como widget reutilizável no Flutter (VerifiedBadge), opera em três níveis progressivos que incentivam tanto a adesão inicial quanto a recorrência de impacto. Solicitações de verificação são persistidas na tabela `verification_requests` com `level_requested` (VERIFIED \| PARCEIRO_PONTE), `document_urls TEXT[]`, `status` enum (PENDING → UNDER_REVIEW → APPROVED \| REJECTED), `reviewed_by`, `reviewed_at` e `rejection_reason`. Separado de `kyc_documents`: KYC = identidade, `verification_requests` = reputação institucional.
 
 ### 13.1 Níveis de Verificação
 
@@ -561,13 +530,13 @@ O Selo Parceiro Ponte é o sistema de reputação do Conecta Mesa para empresas 
 - Persistir listagens no PostgreSQL com tabelas listings, profiles, user_roles, messages e payments.
 - Storage bucket para fotos de produtos com RLS por proprietário.
 - Edge functions para Asaas: create-payment, asaas-webhook e refund com validação HMAC.
+- Configuração BaaS White Label no Sandbox (self-service): Não requer contato com suporte. Acesse: Menu do usuário → Minha conta → Configurações → Sandbox. Habilite BaaS White Label e Autoaprovação de subcontas filhas na mesma tela. (Confirmado pelo suporte Asaas em 22/04/2026.)
 - Validação automatizada de CNPJ via Brasil API + fluxo manual de aprovação do Selo Parceiro Ponte.
-- Mapa interativo no Feed (Mapbox) usando GPS dos anúncios e cálculo de distância real via Haversine.
-- Push notifications nativas via (VERIFICAR SE O SUPABASE TEM ISSO) para chat, confirmação de pagamento e alertas de urgência.
+- [CORRIGIDO v2.0] Mapa interativo no Feed (Mapbox) usando GPS dos anúncios (`lat`/`lng` numéricos em `listings`) e cálculo de distância no cliente via Mapbox SDK + GPS do celular.
+- Push notifications nativas via flutter_local_notifications (Supabase não possui push nativo). Canais: chat, confirmação de pagamento, liberação de saldo na carteira e alertas de urgência geolocalizada.
 
 ### 14.2 Médio Prazo
-- Push notifications nativas via (VERIFICAR SE O SUPABASE TEM ISSO) para chat, confirmação de pagamento e alertas de urgência.
-- Sistema de avaliações pós-retirada (estrelas + comentário) para reforço do sistema de reputação.
+- ~~Sistema de avaliações pós-retirada (estrelas + comentário)~~ — [CORRIGIDO v2.0] **Já implementado no banco v2.0** via tabela `reviews` (rating 1-5, comment, `payment_id UNIQUE`). Integração UI pendente.
 - Painel administrativo Flutter Web para gestão do Selo Parceiro Ponte e moderação de conteúdo.
 
 ### 14.3 Longo Prazo

@@ -29,33 +29,49 @@ Stack: Flutter (iOS + Android) + Supabase + Mapbox GL
 
 ---
 
-## 📋 Cadastro
+## 📋 Cadastro (KYC Obrigatório)
+
+Para garantir segurança, conformidade e qualidade na rede, o Conecta Mesa implementa rigorosos padrões no cadastro:
 
 **Pessoa Física**
-- Fluxo de cadastro padrão
+- Fluxo de cadastro padrão (nome, CPF, etc).
+- [CORRIGIDO v2.0] KYC progressivo (`kyc_level INT` em `personal`/`business`: 1=Compra, 2=Vende, Doa e Saca). Documentos armazenados na tabela `kyc_documents` com `reviewed_by`, `reviewed_at` e `asaas_feedback` — fonte da verdade do KYC; o campo `kyc_status` em `personal`/`business` é apenas conveniência. Obrigatório apenas se for publicar produtos (Vender ou Doar).
 
-**Pessoa Jurídica**
-- Fluxo de cadastro padrão
-- Campo adicional: **segmento de atuação**
+**Pessoa Jurídica (B2B)**
+- Fluxo de cadastro padrão.
+- Campo de CNPJ com **inferência automática de segmento e CNAE** via Brasil API (agiliza cadastro e garante compliance).
+- [CORRIGIDO v2.0] Assinatura digital obrigatória do **Termo de Responsabilidade Sanitária**, registrada na tabela `sanitary_terms` como registro auditável (`term_version`, `agreed_at`, `ip_address`, `device_info`) — não como booleano em `business`.
 
 **ONG**
-- Mesmo fluxo do PJ
-- Diferenciada por uma opção: *"Sou uma ONG"*
-- Internamente cadastrada como `companyType: "ASSOCIATION"` na API do Asaas
+- Fluxo de CNPJ (mesmo do PJ), validando se o CNAE corresponde a organizações da sociedade civil.
+- Diferenciada pela opção: *"Sou uma ONG"*.
+- Internamente cadastrada como `companyType: "ASSOCIATION"` na API do Asaas.
+- [CORRIGIDO v2.0] Assinatura digital obrigatória do **Termo de Responsabilidade Sanitária**, registrada na tabela `sanitary_terms`.
 
 > ⚠️ **Atenção técnica:** ONGs exigem documentação adicional no onboarding da subconta Asaas (Ata de Eleição), além dos documentos padrão (selfie + documento de identidade).
 
 ---
 
+## 🪄 A Mágica B2C → B2G (Conversão Temporal e Push)
+
+O campo **`pickup_deadline`** (prazo limite de retirada) é o motor da plataforma.
+
+1. **Conversão Automática (4 horas antes):** Se um produto postado para venda não for comprado até 4 horas antes do seu `pickup_deadline`, uma Edge Function altera o anúncio de "Venda" para "Doação", ativando a flag `pool_ong` para dar prioridade ao resgate social.
+2. **Notificações Push Agressivas (2 horas antes):** Faltando apenas 2 horas para o prazo limite, se o alimento ainda não foi resgatado, o sistema dispara alertas "Push Agressivos" com gamificação para os usuários próximos.
+   - **Selo de Urgência:** "Salve esta refeição antes que acabe!"
+   - **Gamificação:** Resgatadores que salvam nestes minutos finais acumulam pontos para o distintivo "Resgatador Veloz" — [CORRIGIDO v2.0] pontos registrados em `points_this_month` na tabela `reputation_scores`.
+
+---
+
 ## 🔄 Fluxo de Compra (todas as personas)
 
-1. Usuário navega pelo **feed** ou pelo **mapa** e encontra um anúncio
-2. Seleciona o anúncio desejado, faz a **reserva** e realiza o **pagamento**
-3. Após o pagamento, acessa o **chat** da plataforma para combinar a retirada com o vendedor
-4. No momento da retirada, o comprador apresenta um **QR Code ou código da reserva**
-5. O vendedor **escaneia o QR Code** ou **digita o código** na plataforma
-6. Confirmada a retirada → o valor muda de **"pendente"** para **"disponível"** na carteira do vendedor
-7. O comprador pode **avaliar** o vendedor e o alimento
+1. Usuário navega pelo **feed** ou pelo mapa e encontra um anúncio.
+2. Seleciona o anúncio desejado, faz a **reserva** e realiza o pagamento (se for venda) ou o pedido direto (se for doação gratuita).
+3. Após o pagamento/reserva, acessa o **chat** da plataforma para combinar a retirada com o anunciante.
+4. No momento da retirada, o comprador apresenta um **QR Code ou código da reserva**.
+5. O vendedor/doador **escaneia o QR Code** ou **digita o código** na plataforma.
+6. Confirmada a retirada → o valor muda de **"pendente"** para **"disponível"** na carteira do vendedor. O alimento é marcado como ENTREGUE.
+7. O comprador pode **avaliar** o fornecedor e o alimento — [CORRIGIDO v2.0] avaliação registrada na tabela `reviews` (rating 1-5 estrelas + comentário opcional, `payment_id UNIQUE` — uma avaliação por pedido).
 
 ---
 
@@ -84,6 +100,8 @@ Vendedor consegue sacar via Pix
 | `PENDENTE` | Pagamento confirmado, aguardando confirmação da retirada |
 | `DISPONIVEL` | Retirada confirmada, saldo liberado para saque |
 | `CANCELADO` | Compra cancelada, estorno processado automaticamente |
+| `REFUNDED` | [CORRIGIDO v2.0] Estorno concluído via Asaas Refund API |
+| `EXPIRADO` | [CORRIGIDO v2.0] `pickup_deadline` venceu sem ação — Edge Function marca o anúncio como EXPIRADO automaticamente |
 
 ---
 
@@ -127,14 +145,23 @@ Casos onde o comprador reporta problema **após** confirmar a retirada são raro
 ```
 Comprador acessa "Reportar problema" na compra finalizada
         ↓
-Sistema abre ticket interno com prazo de 48h
+[CORRIGIDO v2.0] Sistema cria registro na tabela `disputes` com `deadline_at = created_at + 48h`, `evidence_urls TEXT[]`, `resolved_by` e `asaas_refund_id`
         ↓
 Equipe Conecta Mesa analisa (chat, fotos, avaliações)
         ↓
 Disputa procedente?
-  SIM → Estorno via painel ou API
-  NÃO → Ticket encerrado com justificativa enviada ao comprador
+  SIM → Estorno via painel ou API (com `asaas_refund_id` preenchido)
+  NÃO → Registro encerrado com justificativa enviada ao comprador
 ```
+
+### Regras de No-Show e Penalidades (Novo Fluxo)
+
+O *No-Show* acontece quando a retirada do produto não ocorre até o limite do `pickup_deadline`.
+
+1. **Período de Carência:** O sistema aguarda **2 horas** após o vencimento do prazo.
+2. **Estorno Automático:** Se não houver a leitura do QR Code (vendedor confirmando), a compra é cancelada e 100% do valor estornado ao comprador para reduzir tickets de atendimento.
+3. **Punição (Gamificação Inversa):** [CORRIGIDO v2.0] O lado causador do No-Show recebe incremento em `no_show_count` (ou `abusive_cancel_count`) na tabela `reputation_scores`, com registro auditável em `reputation_events` (`points_delta`, `reason` enum: `no_show` | `abusive_cancellation` | `other`). Além dos contadores, `reputation_scores` mantém `points INTEGER` (lifetime, default 100), `points_this_month INTEGER` (base do ranking mensal) e `last_strike_at TIMESTAMP`.
+4. **Suspensão Defensiva:** O acúmulo de **3 ocorrências** (No-Show ou Cancelamento Abusivo muito próximo ao prazo) em menos de **30 dias** [CORRIGIDO v2.0] ativa `blocked_until = NOW() + INTERVAL '7 days'` na tabela `reputation_scores`, inibindo o mau uso. Snapshots mensais gravados em `reputation_monthly_snapshots` para ranking histórico.
 
 ---
 
@@ -169,61 +196,18 @@ Disputa procedente?
 
 ---
 
-## 🗂️ Navbars
+## 🗂️ Universal Bottom Navbar (Todas as Personas)
 
-### PF — Navbar
-
-| Ícone | Aba | Comportamento |
-|---|---|---|
-| 🏠 | **Início** | Feed de anúncios de vendas e doações |
-| 🗺️ | **Mapa** | Mapa com localização dos anúncios |
-| ➕ | **Anunciar** | Se não verificado → redireciona para verificação de identidade. Se verificado → abre formulário de anúncio |
-| 👛 | **Carteira** | Se não verificado → redireciona para verificação. Se verificado → saldo disponível, saldo pendente, histórico de vendas e opção de saque via Pix |
-| 📋 | **Histórico** | Cards de compras com status: *A pagar / A retirar / Finalizado*. Se em aberto → botão de chat com o vendedor |
-| 👤 | **Perfil** | Configurações gerais e logout |
-
----
-
-### PJ — Navbar
+O Conecta Mesa adota um padrão de **Bottom Navbar Universal de 6 abas**, nivelando a experiência entre PF, PJ (B2B) e ONG. Isso simplifica a navegação e a documentação.
 
 | Ícone | Aba | Comportamento |
 |---|---|---|
-| 🏠 | **Início** | Feed de anúncios de vendas e doações |
-| 🗺️ | **Mapa** | Mapa com localização dos anúncios |
-| ➕ | **Anunciar** | Mesmo comportamento do PF |
-| 👛 | **Carteira** | Mesmo comportamento do PF, com destaque para saldo pendente x disponível |
-| 📋 | **Histórico** | Mesmo comportamento do PF |
-| 🌱 | **Impacto** | Tela exclusiva PJ com métricas da cadeia de impacto (ver abaixo) |
-| 👤 | **Perfil** | Configurações gerais e logout |
-
-**Tela de Impacto (exclusiva PJ):**
-
-```
-🌍 Cadeia de Impacto Hub
-
-Gases Evitados Totais (Brasil)
-... ton
-
-Famílias Beneficiadas
-... k
-
-Lixo Zerado
-... k kgs
-```
-
----
-
-### ONG — Navbar
-
-| Ícone | Aba | Comportamento |
-|---|---|---|
-| 🏠 | **Início** | Feed de anúncios + destaque para doações disponíveis |
-| 🗺️ | **Mapa** | Mapa com localização dos anúncios |
-| ➕ | **Anunciar** | Mesmo comportamento do PF, adaptado para contexto de ONG |
-| 👛 | **Carteira** | Mesmo comportamento do PF, com histórico de doações recebidas |
-| 📋 | **Histórico** | Cards de compras, retiradas e doações com status |
-| 🌱 | **Impacto** | Mesma tela de impacto do PJ, com foco em doações e famílias atendidas |
-| 👤 | **Perfil** | Configurações gerais e logout |
+| 🏠 | **Início** | [CORRIGIDO v2.0] Feed principal cronológico. Distância nos cards calculada no cliente via Mapbox SDK + GPS. O Mapa pode ser acessado no topo do feed. |
+| 👛 | **Carteira** | Saldo disponível/pendente, histórico de repasses financeiros e opção de saque. (Acesso liberado pós-KYC). |
+| ➕ | **Anunciar** | Formulário de criação de anúncio. Bloqueado se pendente de Verificação KYC ou Sanitária. |
+| 📋 | **Histórico** | Controla as reservas/pedidos. Possui um *toggle superior* para alternar entre **"Compras/Resgates"** e **"Meus Anúncios"**. |
+| 🌱 | **Impacto** | Dashboard de métricas (CO₂, refeições) e o ranking "Heróis da Ponte". Exibe o impacto coletivo e individual. |
+| 👤 | **Perfil** | Status KYC, Reputação, Selos, Configurações de notificações push agressivas, Suporte e Logout. |
 
 ---
 
@@ -256,7 +240,7 @@ Todos os elementos visuais do Conecta Mesa seguem a Paleta Ponte, implementada v
 ### 1.3 Componentes Globais
 | Componente | Especificação Flutter | Uso |
 |------------|-----------------------|-----|
-| Bottom Navigation Bar | Material 3 NavigationBar — 4 a 5 abas — fundo #FFFFFF. Dinâmico por role: **PF:** Início, Mapa, Anunciar, Chat, Perfil | **Empresa (PJ):** Lotes, Anunciar, Impacto, Conta | **ONG (PJ):** Feed ONG, Mapa, Chat, Perfil |
+| Bottom Navigation Bar | Material 3 NavigationBar — 6 abas universais — fundo #FFFFFF. **Universal:** Início, Carteira, Anunciar, Histórico, Impacto, Perfil. Fundo com safe area. |
 | Botão Primário (CTA) | ElevatedButton — fundo Verde Ponte #4CAF50 — texto branco Montserrat 600 16sp — BorderRadius 12px — altura 52dp | Ações primárias em todas as telas |
 | Botão Secundário | OutlinedButton — borda Verde Ponte — texto Verde Ponte — mesmo border-radius | Ações secundárias, cancelar |
 | Botão de Urgência | ElevatedButton — fundo Laranja Ponte #FF9800 — texto branco | Reservar, pagar, publicar urgente |
@@ -301,7 +285,7 @@ O MVP do Conecta Mesa é composto por 25 telas distribuídas em 7 módulos funci
 | 07 | Feed de Anúncios (Lista) | Marketplace | B2C / ONG |
 | 08 | Mapa Interativo (Mapbox) | Marketplace | B2C / ONG |
 | 09 | Detalhe do Anúncio | Marketplace | B2C / ONG |
-| 10 | Publicar Anúncio (Passo 1 — Foto + OCR) | Marketplace | B2B / PF Doador |
+| 10 | Publicar Anúncio (Passo 1 — Foto + Data de Validade) | Marketplace | B2B / PF Doador |
 | 11 | Publicar Anúncio (Passo 2 — Dados do Produto) | Marketplace | B2B / PF Doador |
 | 12 | Publicar Anúncio (Passo 3 — Revisão e Publicação) | Marketplace | B2B / PF Doador |
 | 13 | Checkout — Seleção de Pagamento | Pagamento | B2C |
@@ -468,7 +452,7 @@ Permitir que o usuário solicite link de redefinição de senha via e-mail. Flux
 ### TELA 07: Feed de Anúncios (Lista)
 **Usuário:** Consumidor B2C / ONG B2G
 **🎯 Objetivo**
-Tela principal de descoberta de produtos. Exibe anúncios ordenados por proximidade GPS com busca textual e filtros por categoria e tipo (venda/doação). É a home do app para consumidores e ONGs.
+[CORRIGIDO v2.0] Tela principal de descoberta de produtos. Exibe anúncios em ordem cronológica (`ORDER BY created_at DESC`) com busca textual e filtros por categoria e tipo (venda/doação). A distância exibida nos cards é calculada no cliente via Mapbox SDK + GPS do celular — sem ordenação geoespacial no backend. É a home do app para consumidores e ONGs.
 
 **🧱 Estrutura Completa**
 | Zona | Conteúdo | Especificação |
@@ -480,8 +464,8 @@ Tela principal de descoberta de produtos. Exibe anúncios ordenados por proximid
 | Contador de resultados | Texto dinâmico | Nunito 12sp Muted: "23 anúncios perto de você" — atualiza com filtros |
 | Lista de cards | ListView.builder | gap 12dp entre cards — padding horizontal 16dp |
 | Card de Produto | Foto + dados + CTA | Ver especificação abaixo |
-| Empty state | Ilustração + texto + CTA | Visível quando nenhum anúncio no raio — ícone location_off 64dp Muted — texto "Nenhum anúncio perto de você agora" — botão "Ampliar busca" Outline Verde |
-| Bottom Navigation Bar | Navegação global | Início (ativo, Verde Ponte), Impacto, Anunciar, Conta |
+| Empty state | Ilustração + texto + CTA | Visível quando nenhum anúncio disponível — ícone location_off 64dp Muted — texto "Nenhum anúncio disponível agora" — botão "Atualizar feed" Outline Verde |
+| Bottom Navigation Bar | Navegação global | Início (ativo, Verde Ponte), Carteira, Anunciar, Histórico, Impacto, Perfil |
 
 **🃏 Especificação do Card de Produto**
 | Elemento | Especificação | Notas |
@@ -540,8 +524,8 @@ Exibir ficha técnica completa do produto: foto, macronutrientes, alérgenos, da
 | Preço e desconto | Preço atual + original + % desconto | Preço: Montserrat 800 28sp Laranja Ponte — Original riscado: Montserrat 400 16sp Muted — Chip "50% OFF" Laranja sólido pill |
 | Info rápida (chips row) | Distância + peso + tempo | Row de 3 chips informativos fundo #F5F5F5 — " 📍 1,2 km" — " ⚖ 2,5 kg" — " ⏰ 3h restantes" — Nunito 12sp |
 | Seção: Descrição | Texto descritivo | Label Montserrat 600 14sp Muted — texto Nunito 14sp #333333 — collapsible se >3 linhas com "Ver mais" Verde Ponte |
-| Seção: Ficha Nutricional | Tabela de macros + alérgenos | Card fundo #F5F5F5 BorderRadius 12dp — grid 2x2: Proteínas, Carboidratos, Gorduras, Calorias — cada célula: valor Montserrat 700 16sp + unidade Nunito 12sp Muted — abaixo: " ⚠ Contém:" + chips de alérgenos (vermelho claro) |
-| Seção: Validade | Data de validade + validação IA | Row: ícone verified_outlined Verde + texto "Validade: DD/MM/AAAA" Nunito 14sp + chip "Verificado por IA" Verde Claro pequeno |
+| Seção: Ficha Nutricional | Tabela de macros + alérgenos | [CORRIGIDO v2.0] Card fundo #F5F5F5 BorderRadius 12dp — grid 2x2: Proteínas (`proteins_g`), Carboidratos (`carbs_g`), Gorduras (`fats_g`), Calorias (`calories_kcal`) — cada célula: valor Montserrat 700 16sp + unidade Nunito 12sp Muted — abaixo: " ⚠ Contém:" + chips de alérgenos (`allergens TEXT[]`) (vermelho claro). Todos os campos nutricionais ficam na própria tabela `listings` |
+| Seção: Validade | Data de validade | Row: ícone event Verde + texto "Validade: DD/MM/AAAA" Nunito 14sp |
 | Seção: Localização | Mini mapa estático + endereço | Container 120dp altura — Mapbox static image — BorderRadius 12dp — endereço abaixo Nunito 14sp — link "Ver no mapa" Verde Ponte |
 | Seção: Doador | Perfil do estabelecimento | Row: avatar circular 40dp + nome + VerifiedBadge — botão " 💬 Conversar" Outline Verde Ponte para T19 |
 | CTA Sticky | Botão de ação fixo no rodapé | Container fundo branco com borda topo #E0E0E0 — padding 16dp — botão "Reservar" ou "Solicitar gratuitamente" (ONG) — Verde Ponte (doação) ou Laranja Ponte (venda) — width double.infinity — 52dp |
@@ -549,10 +533,10 @@ Exibir ficha técnica completa do produto: foto, macronutrientes, alérgenos, da
 **🔁 Estados do CTA**
 "Reservar agora" (Laranja Ponte) — produto disponível para venda. "Solicitar gratuitamente" (Verde Ponte) — produto em doação. "Produto esgotado" (cinza desabilitado) — já reservado via Realtime. "Produto convertido para doação" — badge especial se conversão temporal ocorreu durante visualização.
 
-### TELA 10: Publicar Anúncio — Passo 1: Foto + OCR
+### TELA 10: Publicar Anúncio — Passo 1: Foto + Data de Validade
 **Usuário:** Comerciante B2B / PF Doador
 **🎯 Objetivo**
-Capturar foto do produto via câmera nativa e validar automaticamente a data de validade via OCR on-device (Google ML Kit). Bloquear publicação de produto vencido na origem.
+[CORRIGIDO v2.0] Capturar foto do produto via câmera nativa e inserir a data de validade manualmente via DatePicker. ~~OCR descartado.~~ Bloquear publicação de produto vencido por comparação `DateTime.now()` vs data inserida.
 
 **🧱 Estrutura**
 | Zona | Conteúdo | Especificação |
@@ -560,20 +544,18 @@ Capturar foto do produto via câmera nativa e validar automaticamente a data de 
 | AppBar | Passo 1 de 3 + progresso | Título "Publicar anúncio" — subtítulo "Passo 1 de 3" — LinearProgressIndicator Verde Ponte 33% |
 | Área de foto | Placeholder ou imagem capturada | Container 280dp altura — BorderRadius 16dp — fundo #F5F5F5 — dashed border 2dp #E0E0E0 — ícone add_a_photo 48dp Verde Ponte centralizado + texto "Tirar foto do produto" |
 | Botões de ação | Câmera + galeria | Row de 2 botões lado a lado — " 📷 Câmera" (Verde Ponte sólido) + " 🖼 Galeria" (Outline Verde) — height 48dp cada |
-| OCR automático | Ativado após captura da foto | Banner animado " 🔍 Lendo data de validade..." com shimmer linear — aparece 1s após captura |
-| Resultado OCR — Sucesso | Data encontrada e válida | Card verde: ícone check_circle Verde + "Data de validade: DD/MM/AAAA — Produto válido!" — fundo #E8F5E9 BorderRadius 12dp |
-| Resultado OCR — Falha | Produto vencido | Card vermelho: ícone cancel Vermelho + "Produto vencido em DD/MM/AAAA — Publicação bloqueada." — fundo #FFEBEE — sem CTA de continuar |
-| Resultado OCR — Não encontrada | Data não legível | Card laranja: ícone warning Laranja + "Não foi possível ler a data. Insira manualmente." — aparece campo de data manual DatePicker |
-| Campo data manual | DatePicker nativo Flutter | Visível apenas se OCR não encontrar data — label "Data de validade" — abre date picker Material |
+| Campo data de validade | DatePicker nativo Flutter | [CORRIGIDO v2.0] Label "Data de validade" — sempre visível — abre date picker Material ao tocar — obrigatório |
+| Resultado — Data válida | Data futura inserida | Card verde: ícone check_circle Verde + "Validade: DD/MM/AAAA — Produto válido!" — fundo #E8F5E9 BorderRadius 12dp |
+| Resultado — Produto vencido | Data pretérita inserida | Card vermelho: ícone cancel Vermelho + "Produto vencido em DD/MM/AAAA — Publicação bloqueada." — fundo #FFEBEE — sem CTA de continuar |
 | CTA continuar | Botão passo 2 | "Continuar" Verde Ponte — desabilitado se produto vencido ou sem foto |
 
-**⚙️ Fluxo OCR Detalhado**
+**⚙️ Fluxo de Validação Detalhado**
 1. image_picker abre câmera nativa.
-2. Usuário captura foto.
-3. google_mlkit_text_recognition processa on-device (Edge AI) — sem upload ao servidor.
-4. Regex extrai padrões de data (DD/MM/AAAA, MM/AAAA, AAAA-MM-DD).
-5. Compara com DateTime.now().
-6. Exibe resultado em <2s.
+2. Usuário captura foto do produto.
+3. Usuário seleciona data de validade via DatePicker nativo.
+4. Sistema compara data inserida com `DateTime.now()`.
+5. Se data futura → card verde "Produto válido!" → botão "Continuar" habilitado.
+6. Se data pretérita → card vermelho "Publicação bloqueada" → botão "Continuar" desabilitado + feedback háptico.
 
 ### TELA 11: Publicar Anúncio — Passo 2: Dados do Produto
 **Usuário:** Comerciante B2B / PF Doador
@@ -589,9 +571,11 @@ Formulário de detalhamento do produto: nome, descrição, macronutrientes, alé
 | Quantidade (kg) | TextField numérico | Sufixo "kg" — teclado decimal — placeholder "0,0" |
 | Tipo de anúncio | Toggle switch animado | Row: " 🛒 Venda" toggle " 🤝 Doação" — toggle Verde/Laranja — se Doação: oculta campo preço |
 | Preço (R$) | TextField numérico — condicional | Visível apenas se Venda — prefixo "R$" — teclado decimal — helper "Sugerido: 50% off do preço original" |
-| Macronutrientes (grid) | 4 TextFields pequenos | Grid 2x2: "Proteínas (g)", "Carboidratos (g)", "Gorduras (g)", "Calorias (kcal)" — todos opcionais — size reduzido |
+| Macronutrientes (grid) | 4 TextFields pequenos | [CORRIGIDO v2.0] Grid 2x2: "Proteínas (g)" (`proteins_g`), "Carboidratos (g)" (`carbs_g`), "Gorduras (g)" (`fats_g`), "Calorias (kcal)" (`calories_kcal`) — todos opcionais — salvos diretamente em `listings` |
 | Alérgenos | Multi-select chips | Chips selecionáveis: "Glúten", "Lactose", "Ovos", "Nozes", "Amendoim", "Soja", "Frutos do mar", "Nenhum" — selecionado: vermelho claro |
-| Prazo de retirada | DateTimePicker | Label "Retirar até:" — bottom sheet com seletor de data e hora — helper "Produto será convertido para doação 4h antes deste prazo" |
+| Prazo de retirada | DateTimePicker | Label "Retirar até:" — bottom sheet com seletor de data e hora — helper "Produto convertido para doação 4h antes do prazo." |
+| Checklist Sanitário | 3 Checkboxes (Obrigatórios) | 1. Integridade da embalagem conferida. 2. Condições térmicas mantidas. 3. Validade rigorosamente respeitada. |
+| Localização | Seletor de Endereço | Toggle: "Usar endereço da conta" ou "Selecionar no Mapa". |
 
 AppBar: título "Publicar anúncio" — progresso 66% Verde Ponte. Thumb da foto do passo 1 no topo como referência visual (32x32dp BorderRadius 8dp). CTA: "Continuar" Verde Ponte. Validação em tempo real nos campos obrigatórios.
 
@@ -678,7 +662,7 @@ Feedback positivo de pagamento confirmado com instruções para retirada, QR Cod
 | Subtexto | Instrução de retirada | Nunito 14sp #737373: "Dirija-se ao [Nome do estabelecimento] e mostre o QR Code abaixo ao atendente." |
 | Card do pedido | Resumo compacto | Card fundo #F5F5F5 — foto thumb + nome + valor pago + endereço do estabelecimento + mapa link |
 | Mini QR Code | Preview do QR de entrega | QR Code 120x120dp com label "QR de entrega" Verde — botão "Ver QR Code completo" que navega para T17 |
-| Dashboard de Impacto inline | Métricas da transação | Row 3 chips: " 🌱 +2,3 kg CO₂ evitado" \| " ⚖ +1,5 kg salvos" \| " 🍽 +1,8 refeições" — fundo Verde Claro pill |
+| Dashboard de Impacto inline | Métricas da transação | [CORRIGIDO v2.0] Row 3 chips: " 🌱 +2,3 kg CO₂ evitado" \| " ⚖ +1,5 kg salvos" \| " 🍽 +1,8 refeições" — fundo Verde Claro pill. Métricas calculadas a partir de `impact_metrics` vinculado ao `payment_id` da transação |
 | CTA principal | Ação pós-compra | "Ver QR Code de entrega" — Verde Ponte — width double.infinity |
 | CTA secundário | Voltar ao feed | "Continuar comprando" — Text button Verde Ponte — centralizado |
 
@@ -719,7 +703,7 @@ Permitir ao lojista escanear o QR Code apresentado pelo consumidor para confirma
 ### TELA 19: Chat Assíncrono
 **Usuário:** Todos os usuários
 **🎯 Objetivo**
-Canal de comunicação entre doador/vendedor e interessado para combinação de horário e local de retirada. Chat em tempo real via Supabase Realtime com histórico persistido.
+[CORRIGIDO v2.0] Canal de comunicação entre doador/vendedor e interessado para combinação de horário e local de retirada. Chat em tempo real via Supabase Realtime com histórico persistido. Mensagens agora agrupadas pela tabela `conversations` (FK `conversation_id` em `messages`), que armazena `last_message_at` e `last_message_preview` (100 chars) — permite listar "conversas ativas" na UI sem buscar mensagens brutas.
 
 **🧱 Estrutura**
 | Zona | Conteúdo | Especificação |
@@ -728,7 +712,7 @@ Canal de comunicação entre doador/vendedor e interessado para combinação de 
 | Card do produto (sticky) | Referência visual da conversa | Banner compacto fundo #F5F5F5 — foto thumb 40dp + nome + preço/status — tap abre T09 |
 | Lista de mensagens | ListView.builder invertido | Mensagens do usuário: alinhadas à direita — fundo Verde Ponte BorderRadius 16dp (top-right 4dp) — texto branco Nunito 14sp. Mensagens do outro: alinhadas à esquerda — fundo #F5F5F5 BorderRadius 16dp (top-left 4dp) — texto #333333 |
 | Timestamp | Abaixo de cada mensagem | Nunito 11sp #737373 — "HH:mm" — agrupado por data (hoje, ontem, DD/MM) |
-| Status de leitura | Check marks | Mensagem enviada: check simples Verde — lida: check duplo Verde Ponte |
+| Status de leitura | Check marks | [CORRIGIDO v2.0] Mensagem enviada: check simples Verde — lida: check duplo Verde Ponte. O status "lida" é determinado pelo campo `messages.read_at TIMESTAMP` (NULL = não lida, preenchido = lida/double-check) |
 | Campo de input | TextField + botão enviar | Container fundo #FFFFFF borda topo #E0E0E0 — TextField BorderRadius 24dp fundo #F5F5F5 placeholder "Mensagem..." — botão send circular 44dp Verde Ponte — padding bottom: safe area + 8dp |
 | Estado vazio | Primeira mensagem | Ilustração de balão de chat + "Diga olá para combinar a retirada!" — CTA placeholder sugere mensagem padrão: tap preenche input |
 
@@ -738,7 +722,7 @@ Supabase Realtime: nova mensagem aparece instantaneamente (<500ms) sem reload de
 ### TELA 20: Dashboard de Impacto
 **Usuário:** Todos os usuários
 **🎯 Objetivo**
-Tela da aba "Impacto" que exibe o impacto ambiental e social gerado pelo usuário: CO₂ evitado, kg resgatados, refeições criadas e valor salvo. Com gráfico semanal e impacto coletivo da plataforma.
+Tela da aba "Impacto" que exibe o impacto ambiental e social gerado (CO₂ evitado, kg resgatados, refeições criadas, valor salvo). Inclui também o ranking **"Heróis da Ponte"** estimulando a gamificação do app.
 
 **🧱 Estrutura**
 | Zona | Conteúdo | Especificação |
@@ -747,6 +731,7 @@ Tela da aba "Impacto" que exibe o impacto ambiental e social gerado pelo usuári
 | Header motivacional | Saudação + nível | Gradiente Verde Ponte → Verde Escuro — texto branco — saudação "Olá, [Nome]! 🌱" Montserrat 700 22sp — subtexto "Juntos já resgatamos X kg de alimentos!" |
 | Grid de KPIs (2x2) | 4 cards de impacto individual | Card 1: 🌿 CO₂ Evitado — valor Montserrat 800 24sp Verde — unidade "kg CO₂-eq" Nunito 12sp. Card 2: ⚖ Kg Resgatados. Card 3: 🍽 Refeições Criadas. Card 4: 💰 Valor Salvo (R$) — fundo #F5F5F5 BorderRadius 16dp — coeficientes FAO 2013 |
 | Gráfico semanal | BarChart fl_chart 8 semanas | Título "Evolução das suas retiradas" Montserrat 600 16sp — BarChart horizontal — barras Verde Ponte — barra atual Laranja Ponte — tooltip ao tap na barra mostrando kg + semana — eixo Y: kg — eixo X: semanas (Semana 1… Semana 8) |
+| Ranking Heróis da Ponte | Lista Top 3 Gamificada | [CORRIGIDO v2.0] Ranking mensal de resgatadores (gamificação) baseado em `points_this_month` na tabela `reputation_scores`. Snapshots mensais em `reputation_monthly_snapshots` (`year_month CHAR(7)`, `points`, `rank`). 1º Ouro, 2º Prata, 3º Bronze com avatares e pontuação. Card interativo fundo #FFF3E0. |
 | Card impacto coletivo | Métricas globais da plataforma | Gradiente Laranja — texto branco — " 🌍 Impacto Coletivo" título — 3 métricas: total kg, CO₂, estabelecimentos — separador vertical entre métricas |
 | Card Selo Parceiro Ponte | CTA para PJ não verificado | Visível apenas para perfil empresa/ONG sem verificação — borda gradiente Verde→Laranja — ícone verified_outlined — texto "Obtenha o Selo Parceiro Ponte" — botão "Solicitar verificação" → navega para T23 |
 
@@ -765,25 +750,25 @@ Tela da aba "Conta" com dados do usuário, selos de verificação, métricas ind
 **🧱 Estrutura**
 | Zona | Conteúdo | Especificação |
 |------|----------|---------------|
-| Header do perfil | Avatar + nome + tipo + verificação | Fundo Verde Ponte gradiente — avatar circular 72dp (inicial do nome se sem foto) — nome Montserrat 700 20sp branco — tipo de conta Nunito 14sp branco 70% — VerifiedBadge se verificado |
+| Header do perfil | Avatar + nome + tipo + verificação | Fundo Verde Ponte gradiente — avatar circular 72dp — nome Montserrat 700 20sp branco — tipo de conta e Reputação ("Pontuação: XXX") Nunito 14sp branco — VerifiedBadge se verificado |
 | Resumo de impacto inline | Row de 3 métricas | Fundo branco semi-transparente no header — kg / transações / CO₂ — Montserrat 700 18sp + Nunito 11sp label |
 | Seção: Dados cadastrais | ListTiles editáveis | ListTile com ícone + label + valor — Nome, E-mail, Telefone — trailing: edit_outlined — tap abre bottom sheet de edição |
 | Seção: Segurança | ListTile senha | "Alterar senha" — trailing: arrow_forward_ios — navega para tela de redefinição |
 | Seção: Minha atividade | Atalhos | " 📦 Histórico de pedidos" → T22 — " 📢 Meus anúncios" (B2B/PF Doador) → lista de anúncios próprios |
-| Seção: Configurações | Preferências de notificação | Toggle de notificações — Raio de alertas (slider 1-10km) — Toggle heatmap ONG |
+| Seção: Configurações | Preferências de notificação | [CORRIGIDO v2.0] Preferências persistidas na tabela `user_settings` — Toggle de notificações — Raio de alertas (slider 1-10km, campo `notification_radius_km`) — Toggle push agressivo (`push_aggressive_opt_in`) — Toggle heatmap ONG (`heatmap_enabled`, exclusivo ONG) |
 | Seção: Institucional | Links | Termos de Uso — Política de Privacidade — Sobre o Conecta Mesa |
 | CTA sair | Botão logout | TextButton vermelho "Sair da conta" — posicionado ao final — dialog de confirmação |
 
 ### TELA 22: Histórico de Transações
 **Usuário:** Todos os usuários
 **🎯 Objetivo**
-Listar todas as transações do usuário (compras, vendas, doações) com status, valores e opção de acessar detalhes de cada pedido.
+Listar todas as reservas e transações através de uma aba consolidada. Possui um Toggle superior para separar "Compras/Resgates" (consumidor/resgatador) e "Meus Anúncios" (produtos que a pessoa publicou).
 
 **🧱 Estrutura**
 | Zona | Conteúdo | Especificação |
 |------|----------|---------------|
-| AppBar | Título + filtro | "Histórico" — ícone filter_list_outlined direito — abre bottom sheet com filtros |
-| Filtros de status | Chips horizontais | "Todos", "Concluídos", "Em andamento", "Cancelados" — pill chips |
+| AppBar | Título + Toggle Superior | "Histórico" — Toggle segmentado (SegmentedButton M3) no centro: "Compras" | "Meus Anúncios". Ícone filter_list_outlined direito |
+| Filtros de status | Chips horizontais | "Todos", "Concluídos", "Em andamento", "Cancelados", "No-Show" — pill chips |
 | Lista de pedidos | ListView.builder | Cards de pedido com gap 8dp |
 | Card de pedido | Resumo de cada transação | Foto thumb 48dp BorderRadius 8dp — nome produto Montserrat 600 14sp — data Nunito 12sp Muted — status chip (Verde=Entregue, Laranja=Em andamento, Vermelho=Cancelado, Verde claro=Doação) — valor Montserrat 700 16sp alinhado à direita |
 | Empty state | Sem transações | Ilustração compras vazia + "Nenhuma transação ainda" + botão "Explorar o feed" |
@@ -800,7 +785,7 @@ Formulário para solicitação do Selo Parceiro Ponte: envio de CNPJ, documentos
 | Formulário CNPJ | Campo + validação automática | Campo CNPJ com validação assíncrona Brasil API — loader inline — resultado: dados da empresa aparecem preenchidos automaticamente (razão social, endereço) |
 | Upload de documentos | file_picker / câmera | Empresa: "Comprovante de atividade comercial" — ONG: "Estatuto social" + "Comprovante de atuação" — cards de upload com ícone upload_file — preview após seleção — status " ✅ Enviado" |
 | Revisão | Preview antes de enviar | Sumário dos dados e documentos — checkbox de confirmação de veracidade |
-| Enviado — Aguardando | Status de análise | Ícone pending 64dp Laranja — "Solicitação enviada! Analisaremos em até 48h." — status visível no perfil — push notification ao aprovar/rejeitar |
+| Enviado — Aguardando | Status de análise | [CORRIGIDO v2.0] Solicitação persistida na tabela `verification_requests` com `level_requested` (VERIFIED \| PARCEIRO_PONTE), `document_urls TEXT[]`, `status` enum (PENDING → UNDER_REVIEW → APPROVED \| REJECTED), `reviewed_by` e `rejection_reason`. Ícone pending 64dp Laranja — "Solicitação enviada! Analisaremos em até 48h." — status visível no perfil — push notification ao aprovar/rejeitar |
 | Aprovado | Celebração + badge | Animação confetti verde — VerifiedBadge aparece no perfil — instrução de uso do selo em redes sociais |
 | Rejeitado | Feedback construtivo | Ícone info vermelho — motivo da rejeição — botão "Corrigir e reenviar" |
 
@@ -815,7 +800,7 @@ Histórico de todas as notificações push recebidas, organizadas por tipo e dat
 | AppBar | Título + ação | "Notificações" — botão "Marcar todas como lidas" TextButton Verde direito |
 | Seções por data | Agrupamento temporal | Seção "Hoje", "Ontem", "Esta semana" — label Montserrat 600 14sp Muted |
 | Card de notificação | Ícone + texto + tempo | Row: ícone do tipo (chat=Verde, pagamento=Laranja, urgência=Vermelho, conversão=Azul) 40dp circular fundo claro — texto Nunito 14sp — timestamp Nunito 11sp Muted — fundo #FFF8E7 se não lida, branco se lida |
-| Tipos de notificação | Categorias visuais | 💬 Nova mensagem no chat (Verde) — ✅ Pagamento confirmado (Laranja) — 📍 Produto disponível perto de você (Azul) — 🔄 Produto convertido para doação (Verde escuro) — ⚠ Produto expirando (Vermelho) |
+| Tipos de notificação | [CORRIGIDO v2.0] Categorias visuais. Dados persistidos na tabela `notifications` com `type` (enum de 9 tipos), `context_listing_id`, `context_payment_id` e `read_at TIMESTAMP` para controle de lido/não lido | 💬 Nova mensagem no chat (Verde) — ✅ Pagamento confirmado (Laranja) — 📍 Produto disponível perto de você (Azul) — 🔄 Produto convertido para doação (Verde escuro) — ⚠ Produto expirando (Vermelho) |
 | Tap na notificação | Navegação contextual | Chat → T19 \| Pagamento → T16 \| Produto → T09 \| Conversão → lista de anúncios |
 | Empty state | Sem notificações | Ícone notifications_none 64dp Muted — "Nenhuma notificação ainda" Nunito 14sp Muted |
 
@@ -847,18 +832,18 @@ Esta seção contém prompts otimizados para ferramentas de geração de UI por 
 > Main home screen of "Conecta Mesa" FoodTech mobile app — discounted food marketplace feed. Modern mobile-first Material Design 3 layout. Top: white AppBar with small green "CM" logo left, location chip " 📍 Boa Viagem, Recife" center. Light gray rounded search bar with magnifier icon. Two horizontal scrollable filter rows: row 1 type chips "All / Sale / Donation", row 2 category chips " 🍞 Bakery / 🥦 Produce / 🛒 Market". Selected chips: green #4CAF50 background + white text. Vertical card list: each product card has realistic food photo (16:9 ratio, 16px top radius), "35% OFF" orange badge over photo, " ⏰ Urgent" red badge if expiring, product name Montserrat Bold 16sp, current price in orange #FF9800 next to struck-through original price gray, distance and time remaining with small icons. White bottom navigation bar with 4 icons: Home (active green), Impact, Post+, Account.
 
 **🇧🇷 TELA 09 — Detalhe do Anúncio — Prompt PT**
-> Tela de detalhe de produto de app mobile FoodTech "Conecta Mesa". Topo: foto do alimento em tela quase cheia (3:2) com gradiente preto translúcido embaixo, botão voltar flutuante branco semi-transparente. Badge " 🍞 Padaria" e "40% OFF" laranja sobre a foto. Conteúdo rolável abaixo: nome do produto Montserrat Bold 22sp preto, nome do estabelecimento + badge "Empresa Verificada" laranja pill. Preço atual Montserrat ExtraBold 28sp laranja #FF9800 + preço original riscado cinza. Row de 3 chips cinza claro: " 📍 1,2 km", " ⚖ 2,5 kg", " ⏰ 3h restantes". Seção "Ficha Nutricional" em card cinza claro: grade 2x2 com Proteínas/Carboidratos/Gorduras/Calorias, valores em verde bold. Seção "Data de validade" com ícone verde verificado + chip pequeno "Verificado por IA". Mini mapa Mapbox com pin laranja. Rodapé sticky branco com botão "Reservar agora" laranja #FF9800 largura total. Design limpo, muita hierarquia visual, mobile-first.
+> Tela de detalhe de produto de app mobile FoodTech "Conecta Mesa". Topo: foto do alimento em tela quase cheia (3:2) com gradiente preto translúcido embaixo, botão voltar flutuante branco semi-transparente. Badge " 🍞 Padaria" e "40% OFF" laranja sobre a foto. Conteúdo rolável abaixo: nome do produto Montserrat Bold 22sp preto, nome do estabelecimento + badge "Empresa Verificada" laranja pill. Preço atual Montserrat ExtraBold 28sp laranja #FF9800 + preço original riscado cinza. Row de 3 chips cinza claro: " 📍 1,2 km", " ⚖ 2,5 kg", " ⏰ 3h restantes". Seção "Ficha Nutricional" em card cinza claro: grade 2x2 com Proteínas/Carboidratos/Gorduras/Calorias, valores em verde bold. Seção "Data de validade" com ícone event verde + data em texto. Mini mapa Mapbox com pin laranja. Rodapé sticky branco com botão "Reservar agora" laranja #FF9800 largura total. Design limpo, muita hierarquia visual, mobile-first.
 
 **🇺🇸 TELA 09 — Product Detail — Prompt EN**
-> Product detail screen for "Conecta Mesa" FoodTech mobile app. Top: near-fullwidth food photo (3:2 ratio) with black-to-transparent gradient at bottom, floating semi-transparent white back button. Orange "40% OFF" and " 🍞 Bakery" badges over photo. Scrollable content below: product name Montserrat Bold 22sp black, store name + orange "Verified Business" pill badge. Current price Montserrat ExtraBold 28sp orange #FF9800 + struck-through original gray price. Row of 3 light gray chips: " 📍 1.2 km", " ⚖ 2.5 kg", " ⏰ 3h left". "Nutrition Facts" section in light gray card: 2x2 grid with Protein/Carbs/Fat/Calories, values in bold green. "Best Before" section with green check icon + small "AI-Verified" green chip. Mapbox static mini-map with orange pin. Sticky white footer with full-width orange #FF9800 "Reserve Now" button. Clean layout, strong visual hierarchy, mobile-first.
+> Product detail screen for "Conecta Mesa" FoodTech mobile app. Top: near-fullwidth food photo (3:2 ratio) with black-to-transparent gradient at bottom, floating semi-transparent white back button. Orange "40% OFF" and " 🍞 Bakery" badges over photo. Scrollable content below: product name Montserrat Bold 22sp black, store name + orange "Verified Business" pill badge. Current price Montserrat ExtraBold 28sp orange #FF9800 + struck-through original gray price. Row of 3 light gray chips: " 📍 1.2 km", " ⚖ 2.5 kg", " ⏰ 3h left". "Nutrition Facts" section in light gray card: 2x2 grid with Protein/Carbs/Fat/Calories, values in bold green. "Best Before" section with green event icon + date text. Mapbox static mini-map with orange pin. Sticky white footer with full-width orange #FF9800 "Reserve Now" button. Clean layout, strong visual hierarchy, mobile-first.
 
 ### TELAS DE PUBLICAÇÃO (10 – 12)
 
 **🇧🇷 TELAS 10-12 — Publicar Anúncio (Multi-step) — Prompt PT**
-> Fluxo de 3 telas de publicação de anúncio de app mobile FoodTech "Conecta Mesa". Design mobile-first moderno com barra de progresso linear verde #4CAF50 no topo indicando passo atual (33% / 66% / 100%). PASSO 1: área central tracejada grande para adicionar foto (" 📷 Tirar foto do produto"), dois botões lado a lado "Câmera" verde sólido e "Galeria" outline verde. Abaixo: banner de resultado OCR em card verde "#E8F5E9": ícone check verde + "Data de validade: 15/05/2025 — Produto válido!". PASSO 2: formulário com campos: nome do produto, categoria (dropdown), quantidade em kg, toggle animado "Venda / Doação" (laranja/verde), preço em R$, grid 2x2 de macronutrientes, chips de alérgenos. PASSO 3: card preview do anúncio exatamente como aparece no feed + info GPS verde + aviso azul de conversão automática + botão "Publicar agora" verde large com ícone de foguete. Paleta verde #4CAF50, laranja #FF9800, branco.
+> Fluxo de 3 telas de publicação de anúncio de app mobile FoodTech "Conecta Mesa". Design mobile-first moderno com barra de progresso linear verde #4CAF50 no topo indicando passo atual (33% / 66% / 100%). PASSO 1: área central tracejada grande para adicionar foto (" 📷 Tirar foto do produto"), dois botões lado a lado "Câmera" verde sólido e "Galeria" outline verde. Abaixo: campo DatePicker "Data de validade" com ícone de calendário verde. Card de resultado verde "#E8F5E9": ícone check verde + "Validade: 15/05/2025 — Produto válido!". PASSO 2: formulário com campos: nome do produto, categoria (dropdown), quantidade em kg, toggle animado "Venda / Doação" (laranja/verde), preço em R$, grid 2x2 de macronutrientes, chips de alérgenos. PASSO 3: card preview do anúncio exatamente como aparece no feed + info GPS verde + aviso azul de conversão automática + botão "Publicar agora" verde large com ícone de foguete. Paleta verde #4CAF50, laranja #FF9800, branco.
 
 **🇺🇸 TELAS 10-12 — Post Announcement (Multi-step) — Prompt EN**
-> 3-step announcement posting flow for "Conecta Mesa" FoodTech mobile app. Modern mobile-first design with green #4CAF50 linear progress bar at top showing current step (33%/66%/100%). STEP 1: large central dashed area for adding food photo (" 📷 Take product photo"), two side-by-side buttons — solid green "Camera" and outlined green "Gallery". Below: OCR result banner in green card "#E8F5E9": green check icon + "Best before: 05/15/2025 — Product is valid!". STEP 2: form with fields: product name, category dropdown, weight in kg, animated "Sale / Donation" toggle (orange/green), price in R$, 2x2 macronutrients grid, allergen selection chips. STEP 3: full product card preview exactly as it appears in the feed + green GPS info row + blue auto-conversion notice + large green "Publish Now" button with rocket icon. Color palette: green #4CAF50, orange #FF9800, white.
+> 3-step announcement posting flow for "Conecta Mesa" FoodTech mobile app. Modern mobile-first design with green #4CAF50 linear progress bar at top showing current step (33%/66%/100%). STEP 1: large central dashed area for adding food photo (" 📷 Take product photo"), two side-by-side buttons — solid green "Camera" and outlined green "Gallery". Below: DatePicker field "Best before date" with green calendar icon. Green result card "#E8F5E9": green check icon + "Best before: 05/15/2025 — Product is valid!". STEP 2: form with fields: product name, category dropdown, weight in kg, animated "Sale / Donation" toggle (orange/green), price in R$, 2x2 macronutrients grid, allergen selection chips. STEP 3: full product card preview exactly as it appears in the feed + green GPS info row + blue auto-conversion notice + large green "Publish Now" button with rocket icon. Color palette: green #4CAF50, orange #FF9800, white.
 
 ### TELAS DE PAGAMENTO (13 – 18)
 
@@ -927,14 +912,15 @@ Use este checklist para validar a fidelidade de cada tela implementada com esta 
 | Módulo | Critério | OK |
 |--------|----------|----|
 | Autenticação | Auto-login funcional — sessão JWT persistida — redirect correto por perfil | ☐ |
-| Feed | Ordenação por distância Haversine — filtros combinados — Realtime updates | ☐ |
+| Feed | [CORRIGIDO v2.0] Feed cronológico (`ORDER BY created_at DESC`) — distância calculada no cliente via Mapbox SDK — filtros combinados — Realtime updates | ☐ |
 | Mapa | Pins dinâmicos — tap abre detalhe — heatmap só para ONG — fallback 50k loads | ☐ |
-| OCR | Bloqueio de produto vencido — on-device sem upload — log de tentativas | ☐ |
+| ~~OCR~~ | [CORRIGIDO v2.0] **Descartado** — validação de validade agora manual via DatePicker + `DateTime.now()` | ☐ |
 | Publicação | GPS obrigatório — foto obrigatória — prazo de retirada define conversão | ☐ |
 | PIX | QR gerado <3s — polling 3s — confirmação por webhook HMAC — cancelamento 15min | ☐ |
 | Cartão | 3-DS 2.0 obrigatório >R$200 — Asaas Score em todas — cartão não passa pelo servidor | ☐ |
 | QR Entrega | QR único por pedido — scan pelo lojista = ENTREGUE — split Asaas disparado | ☐ |
-| Chat | Realtime <500ms — notificação push ao receber — histórico persistido | ☐ |
-| Dashboard | Coeficientes FAO corretos — gráfico 8 semanas — atualização após transação | ☐ |
+| Chat | Realtime <500ms — notificação push ao receber — histórico persistido — [CORRIGIDO v2.0] mensagens agrupadas via tabela `conversations` | ☐ |
+| Dashboard | Coeficientes FAO corretos — gráfico 8 semanas — atualização após transação — [CORRIGIDO v2.0] ranking baseado em `points_this_month` | ☐ |
 | Conversão B2C→B2G | Edge Function a cada 60min — 4h antes do prazo — notificação ao vendedor | ☐ |
-| Selos | Validação CNPJ Brasil API — upload documentos Supabase Storage — aprovação manual | ☐ |
+| Selos | [CORRIGIDO v2.0] Validação CNPJ Brasil API — upload documentos Supabase Storage — solicitações em `verification_requests` — aprovação manual | ☐ |
+| Avaliações | [CORRIGIDO v2.0] Tabela `reviews` com rating 1-5, comment, `payment_id UNIQUE` — uma avaliação por pedido | ☐ |
